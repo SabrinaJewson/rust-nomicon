@@ -1,0 +1,498 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Acquire and Release - The Rustonomicon</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The Dark Arts of Advanced and Unsafe Rust Programming">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/nomicon.css">
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../intro.html">Introduction</a></li><li class="chapter-item expanded "><a href="../meet-safe-and-unsafe.html"><strong aria-hidden="true">1.</strong> Meet Safe and Unsafe</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../safe-unsafe-meaning.html"><strong aria-hidden="true">1.1.</strong> How Safe and Unsafe Interact</a></li><li class="chapter-item expanded "><a href="../what-unsafe-does.html"><strong aria-hidden="true">1.2.</strong> What Unsafe Can Do</a></li><li class="chapter-item expanded "><a href="../working-with-unsafe.html"><strong aria-hidden="true">1.3.</strong> Working with Unsafe</a></li></ol></li><li class="chapter-item expanded "><a href="../data.html"><strong aria-hidden="true">2.</strong> Data Layout</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../repr-rust.html"><strong aria-hidden="true">2.1.</strong> repr(Rust)</a></li><li class="chapter-item expanded "><a href="../exotic-sizes.html"><strong aria-hidden="true">2.2.</strong> Exotically Sized Types</a></li><li class="chapter-item expanded "><a href="../other-reprs.html"><strong aria-hidden="true">2.3.</strong> Other reprs</a></li></ol></li><li class="chapter-item expanded "><a href="../ownership.html"><strong aria-hidden="true">3.</strong> Ownership</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../references.html"><strong aria-hidden="true">3.1.</strong> References</a></li><li class="chapter-item expanded "><a href="../aliasing.html"><strong aria-hidden="true">3.2.</strong> Aliasing</a></li><li class="chapter-item expanded "><a href="../lifetimes.html"><strong aria-hidden="true">3.3.</strong> Lifetimes</a></li><li class="chapter-item expanded "><a href="../lifetime-mismatch.html"><strong aria-hidden="true">3.4.</strong> Limits of Lifetimes</a></li><li class="chapter-item expanded "><a href="../lifetime-elision.html"><strong aria-hidden="true">3.5.</strong> Lifetime Elision</a></li><li class="chapter-item expanded "><a href="../unbounded-lifetimes.html"><strong aria-hidden="true">3.6.</strong> Unbounded Lifetimes</a></li><li class="chapter-item expanded "><a href="../hrtb.html"><strong aria-hidden="true">3.7.</strong> Higher-Rank Trait Bounds</a></li><li class="chapter-item expanded "><a href="../subtyping.html"><strong aria-hidden="true">3.8.</strong> Subtyping and Variance</a></li><li class="chapter-item expanded "><a href="../dropck.html"><strong aria-hidden="true">3.9.</strong> Drop Check</a></li><li class="chapter-item expanded "><a href="../phantom-data.html"><strong aria-hidden="true">3.10.</strong> PhantomData</a></li><li class="chapter-item expanded "><a href="../borrow-splitting.html"><strong aria-hidden="true">3.11.</strong> Splitting Borrows</a></li></ol></li><li class="chapter-item expanded "><a href="../conversions.html"><strong aria-hidden="true">4.</strong> Type Conversions</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../coercions.html"><strong aria-hidden="true">4.1.</strong> Coercions</a></li><li class="chapter-item expanded "><a href="../dot-operator.html"><strong aria-hidden="true">4.2.</strong> The Dot Operator</a></li><li class="chapter-item expanded "><a href="../casts.html"><strong aria-hidden="true">4.3.</strong> Casts</a></li><li class="chapter-item expanded "><a href="../transmutes.html"><strong aria-hidden="true">4.4.</strong> Transmutes</a></li></ol></li><li class="chapter-item expanded "><a href="../uninitialized.html"><strong aria-hidden="true">5.</strong> Uninitialized Memory</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../checked-uninit.html"><strong aria-hidden="true">5.1.</strong> Checked</a></li><li class="chapter-item expanded "><a href="../drop-flags.html"><strong aria-hidden="true">5.2.</strong> Drop Flags</a></li><li class="chapter-item expanded "><a href="../unchecked-uninit.html"><strong aria-hidden="true">5.3.</strong> Unchecked</a></li></ol></li><li class="chapter-item expanded "><a href="../obrm.html"><strong aria-hidden="true">6.</strong> Ownership Based Resource Management</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../constructors.html"><strong aria-hidden="true">6.1.</strong> Constructors</a></li><li class="chapter-item expanded "><a href="../destructors.html"><strong aria-hidden="true">6.2.</strong> Destructors</a></li><li class="chapter-item expanded "><a href="../leaking.html"><strong aria-hidden="true">6.3.</strong> Leaking</a></li></ol></li><li class="chapter-item expanded "><a href="../unwinding.html"><strong aria-hidden="true">7.</strong> Unwinding</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../exception-safety.html"><strong aria-hidden="true">7.1.</strong> Exception Safety</a></li><li class="chapter-item expanded "><a href="../poisoning.html"><strong aria-hidden="true">7.2.</strong> Poisoning</a></li></ol></li><li class="chapter-item expanded "><a href="../concurrency.html"><strong aria-hidden="true">8.</strong> Concurrency</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../races.html"><strong aria-hidden="true">8.1.</strong> Races</a></li><li class="chapter-item expanded "><a href="../send-and-sync.html"><strong aria-hidden="true">8.2.</strong> Send and Sync</a></li><li class="chapter-item expanded "><a href="../atomics/atomics.html"><strong aria-hidden="true">8.3.</strong> Atomics</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../atomics/multithread.html"><strong aria-hidden="true">8.3.1.</strong> Multithreaded Execution</a></li><li class="chapter-item expanded "><a href="../atomics/relaxed.html"><strong aria-hidden="true">8.3.2.</strong> Relaxed</a></li><li class="chapter-item expanded "><a href="../atomics/acquire-release.html" class="active"><strong aria-hidden="true">8.3.3.</strong> Acquire and Release</a></li><li class="chapter-item expanded "><a href="../atomics/seqcst.html"><strong aria-hidden="true">8.3.4.</strong> SeqCst</a></li><li class="chapter-item expanded "><a href="../atomics/fences.html"><strong aria-hidden="true">8.3.5.</strong> Fences</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../vec/vec.html"><strong aria-hidden="true">9.</strong> Implementing Vec</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../vec/vec-layout.html"><strong aria-hidden="true">9.1.</strong> Layout</a></li><li class="chapter-item expanded "><a href="../vec/vec-alloc.html"><strong aria-hidden="true">9.2.</strong> Allocating</a></li><li class="chapter-item expanded "><a href="../vec/vec-push-pop.html"><strong aria-hidden="true">9.3.</strong> Push and Pop</a></li><li class="chapter-item expanded "><a href="../vec/vec-dealloc.html"><strong aria-hidden="true">9.4.</strong> Deallocating</a></li><li class="chapter-item expanded "><a href="../vec/vec-deref.html"><strong aria-hidden="true">9.5.</strong> Deref</a></li><li class="chapter-item expanded "><a href="../vec/vec-insert-remove.html"><strong aria-hidden="true">9.6.</strong> Insert and Remove</a></li><li class="chapter-item expanded "><a href="../vec/vec-into-iter.html"><strong aria-hidden="true">9.7.</strong> IntoIter</a></li><li class="chapter-item expanded "><a href="../vec/vec-raw.html"><strong aria-hidden="true">9.8.</strong> RawVec</a></li><li class="chapter-item expanded "><a href="../vec/vec-drain.html"><strong aria-hidden="true">9.9.</strong> Drain</a></li><li class="chapter-item expanded "><a href="../vec/vec-zsts.html"><strong aria-hidden="true">9.10.</strong> Handling Zero-Sized Types</a></li><li class="chapter-item expanded "><a href="../vec/vec-final.html"><strong aria-hidden="true">9.11.</strong> Final Code</a></li></ol></li><li class="chapter-item expanded "><a href="../arc-mutex/arc-and-mutex.html"><strong aria-hidden="true">10.</strong> Implementing Arc and Mutex</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../arc-mutex/arc.html"><strong aria-hidden="true">10.1.</strong> Arc</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../arc-mutex/arc-layout.html"><strong aria-hidden="true">10.1.1.</strong> Layout</a></li><li class="chapter-item expanded "><a href="../arc-mutex/arc-base.html"><strong aria-hidden="true">10.1.2.</strong> Base Code</a></li><li class="chapter-item expanded "><a href="../arc-mutex/arc-clone.html"><strong aria-hidden="true">10.1.3.</strong> Cloning</a></li><li class="chapter-item expanded "><a href="../arc-mutex/arc-drop.html"><strong aria-hidden="true">10.1.4.</strong> Dropping</a></li><li class="chapter-item expanded "><a href="../arc-mutex/arc-final.html"><strong aria-hidden="true">10.1.5.</strong> Final Code</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../ffi.html"><strong aria-hidden="true">11.</strong> FFI</a></li><li class="chapter-item expanded "><a href="../beneath-std.html"><strong aria-hidden="true">12.</strong> Beneath std</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../panic-handler.html"><strong aria-hidden="true">12.1.</strong> #[panic_handler]</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rustonomicon</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/rust-lang/nomicon" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="acquire-and-release"><a class="header" href="#acquire-and-release">Acquire and Release</a></h1>
+<p>Next, we’re going to try and implement one of the simplest concurrent utilities
+possible — a mutex, but without support for waiting (since that’s not really
+related to what we’re doing now). It will hold both an atomic flag that
+indicates whether it is locked or not, and the protected data itself. In code
+this translates to:</p>
+<pre><code class="language-rs">use std::cell::UnsafeCell;
+use std::sync::atomic::AtomicBool;
+
+pub struct Mutex&lt;T&gt; {
+    locked: AtomicBool,
+    data: UnsafeCell&lt;T&gt;,
+}
+
+impl&lt;T&gt; Mutex&lt;T&gt; {
+    pub const fn new(data: T) -&gt; Self {
+        Self {
+            locked: AtomicBool::new(false),
+            data: UnsafeCell::new(data),
+        }
+    }
+}
+</code></pre>
+<p>Now for the lock function. We need to use an RMW here, since we need to both
+check whether it is locked and lock it if is not in a single atomic step; this
+can be most simply done with a <code>compare_exchange</code> (unlike before, it doesn’t
+need to be in a loop this time). For the ordering, we’ll just use <code>Relaxed</code>
+since we don’t know of any others yet.</p>
+<pre><pre class="playground"><code class="language-rust edition2018"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">use std::cell::UnsafeCell;
+</span><span class="boring">use std::sync::atomic::{self, AtomicBool};
+</span><span class="boring">pub struct Mutex&lt;T&gt; {
+</span><span class="boring">    locked: AtomicBool,
+</span><span class="boring">    data: UnsafeCell&lt;T&gt;,
+</span><span class="boring">}
+</span>impl&lt;T&gt; Mutex&lt;T&gt; {
+    pub fn lock(&amp;self) -&gt; Option&lt;Guard&lt;'_, T&gt;&gt; {
+        match self.locked.compare_exchange(
+            false,
+            true,
+            atomic::Ordering::Relaxed,
+            atomic::Ordering::Relaxed,
+        ) {
+            Ok(_) =&gt; Some(Guard(self)),
+            Err(_) =&gt; None,
+        }
+    }
+}
+
+pub struct Guard&lt;'mutex, T&gt;(&amp;'mutex Mutex&lt;T&gt;);
+// Deref impl omitted…
+<span class="boring">}
+</span></code></pre></pre>
+<p>We also need to implement <code>Drop</code> for <code>Guard</code> to make sure the lock on the mutex
+is released once the guard is destroyed. Again we’re just using the <code>Relaxed</code>
+ordering.</p>
+<pre><pre class="playground"><code class="language-rust edition2018"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">use std::cell::UnsafeCell;
+</span><span class="boring">use std::sync::atomic::{self, AtomicBool};
+</span><span class="boring">pub struct Mutex&lt;T&gt; {
+</span><span class="boring">    locked: AtomicBool,
+</span><span class="boring">    data: UnsafeCell&lt;T&gt;,
+</span><span class="boring">}
+</span><span class="boring">pub struct Guard&lt;'mutex, T&gt;(&amp;'mutex Mutex&lt;T&gt;);
+</span>impl&lt;T&gt; Drop for Guard&lt;'_, T&gt; {
+    fn drop(&amp;mut self) {
+        self.0.locked.store(false, atomic::Ordering::Relaxed);
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Great! In the normal operation then, this primitive should allow unique access
+to the data of the mutex to be transferred across different threads. Usual usage
+could look like this:</p>
+<pre><code class="language-rust ignore">// Initial state
+let mutex = Mutex::new(0);
+// Thread 1
+if let Some(guard) = mutex.lock() {
+    *guard += 1;
+}
+// Thread 2
+if let Some(guard) = mutex.lock() {
+    println!(&quot;{}&quot;, *guard);
+}
+</code></pre>
+<p>Now, there are many possible executions of this code. For example, Thread 2 (the
+reader thread) could lock the mutex first, and Thread 1 (the writer thread)
+could fail to lock it:</p>
+<pre><code class="language-text">Thread 1      locked    data      Thread 2
+╭───────╮   ┌────────┐ ┌───┐     ╭───────╮
+│  cas  ├─┐ │ false  │ │ 0 ├╌┐ ┌─┤  cas  │
+╰───────╯ │ └────────┘ └───┘ ┊ │ ╰───╥───╯
+          │ ┌────────┬───────┼─┘ ╭───⇓───╮
+          └─┤  true  │       └╌╌╌┤ guard │
+            └────────┘           ╰───╥───╯
+            ┌────────┬─────────┐ ╭───⇓───╮
+            │ false  │         └─┤ store │
+            └────────┘           ╰───────╯
+</code></pre>
+<p>Or potentially Thread <em>1</em> could lock the mutex first, and Thread <em>2</em> could fail
+to lock it:</p>
+<pre><code class="language-text">Thread 1      locked      data    Thread 2
+╭───────╮   ┌────────┐   ┌───┐   ╭───────╮
+│  cas  ├─┐ │ false  │ ┌─│ 0 │───┤  cas  │
+╰───╥───╯ │ └────────┘ │┌┼╌╌╌┤   ╰───────╯
+╭───⇓───╮ └─┬────────┐ │├┼╌╌╌┤
+│ += 1; ├╌┐ │  true  ├─┘┊│ 1 │
+╰───╥───╯ ┊ └────────┘  ┊└───┘
+╭───⇓───╮ └╌╌╌╌╌╌╌╌╌╌╌╌╌┘
+│ store ├───┬────────┐
+╰───────╯   │ false  │
+            └────────┘
+</code></pre>
+<p>But the interesting case comes in when Thread 1 successfully locks and unlocks
+the mutex, and then Thread 2 locks it. Let’s draw that one out too:</p>
+<pre><code class="language-text">Thread 1      locked     data       Thread 2
+╭───────╮   ┌────────┐   ┌───┐     ╭───────╮
+│  cas  ├─┐ │ false  │   │ 0 │ ┌───┤  cas  │
+╰───╥───╯ │ └────────┘  ┌┼╌╌╌┤ │   ╰───╥───╯
+╭───⇓───╮ └─┬────────┐  ├┼╌╌╌┤ │   ╭───⇓───╮
+│ += 1; ├╌┐ │  true  │  ┊│ 1 │ │ ?╌┤ guard │
+╰───╥───╯ ┊ └────────┘  ┊└───┘ │   ╰───╥───╯
+╭───⇓───╮ └╌╌╌╌╌╌╌╌╌╌╌╌╌┘      │   ╭───⇓───╮
+│ store ├───┬────────┐         │ ┌─┤ store │
+╰───────╯   │ false  │         │ │ ╰───────╯
+            └────────┘         │ │
+            ┌────────┬─────────┘ │
+            │  true  │           │
+            └────────┘           │
+            ┌────────┬───────────┘
+            │ false  │
+            └────────┘
+</code></pre>
+<p>Look at the second operation Thread 2 performs (the read of <code>data</code>), for which
+we haven’t yet joined the line. Where should it connect to? Well actually, it
+has multiple options…wait, we’ve seen this before! It’s a data race!</p>
+<p>That’s not good. Last time the solution was to use atomics instead — but in this
+case that doesn’t seem to be enough, since even if atomics were used it still
+would have the <em>option</em> of reading <code>0</code> instead of <code>1</code>, and really if we want our
+mutex to be sane, it should only be able to read <code>1</code>.</p>
+<p>So it seems that want we <em>want</em> is to be able to apply the coherence rules from
+before to completely rule out zero from the set of the possible values — if we
+were able to draw a large arrow from the Thread 1’s <code>+= 1;</code> to Thread 2’s
+<code>guard</code>, then we could trivially then use the rule to rule out <code>0</code> as a value
+that could be read.</p>
+<p>This is where the <code>Acquire</code> and <code>Release</code> orderings come in. Informally put, a
+<em>release store</em> will cause an arrow instead of a line to be drawn from the
+operation to the destination; and similarly an <em>acquire load</em> will cause an
+arrow to be drawn from the destination to the operation. To give a useless
+example that illustrates this, for the given program:</p>
+<pre><pre class="playground"><code class="language-rust edition2018"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">use std::sync::atomic::{self, AtomicU32};
+</span>// Initial state
+let a = AtomicU32::new(0);
+// Thread 1
+a.store(1, atomic::Ordering::Release);
+// Thread 2
+a.load(atomic::Ordering::Acquire);
+<span class="boring">}
+</span></code></pre></pre>
+<p>The two possible executions look like this:</p>
+<pre><code class="language-text">    Possible Execution 1      ┃      Possible Execution 2
+                              ┃
+Thread 1      a     Thread 2  ┃  Thread 1      a     Thread 2
+╭───────╮   ┌───┐   ╭──────╮  ┃  ╭───────╮   ┌───┐   ╭──────╮
+│ store ├─┐ │ 0 │ ┌─→ load │  ┃  │ store ├─┐ │ 0 ├───→ load │
+╰───────╯ │ └───┘ │ ╰──────╯  ┃  ╰───────╯ │ └───┘   ╰──────╯
+          └─↘───┐ │           ┃            └─↘───┐
+            │ 1 ├─┘           ┃              │ 1 │
+            └───┘             ┃              └───┘
+</code></pre>
+<p>These arrows are a new kind of arrow we haven’t seen yet; they are known as
+<em>happens-before</em> (or happens-after) relations and are represented as thin arrows
+(→) on these diagrams. They are weaker than the <em>sequenced-before</em>
+double-arrows (⇒) that occur inside a single thread, but can still be used with
+the coherence rules to determine which values of a memory location are valid to
+read.</p>
+<p>When a happens-before arrow stores a data value to an atomic (via a release
+operation) which is then loaded by another happens-before arrow (via an acquire
+operation) we say that the release operation <em>synchronized-with</em> the acquire
+operation, which in doing so establishes that the release operation
+<em>happens-before</em> the acquire operation. Therefore, we can say that in the first
+possible execution, Thread 1’s <code>store</code> synchronizes-with Thread 2’s <code>load</code>,
+which causes that <code>store</code> and everything sequenced-before it to happen-before
+the <code>load</code> and everything sequenced-after it.</p>
+<blockquote>
+<p>More formally, we can say that A happens-before B if any of the following
+conditions are true:</p>
+<ol>
+<li>A is sequenced-before B (i.e. A occurs before B on the same thread)</li>
+<li>A synchronizes-with B (i.e. A is a <code>Release</code> operation and B is an
+<code>Acquire</code> operation that reads the value written by A)</li>
+<li>A happens-before X, and X happens-before B (transitivity)</li>
+</ol>
+</blockquote>
+<p>There is one more rule required for these to be useful, and that is <em>release
+sequences</em>: after a release store is performed on an atomic, happens-before
+arrows will connect together each subsequent value of the atomic as long as the
+new value is caused by an RMW and not just a plain store (this means any
+subsequent normal store, no matter the ordering, will end the sequence).</p>
+<blockquote>
+<p>In the C++11 memory model, any subsequent store by the same thread that
+performed the original <code>Release</code> store would also contribute to the release
+sequence. However, this was removed in C++20 for simplicity and better
+optimizations and so <strong>must not</strong> be relied upon.</p>
+</blockquote>
+<p>With those rules in mind, converting Thread 1’s second store to use a <code>Release</code>
+ordering as well as converting Thread 2’s CAS to use an <code>Acquire</code> ordering
+allows us to effectively draw that arrow we needed before:</p>
+<pre><code class="language-text">Thread 1     locked     data       Thread 2
+╭───────╮   ┌───────┐   ┌───┐     ╭───────╮
+│  cas  ├─┐ │ false │   │ 0 │ ┌───→  cas  │
+╰───╥───╯ │ └───────┘  ┌┼╌╌╌┤ │   ╰───╥───╯
+╭───⇓───╮ └─┬───────┐  ├┼╌╌╌┤ │   ╭───⇓───╮
+│ += 1; ├╌┐ │ true  │  ┊│ 1 ├╌│╌╌╌┤ guard │
+╰───╥───╯ ┊ └───────┘  ┊└───┘ │   ╰───╥───╯
+╭───⇓───╮ └╌╌╌╌╌╌╌╌╌╌╌╌┘      │   ╭───⇓───╮
+│ store ├───↘───────┐         │ ┌─┤ store │
+╰───────╯   │ false │         │ │ ╰───────╯
+            └───┬───┘         │ │
+            ┌───↓───┬─────────┘ │
+            │ true  │           │
+            └───────┘           │
+            ┌───────┬───────────┘
+            │ false │
+            └───────┘
+</code></pre>
+<p>We now can trace back along the reverse direction of arrows from the <code>guard</code>
+bubble to the <code>+= 1</code> bubble; we have established that Thread 2’s load
+happens-after the <code>+= 1</code> side effect, because Thread 2’s CAS synchronizes-with
+Thread 1’s store. This both avoids the data race and gives the guarantee that
+<code>1</code> will be always read by Thread 2 (as long as locks after Thread 1, of
+course).</p>
+<p>However, that is not the only execution of the program possible. Even with this
+setup, there is another execution that can also cause UB: if Thread 2 locks the
+mutex before Thread 1 does.</p>
+<pre><code class="language-text">Thread 1       locked     data      Thread 2
+╭───────╮     ┌───────┐   ┌───┐    ╭───────╮
+│  cas  ├───┐ │ false │┌──│ 0 │────→  cas  │
+╰───╥───╯   │ └───────┘│ ┌┼╌╌╌┤    ╰───╥───╯
+╭───⇓───╮   │ ┌───────┬┘ ├┼╌╌╌┤    ╭───⇓───╮
+│ += 1; ├╌┐ │ │ true  │  ┊│ 1 │  ?╌┤ guard │
+╰───╥───╯ ┊ │ └───────┘  ┊└───┘    ╰───╥───╯
+╭───⇓───╮ └╌│╌╌╌╌╌╌╌╌╌╌╌╌┘         ╭───⇓───╮
+│ store ├─┐ │ ┌───────┬────────────┤ store │
+╰───────╯ │ │ │ false │            ╰───────╯
+          │ │ └───────┘
+          │ └─┬───────┐
+          │   │ true  │
+          │   └───────┘
+          └───↘───────┐
+              │ false │
+              └───────┘
+</code></pre>
+<p>Once again <code>guard</code> has multiple options for values to read. This one’s a bit
+more counterintuitive than the previous one, since it requires “travelling
+forward in time” to understand why the <code>1</code> is even there in the first place —
+but since the abstract machine has no concept of time, it’s just a valid UB as
+any other.</p>
+<p>Luckily, we’ve already solved this problem once, so it easy to solve again: just
+like before, we’ll have the CAS become acquire and the store become release, and
+then we can use the second coherence rule from before to follow <em>forward</em> the
+arrow from the <code>guard</code> bubble all the way to the <code>+= 1;</code>, determining that it is
+only possible for that read to see <code>0</code> as its value, as in the execution below.</p>
+<pre><code class="language-text">Thread 1       locked     data      Thread 2
+╭───────╮     ┌───────┐   ┌───┐    ╭───────╮
+│  cas  ←───┐ │ false │┌──│ 0 ├╌┐──→  cas  │
+╰───╥───╯   │ └───────┘│ ┌┼╌╌╌┤ ┊  ╰───╥───╯
+╭───⇓───╮   │ ┌───────┬┘ ├┼╌╌╌┤ ┊  ╭───⇓───╮
+│ += 1; ├╌┐ │ │ true  │  ┊│ 1 │ └─╌┤ guard │
+╰───╥───╯ ┊ │ └───────┘  ┊└───┘    ╰───╥───╯
+╭───⇓───╮ └╌│╌╌╌╌╌╌╌╌╌╌╌╌┘         ╭───⇓───╮
+│ store ├─┐ │ ┌───────↙────────────┤ store │
+╰───────╯ │ │ │ false │            ╰───────╯
+          │ │ └───┬───┘
+          │ └─┬───↓───┐
+          │   │ true  │
+          │   └───────┘
+          └───↘───────┐
+              │ false │
+              └───────┘
+</code></pre>
+<p>This leads us to the proper memory orderings for any mutex (and other locks like
+RW locks too, even): use <code>Acquire</code> to lock it, and <code>Release</code> to unlock it. So
+let’s go back to and update our original mutex definition with this knowledge.</p>
+<p>But wait, <code>compare_exchange</code> takes two ordering parameters, not just one! That’s
+right — it also takes a second one to apply when the exchange fails (in our case,
+when the mutex is already locked). But we don’t need an <code>Acquire</code> here, since in
+that case we won’t be reading from the <code>data</code> value anyway, so we’ll just stick
+with <code>Relaxed</code>.</p>
+<pre><code class="language-rust ignore">impl&lt;T&gt; Mutex&lt;T&gt; {
+    pub fn lock(&amp;self) -&gt; Option&lt;Guard&lt;'_, T&gt;&gt; {
+        match self.locked.compare_exchange(
+            false,
+            true,
+            atomic::Ordering::Acquire,
+            atomic::Ordering::Relaxed,
+        ) {
+            Ok(_) =&gt; Some(Guard(self)),
+            Err(_) =&gt; None,
+        }
+    }
+}
+
+impl&lt;T&gt; Drop for Guard&lt;'_, T&gt; {
+    fn drop(&amp;mut self) {
+        self.0.locked.store(false, atomic::Ordering::Release);
+    }
+}
+</code></pre>
+<p>Note that similarly to how atomic operations only make sense when paired with
+other atomic operations on the same locations, <code>Acquire</code> only makes sense when
+paired with <code>Release</code> and vice versa. That is, both an <code>Acquire</code> with no
+corresponding <code>Release</code> and a <code>Release</code> with no corresponding <code>Acquire</code> are
+useless, since the arrows will be unable to connect to anything.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../atomics/relaxed.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../atomics/seqcst.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../atomics/relaxed.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../atomics/seqcst.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

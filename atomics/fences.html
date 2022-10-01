@@ -1,0 +1,409 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Fences - The Rustonomicon</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The Dark Arts of Advanced and Unsafe Rust Programming">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/nomicon.css">
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../intro.html">Introduction</a></li><li class="chapter-item expanded "><a href="../meet-safe-and-unsafe.html"><strong aria-hidden="true">1.</strong> Meet Safe and Unsafe</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../safe-unsafe-meaning.html"><strong aria-hidden="true">1.1.</strong> How Safe and Unsafe Interact</a></li><li class="chapter-item expanded "><a href="../what-unsafe-does.html"><strong aria-hidden="true">1.2.</strong> What Unsafe Can Do</a></li><li class="chapter-item expanded "><a href="../working-with-unsafe.html"><strong aria-hidden="true">1.3.</strong> Working with Unsafe</a></li></ol></li><li class="chapter-item expanded "><a href="../data.html"><strong aria-hidden="true">2.</strong> Data Layout</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../repr-rust.html"><strong aria-hidden="true">2.1.</strong> repr(Rust)</a></li><li class="chapter-item expanded "><a href="../exotic-sizes.html"><strong aria-hidden="true">2.2.</strong> Exotically Sized Types</a></li><li class="chapter-item expanded "><a href="../other-reprs.html"><strong aria-hidden="true">2.3.</strong> Other reprs</a></li></ol></li><li class="chapter-item expanded "><a href="../ownership.html"><strong aria-hidden="true">3.</strong> Ownership</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../references.html"><strong aria-hidden="true">3.1.</strong> References</a></li><li class="chapter-item expanded "><a href="../aliasing.html"><strong aria-hidden="true">3.2.</strong> Aliasing</a></li><li class="chapter-item expanded "><a href="../lifetimes.html"><strong aria-hidden="true">3.3.</strong> Lifetimes</a></li><li class="chapter-item expanded "><a href="../lifetime-mismatch.html"><strong aria-hidden="true">3.4.</strong> Limits of Lifetimes</a></li><li class="chapter-item expanded "><a href="../lifetime-elision.html"><strong aria-hidden="true">3.5.</strong> Lifetime Elision</a></li><li class="chapter-item expanded "><a href="../unbounded-lifetimes.html"><strong aria-hidden="true">3.6.</strong> Unbounded Lifetimes</a></li><li class="chapter-item expanded "><a href="../hrtb.html"><strong aria-hidden="true">3.7.</strong> Higher-Rank Trait Bounds</a></li><li class="chapter-item expanded "><a href="../subtyping.html"><strong aria-hidden="true">3.8.</strong> Subtyping and Variance</a></li><li class="chapter-item expanded "><a href="../dropck.html"><strong aria-hidden="true">3.9.</strong> Drop Check</a></li><li class="chapter-item expanded "><a href="../phantom-data.html"><strong aria-hidden="true">3.10.</strong> PhantomData</a></li><li class="chapter-item expanded "><a href="../borrow-splitting.html"><strong aria-hidden="true">3.11.</strong> Splitting Borrows</a></li></ol></li><li class="chapter-item expanded "><a href="../conversions.html"><strong aria-hidden="true">4.</strong> Type Conversions</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../coercions.html"><strong aria-hidden="true">4.1.</strong> Coercions</a></li><li class="chapter-item expanded "><a href="../dot-operator.html"><strong aria-hidden="true">4.2.</strong> The Dot Operator</a></li><li class="chapter-item expanded "><a href="../casts.html"><strong aria-hidden="true">4.3.</strong> Casts</a></li><li class="chapter-item expanded "><a href="../transmutes.html"><strong aria-hidden="true">4.4.</strong> Transmutes</a></li></ol></li><li class="chapter-item expanded "><a href="../uninitialized.html"><strong aria-hidden="true">5.</strong> Uninitialized Memory</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../checked-uninit.html"><strong aria-hidden="true">5.1.</strong> Checked</a></li><li class="chapter-item expanded "><a href="../drop-flags.html"><strong aria-hidden="true">5.2.</strong> Drop Flags</a></li><li class="chapter-item expanded "><a href="../unchecked-uninit.html"><strong aria-hidden="true">5.3.</strong> Unchecked</a></li></ol></li><li class="chapter-item expanded "><a href="../obrm.html"><strong aria-hidden="true">6.</strong> Ownership Based Resource Management</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../constructors.html"><strong aria-hidden="true">6.1.</strong> Constructors</a></li><li class="chapter-item expanded "><a href="../destructors.html"><strong aria-hidden="true">6.2.</strong> Destructors</a></li><li class="chapter-item expanded "><a href="../leaking.html"><strong aria-hidden="true">6.3.</strong> Leaking</a></li></ol></li><li class="chapter-item expanded "><a href="../unwinding.html"><strong aria-hidden="true">7.</strong> Unwinding</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../exception-safety.html"><strong aria-hidden="true">7.1.</strong> Exception Safety</a></li><li class="chapter-item expanded "><a href="../poisoning.html"><strong aria-hidden="true">7.2.</strong> Poisoning</a></li></ol></li><li class="chapter-item expanded "><a href="../concurrency.html"><strong aria-hidden="true">8.</strong> Concurrency</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../races.html"><strong aria-hidden="true">8.1.</strong> Races</a></li><li class="chapter-item expanded "><a href="../send-and-sync.html"><strong aria-hidden="true">8.2.</strong> Send and Sync</a></li><li class="chapter-item expanded "><a href="../atomics/atomics.html"><strong aria-hidden="true">8.3.</strong> Atomics</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../atomics/multithread.html"><strong aria-hidden="true">8.3.1.</strong> Multithreaded Execution</a></li><li class="chapter-item expanded "><a href="../atomics/relaxed.html"><strong aria-hidden="true">8.3.2.</strong> Relaxed</a></li><li class="chapter-item expanded "><a href="../atomics/acquire-release.html"><strong aria-hidden="true">8.3.3.</strong> Acquire and Release</a></li><li class="chapter-item expanded "><a href="../atomics/seqcst.html"><strong aria-hidden="true">8.3.4.</strong> SeqCst</a></li><li class="chapter-item expanded "><a href="../atomics/fences.html" class="active"><strong aria-hidden="true">8.3.5.</strong> Fences</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../vec/vec.html"><strong aria-hidden="true">9.</strong> Implementing Vec</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../vec/vec-layout.html"><strong aria-hidden="true">9.1.</strong> Layout</a></li><li class="chapter-item expanded "><a href="../vec/vec-alloc.html"><strong aria-hidden="true">9.2.</strong> Allocating</a></li><li class="chapter-item expanded "><a href="../vec/vec-push-pop.html"><strong aria-hidden="true">9.3.</strong> Push and Pop</a></li><li class="chapter-item expanded "><a href="../vec/vec-dealloc.html"><strong aria-hidden="true">9.4.</strong> Deallocating</a></li><li class="chapter-item expanded "><a href="../vec/vec-deref.html"><strong aria-hidden="true">9.5.</strong> Deref</a></li><li class="chapter-item expanded "><a href="../vec/vec-insert-remove.html"><strong aria-hidden="true">9.6.</strong> Insert and Remove</a></li><li class="chapter-item expanded "><a href="../vec/vec-into-iter.html"><strong aria-hidden="true">9.7.</strong> IntoIter</a></li><li class="chapter-item expanded "><a href="../vec/vec-raw.html"><strong aria-hidden="true">9.8.</strong> RawVec</a></li><li class="chapter-item expanded "><a href="../vec/vec-drain.html"><strong aria-hidden="true">9.9.</strong> Drain</a></li><li class="chapter-item expanded "><a href="../vec/vec-zsts.html"><strong aria-hidden="true">9.10.</strong> Handling Zero-Sized Types</a></li><li class="chapter-item expanded "><a href="../vec/vec-final.html"><strong aria-hidden="true">9.11.</strong> Final Code</a></li></ol></li><li class="chapter-item expanded "><a href="../arc-mutex/arc-and-mutex.html"><strong aria-hidden="true">10.</strong> Implementing Arc and Mutex</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../arc-mutex/arc.html"><strong aria-hidden="true">10.1.</strong> Arc</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../arc-mutex/arc-layout.html"><strong aria-hidden="true">10.1.1.</strong> Layout</a></li><li class="chapter-item expanded "><a href="../arc-mutex/arc-base.html"><strong aria-hidden="true">10.1.2.</strong> Base Code</a></li><li class="chapter-item expanded "><a href="../arc-mutex/arc-clone.html"><strong aria-hidden="true">10.1.3.</strong> Cloning</a></li><li class="chapter-item expanded "><a href="../arc-mutex/arc-drop.html"><strong aria-hidden="true">10.1.4.</strong> Dropping</a></li><li class="chapter-item expanded "><a href="../arc-mutex/arc-final.html"><strong aria-hidden="true">10.1.5.</strong> Final Code</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../ffi.html"><strong aria-hidden="true">11.</strong> FFI</a></li><li class="chapter-item expanded "><a href="../beneath-std.html"><strong aria-hidden="true">12.</strong> Beneath std</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../panic-handler.html"><strong aria-hidden="true">12.1.</strong> #[panic_handler]</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rustonomicon</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/rust-lang/nomicon" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="fences"><a class="header" href="#fences">Fences</a></h1>
+<p>As well as loads, stores, and RMWs, there is one more kind of atomic operation
+to be aware of: fences. Fences can be triggered by the
+<a href="https://doc.rust-lang.org/stable/core/sync/atomic/fn.fence.html"><code>core::sync::atomic::fence</code></a> function, which accepts a single ordering
+parameter and returns nothing. They don’t do anything on their own, but can be
+thought of as events that strengthen the ordering of nearby atomic operations.</p>
+<h2 id="acquire-fences"><a class="header" href="#acquire-fences">Acquire fences</a></h2>
+<p>The most common kind of fence is an <em>acquire fence</em>, which can be triggered in
+three different ways:</p>
+<ol>
+<li><code>atomic::fence(atomic::Ordering::Acquire)</code></li>
+<li><code>atomic::fence(atomic::Ordering::AcqRel)</code></li>
+<li><code>atomic::fence(atomic::Ordering::SeqCst)</code></li>
+</ol>
+<p>An acquire fence retroactively makes every single non-<code>Acquire</code> operation that
+was sequenced-before it act like an <code>Acquire</code> operation that occurred at the
+fence — in other words, it causes every prior <code>Release</code>d value that was
+previously loaded on the thread to synchronize-with the fence. For example, the
+following code:</p>
+<pre><pre class="playground"><code class="language-rust edition2018"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">use std::sync::atomic::{self, AtomicU32};
+</span>static X: AtomicU32 = AtomicU32::new(0);
+
+// t_1
+X.store(1, atomic::Ordering::Release);
+
+// t_2
+let value = X.load(atomic::Ordering::Relaxed);
+atomic::fence(atomic::Ordering::Acquire);
+<span class="boring">}
+</span></code></pre></pre>
+<p>Can result in two possible executions:</p>
+<pre><code class="language-text">      Possible Execution 1      ┃      Possible Execution 2
+                                ┃
+   t_1        X        t_2      ┃      t_1        X        t_2
+╭───────╮   ┌───┐   ╭───────╮   ┃   ╭───────╮   ┌───┐   ╭───────╮
+│ store ├─┐ │ 0 │ ┌─┤ load  │   ┃   │ store ├─┐ │ 0 ├───┤ load  │
+╰───────╯ │ └───┘ │ ╰───╥───╯   ┃   ╰───────╯ │ └───┘   ╰───╥───╯
+          └─↘───┐ │ ╭───⇓───╮   ┃             └─↘───┐   ╭───⇓───╮
+            │ 1 ├─┘┌→ fence │   ┃               │ 1 │   │ fence │
+            └───┴──┘╰───────╯   ┃               └───┘   ╰───────╯
+</code></pre>
+<p>In the first execution, <code>t_1</code>’s store synchronizes-with and therefore
+happens-before <code>t_2</code>’s fence due to the prior load, but note that it does <em>not</em>
+happen-before <code>t_2</code>’s load.</p>
+<p>Acquire fences work on any number of atomics, and on release sequences too. A
+more complex example is as follows:</p>
+<pre><pre class="playground"><code class="language-rust edition2018"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">use std::sync::atomic::{self, AtomicU32};
+</span>static X: AtomicU32 = AtomicU32::new(0);
+static Y: AtomicU32 = AtomicU32::new(0);
+
+// t_1
+X.store(1, atomic::Ordering::Release);
+X.fetch_add(1, atomic::Ordering::Relaxed);
+
+// t_2
+Y.store(1, atomic::Ordering::Release);
+
+// t_3
+let x = X.load(atomic::Ordering::Relaxed);
+let y = Y.load(atomic::Ordering::Relaxed);
+atomic::fence(atomic::Ordering::Acquire);
+<span class="boring">}
+</span></code></pre></pre>
+<p>This can result in an execution like so:</p>
+<pre><code class="language-text">   t_1        X        t_3        Y        t_2
+╭───────╮   ┌───┐   ╭───────╮   ┌───┐   ╭───────╮
+│ store ├─┐ │ 0 │ ┌─┤ load  │   │ 0 │ ┌─┤ store │
+╰───╥───╯ │ └───┘ │ ╰───╥───╯   └───┘ │ ╰───────╯
+╭───⇓───╮ └─↘───┐ │ ╭───⇓───╮   ┌───↙─┘
+│  rmw  ├─┐ │ 1 │ │ │ load  ├───┤ 1 │
+╰───────╯ │ └─┬─┘ │ ╰───╥───╯ ┌─┴───┘
+          └─┬─↓─┐ │ ╭───⇓───╮ │
+            │ 2 ├─┘┌→ fence ←─┘
+            └───┴──┘╰───────╯
+</code></pre>
+<p>There are two common scenarios in which acquire fences are used:</p>
+<ol>
+<li>When an <code>Acquire</code> ordering is only necessary when a specific value is loaded.
+For example, you may only wish to acquire when an <code>initialized</code> boolean is
+<code>true</code>, since otherwise you won’t be reading the shared state at all. In
+this case, you can load with a <code>Relaxed</code> ordering and then issue an
+<code>Acquire</code> fence afterward only if that condition is met, which can aid in
+performance sometimes (since the acquire operation is avoided when
+<code>initialized == false</code>).</li>
+<li>When several <code>Acquire</code> operations on different locations need to be performed
+in a row, but individually each operation doesn’t need <code>Acquire</code> ordering;
+it is often faster to perform all the loads as <code>Relaxed</code> first and use a
+single <code>Acquire</code> fence at the end then it is to make each one separately use
+<code>Acquire</code>.</li>
+</ol>
+<h2 id="release-fences"><a class="header" href="#release-fences">Release fences</a></h2>
+<p>Release fences are the natural complement to acquire fences, and they similarly
+can be triggered in three different ways:</p>
+<ol>
+<li><code>atomic::fence(atomic::Ordering::Release)</code></li>
+<li><code>atomic::fence(atomic::Ordering::AcqRel)</code></li>
+<li><code>atomic::fence(atomic::Ordering::SeqCst)</code></li>
+</ol>
+<p>Release fences convert every subsequent atomic access in the same thread into a
+release operation that has its arrow starting from the fence — in other words,
+every <code>Acquire</code> operation that sees a value that was written by the fence’s
+thread after the release fence will synchronize-with the release fence. For
+example, the following code:</p>
+<pre><pre class="playground"><code class="language-rust edition2018"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">use std::sync::atomic::{self, AtomicU32};
+</span>static X: AtomicU32 = AtomicU32::new(0);
+
+// t_1
+atomic::fence(atomic::Ordering::Release);
+X.store(1, atomic::Ordering::Relaxed);
+
+// t_2
+X.load(atomic::Ordering::Acquire);
+<span class="boring">}
+</span></code></pre></pre>
+<p>Can result in this execution:</p>
+<pre><code class="language-text">   t_1        X        t_2
+╭───────╮   ┌───┐   ╭───────╮
+│ fence ├─┐ │ 0 │ ┌─→ load  │
+╰───╥───╯ │ └───┘ │ ╰───────╯
+╭───⇓───╮ └─↘───┐ │
+│ store ├───┤ 1 ├─┘
+╰───────╯   └───┘
+</code></pre>
+<p>As well as it being possible for a release fence to synchronize-with an acquire
+load (fence–atomic synchronization) and a release store to synchronize-with an
+acquire fence (atomic–fence synchronization), it is also possible for release
+fences to synchronize with acquire fences (fence–fence synchronization). In this
+code snippet, only fences and <code>Relaxed</code> operations are used to establish a
+happens-before relation (in some executions):</p>
+<pre><pre class="playground"><code class="language-rust edition2018"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">use std::sync::atomic::{self, AtomicU32};
+</span>static X: AtomicU32 = AtomicU32::new(0);
+
+// t_1
+atomic::fence(atomic::Ordering::Release);
+X.store(1, atomic::Ordering::Relaxed);
+
+// t_2
+X.load(atomic::Ordering::Relaxed);
+atomic::fence(atomic::Ordering::Acquire);
+<span class="boring">}
+</span></code></pre></pre>
+<p>The execution with the relation looks like this:</p>
+<pre><code class="language-text">   t_1        X        t_2
+╭───────╮   ┌───┐   ╭───────╮
+│ fence ├─┐ │ 0 │ ┌─┤ load  │
+╰───╥───╯ │ └───┘ │ ╰───╥───╯
+╭───⇓───╮ └─↘───┐ │ ╭───⇓───╮
+│ store ├───┤ 1 ├─┘┌→ fence │
+╰───────╯   └───┴──┘╰───────╯
+</code></pre>
+<p>Like with acquire fences, release fences can be used to optimize over a series
+of atomic stores that don’t individually need to be <code>Release</code>, since in some
+conditions and on some architectures it’s faster to put a single release fence
+at the start and use <code>Relaxed</code> from that point on than it is to use <code>Release</code>
+every time.</p>
+<h2 id="acqrel-fences"><a class="header" href="#acqrel-fences"><code>AcqRel</code> fences</a></h2>
+<p><code>AcqRel</code> fences are just the combined behaviour of an <code>Acquire</code> fence and a
+<code>Release</code> fence in one operation. There isn’t much special to note about them,
+other than that they behave more like an acquire fence followed by a release
+fence than the other way around, which is useful to know in situations like the
+following:</p>
+<pre><code class="language-text">   t_1        X        t_2        Y        t_3
+╭───────╮   ┌───┐   ╭───────╮   ┌───┐   ╭───────╮
+│   A   │   │ 0 │ ┌─┤ load  │   │ 0 │ ┌─→ load  │
+╰───╥───╯   └───┘ │ ╰───╥───╯   └───┘ │ ╰───╥───╯
+╭───⇓───╮ ┌─↘───┐ │ ╭───⇓───╮┌──↘───┐ │ ╭───⇓───╮
+│ store ├─┘ │ 1 ├─┘┌→ fence ├┘┌─┤ 1 ├─┘ │   B   │
+╰───────╯   └───┴──┘╰───╥───╯ │ └───┘   ╰───────╯
+                    ╭───⇓───╮ │
+                    │ store ├─┘
+                    ╰───────╯
+</code></pre>
+<p>Here, A happens-before B, which is singularly due to the <code>AcqRel</code> fence’s
+ability to “carry over” happens-before relations within itself.</p>
+<h2 id="seqcst-fences"><a class="header" href="#seqcst-fences"><code>SeqCst</code> fences</a></h2>
+<p><code>SeqCst</code> fences are the strongest kind of fence. They first of all inherit the
+behaviour from an <code>AcqRel</code> fence, meaning they have both acquire and release
+semantics at the same time, but being <code>SeqCst</code> operations they also participate
+in <em>S</em>. Just as with all other <code>SeqCst</code> operations, their placement in <em>S</em> is
+primarily determined by strongly happens-before relations (including the
+<a href="seqcst.html#the-mixed-seqcst-special-case">mixed-<code>SeqCst</code> caveat</a> that comes with it), which then gives additional
+guarantees to your code.</p>
+<p>Namely, the power of <code>SeqCst</code> fences can be summarized in three points:</p>
+<ul>
+<li>Everything that happens-before a <code>SeqCst</code> fence is not coherence-ordered-after
+any <code>SeqCst</code> operation that the fence precedes in <em>S</em>.</li>
+<li>Everything that happens-after a <code>SeqCst</code> fence is not coherence-ordered-before
+any <code>SeqCst</code> operation that the fence succeeds in <em>S</em>.</li>
+<li>Everything that happens-before a <code>SeqCst</code> fence X is not
+coherence-ordered-after anything that happens-after another <code>SeqCst</code> fence
+Y, if X preceeds Y in <em>S</em>.</li>
+</ul>
+<blockquote>
+<p>In C++11, the above three statements were similar, except they only talked
+about what was sequenced-before and sequenced-after the <code>SeqCst</code> fences; C++20
+strengthened this to also include happens-before, because in practice this
+theoretical optimization was not being exploited by anybody. However do note
+that as of the time of writing, <a href="https://github.com/rust-lang/miri/issues/2301">Miri only implements the old, weaker
+semantics</a> and so you may see false positives when testing with
+it.</p>
+</blockquote>
+<p>The “motivating use-case” for <code>SeqCst</code> demonstrated in the <code>SeqCst</code> chapter can
+also be rewritten to use exclusively <code>SeqCst</code> fences and <code>Relaxed</code> operations,
+by inserting fences in between the loads in threads <code>c</code> and <code>d</code>:</p>
+<pre><code class="language-text">     a        static X         c               d        static Y         b
+╭─────────╮   ┌───────┐   ╭─────────╮     ╭─────────╮   ┌───────┐   ╭─────────╮
+│ store X ├─┐ │ false │ ┌─┤ load X  │     │ load Y  ├─┐ │ false │ ┌─┤ store Y │
+╰─────────╯ │ └───────┘ │ ╰────╥────╯     ╰────╥────╯ │ └───────┘ │ ╰─────────╯
+            └─┬───────┐ │ ╭────⇓────╮     ╭────⇓────╮ │ ┌───────┬─┘
+              │ true  ├─┘ │ *fence* │     │ *fence* │ └─┤ true  │
+              └───────┘   ╰────╥────╯     ╰────╥────╯   └───────┘
+                          ╭────⇓────╮     ╭────⇓────╮
+                          │ load Y  ├─? ?─┤ load X  │
+                          ╰─────────╯     ╰─────────╯
+</code></pre>
+<p>There are two executions to consider here, depending on which way round the
+fences appear in <em>S</em>. Should <code>c</code>’s fence appear first, the fence–fence <code>SeqCst</code>
+guarantee tells us that <code>c</code>’s load of <code>X</code> is not coherence-ordered-after <code>d</code>’s
+load of <code>X</code>, which forbids <code>d</code>’s load of <code>X</code> from seeing the value <code>false</code>. The
+same logic can be applied should the fences appear the other way around, proving
+that at least one thread must load <code>true</code> in the end.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../atomics/seqcst.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../vec/vec.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../atomics/seqcst.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../vec/vec.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

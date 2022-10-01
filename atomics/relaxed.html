@@ -1,0 +1,593 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Relaxed - The Rustonomicon</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The Dark Arts of Advanced and Unsafe Rust Programming">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/nomicon.css">
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../intro.html">Introduction</a></li><li class="chapter-item expanded "><a href="../meet-safe-and-unsafe.html"><strong aria-hidden="true">1.</strong> Meet Safe and Unsafe</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../safe-unsafe-meaning.html"><strong aria-hidden="true">1.1.</strong> How Safe and Unsafe Interact</a></li><li class="chapter-item expanded "><a href="../what-unsafe-does.html"><strong aria-hidden="true">1.2.</strong> What Unsafe Can Do</a></li><li class="chapter-item expanded "><a href="../working-with-unsafe.html"><strong aria-hidden="true">1.3.</strong> Working with Unsafe</a></li></ol></li><li class="chapter-item expanded "><a href="../data.html"><strong aria-hidden="true">2.</strong> Data Layout</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../repr-rust.html"><strong aria-hidden="true">2.1.</strong> repr(Rust)</a></li><li class="chapter-item expanded "><a href="../exotic-sizes.html"><strong aria-hidden="true">2.2.</strong> Exotically Sized Types</a></li><li class="chapter-item expanded "><a href="../other-reprs.html"><strong aria-hidden="true">2.3.</strong> Other reprs</a></li></ol></li><li class="chapter-item expanded "><a href="../ownership.html"><strong aria-hidden="true">3.</strong> Ownership</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../references.html"><strong aria-hidden="true">3.1.</strong> References</a></li><li class="chapter-item expanded "><a href="../aliasing.html"><strong aria-hidden="true">3.2.</strong> Aliasing</a></li><li class="chapter-item expanded "><a href="../lifetimes.html"><strong aria-hidden="true">3.3.</strong> Lifetimes</a></li><li class="chapter-item expanded "><a href="../lifetime-mismatch.html"><strong aria-hidden="true">3.4.</strong> Limits of Lifetimes</a></li><li class="chapter-item expanded "><a href="../lifetime-elision.html"><strong aria-hidden="true">3.5.</strong> Lifetime Elision</a></li><li class="chapter-item expanded "><a href="../unbounded-lifetimes.html"><strong aria-hidden="true">3.6.</strong> Unbounded Lifetimes</a></li><li class="chapter-item expanded "><a href="../hrtb.html"><strong aria-hidden="true">3.7.</strong> Higher-Rank Trait Bounds</a></li><li class="chapter-item expanded "><a href="../subtyping.html"><strong aria-hidden="true">3.8.</strong> Subtyping and Variance</a></li><li class="chapter-item expanded "><a href="../dropck.html"><strong aria-hidden="true">3.9.</strong> Drop Check</a></li><li class="chapter-item expanded "><a href="../phantom-data.html"><strong aria-hidden="true">3.10.</strong> PhantomData</a></li><li class="chapter-item expanded "><a href="../borrow-splitting.html"><strong aria-hidden="true">3.11.</strong> Splitting Borrows</a></li></ol></li><li class="chapter-item expanded "><a href="../conversions.html"><strong aria-hidden="true">4.</strong> Type Conversions</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../coercions.html"><strong aria-hidden="true">4.1.</strong> Coercions</a></li><li class="chapter-item expanded "><a href="../dot-operator.html"><strong aria-hidden="true">4.2.</strong> The Dot Operator</a></li><li class="chapter-item expanded "><a href="../casts.html"><strong aria-hidden="true">4.3.</strong> Casts</a></li><li class="chapter-item expanded "><a href="../transmutes.html"><strong aria-hidden="true">4.4.</strong> Transmutes</a></li></ol></li><li class="chapter-item expanded "><a href="../uninitialized.html"><strong aria-hidden="true">5.</strong> Uninitialized Memory</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../checked-uninit.html"><strong aria-hidden="true">5.1.</strong> Checked</a></li><li class="chapter-item expanded "><a href="../drop-flags.html"><strong aria-hidden="true">5.2.</strong> Drop Flags</a></li><li class="chapter-item expanded "><a href="../unchecked-uninit.html"><strong aria-hidden="true">5.3.</strong> Unchecked</a></li></ol></li><li class="chapter-item expanded "><a href="../obrm.html"><strong aria-hidden="true">6.</strong> Ownership Based Resource Management</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../constructors.html"><strong aria-hidden="true">6.1.</strong> Constructors</a></li><li class="chapter-item expanded "><a href="../destructors.html"><strong aria-hidden="true">6.2.</strong> Destructors</a></li><li class="chapter-item expanded "><a href="../leaking.html"><strong aria-hidden="true">6.3.</strong> Leaking</a></li></ol></li><li class="chapter-item expanded "><a href="../unwinding.html"><strong aria-hidden="true">7.</strong> Unwinding</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../exception-safety.html"><strong aria-hidden="true">7.1.</strong> Exception Safety</a></li><li class="chapter-item expanded "><a href="../poisoning.html"><strong aria-hidden="true">7.2.</strong> Poisoning</a></li></ol></li><li class="chapter-item expanded "><a href="../concurrency.html"><strong aria-hidden="true">8.</strong> Concurrency</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../races.html"><strong aria-hidden="true">8.1.</strong> Races</a></li><li class="chapter-item expanded "><a href="../send-and-sync.html"><strong aria-hidden="true">8.2.</strong> Send and Sync</a></li><li class="chapter-item expanded "><a href="../atomics/atomics.html"><strong aria-hidden="true">8.3.</strong> Atomics</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../atomics/multithread.html"><strong aria-hidden="true">8.3.1.</strong> Multithreaded Execution</a></li><li class="chapter-item expanded "><a href="../atomics/relaxed.html" class="active"><strong aria-hidden="true">8.3.2.</strong> Relaxed</a></li><li class="chapter-item expanded "><a href="../atomics/acquire-release.html"><strong aria-hidden="true">8.3.3.</strong> Acquire and Release</a></li><li class="chapter-item expanded "><a href="../atomics/seqcst.html"><strong aria-hidden="true">8.3.4.</strong> SeqCst</a></li><li class="chapter-item expanded "><a href="../atomics/fences.html"><strong aria-hidden="true">8.3.5.</strong> Fences</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../vec/vec.html"><strong aria-hidden="true">9.</strong> Implementing Vec</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../vec/vec-layout.html"><strong aria-hidden="true">9.1.</strong> Layout</a></li><li class="chapter-item expanded "><a href="../vec/vec-alloc.html"><strong aria-hidden="true">9.2.</strong> Allocating</a></li><li class="chapter-item expanded "><a href="../vec/vec-push-pop.html"><strong aria-hidden="true">9.3.</strong> Push and Pop</a></li><li class="chapter-item expanded "><a href="../vec/vec-dealloc.html"><strong aria-hidden="true">9.4.</strong> Deallocating</a></li><li class="chapter-item expanded "><a href="../vec/vec-deref.html"><strong aria-hidden="true">9.5.</strong> Deref</a></li><li class="chapter-item expanded "><a href="../vec/vec-insert-remove.html"><strong aria-hidden="true">9.6.</strong> Insert and Remove</a></li><li class="chapter-item expanded "><a href="../vec/vec-into-iter.html"><strong aria-hidden="true">9.7.</strong> IntoIter</a></li><li class="chapter-item expanded "><a href="../vec/vec-raw.html"><strong aria-hidden="true">9.8.</strong> RawVec</a></li><li class="chapter-item expanded "><a href="../vec/vec-drain.html"><strong aria-hidden="true">9.9.</strong> Drain</a></li><li class="chapter-item expanded "><a href="../vec/vec-zsts.html"><strong aria-hidden="true">9.10.</strong> Handling Zero-Sized Types</a></li><li class="chapter-item expanded "><a href="../vec/vec-final.html"><strong aria-hidden="true">9.11.</strong> Final Code</a></li></ol></li><li class="chapter-item expanded "><a href="../arc-mutex/arc-and-mutex.html"><strong aria-hidden="true">10.</strong> Implementing Arc and Mutex</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../arc-mutex/arc.html"><strong aria-hidden="true">10.1.</strong> Arc</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../arc-mutex/arc-layout.html"><strong aria-hidden="true">10.1.1.</strong> Layout</a></li><li class="chapter-item expanded "><a href="../arc-mutex/arc-base.html"><strong aria-hidden="true">10.1.2.</strong> Base Code</a></li><li class="chapter-item expanded "><a href="../arc-mutex/arc-clone.html"><strong aria-hidden="true">10.1.3.</strong> Cloning</a></li><li class="chapter-item expanded "><a href="../arc-mutex/arc-drop.html"><strong aria-hidden="true">10.1.4.</strong> Dropping</a></li><li class="chapter-item expanded "><a href="../arc-mutex/arc-final.html"><strong aria-hidden="true">10.1.5.</strong> Final Code</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../ffi.html"><strong aria-hidden="true">11.</strong> FFI</a></li><li class="chapter-item expanded "><a href="../beneath-std.html"><strong aria-hidden="true">12.</strong> Beneath std</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../panic-handler.html"><strong aria-hidden="true">12.1.</strong> #[panic_handler]</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rustonomicon</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/rust-lang/nomicon" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="relaxed"><a class="header" href="#relaxed">Relaxed</a></h1>
+<p>Now we’ve got single-threaded mutation semantics out of the way, we can try
+reintroducing a second thread. We’ll have one thread perform a write to the
+memory location, and a second thread read from it, like so:</p>
+<pre><pre class="playground"><code class="language-rust edition2018"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Initial state
+let mut data = 0;
+// Thread 1:
+data = 1;
+// Thread 2:
+println!(&quot;{data}&quot;);
+<span class="boring">}
+</span></code></pre></pre>
+<p>Of course, any Rust programmer will immediately tell you that this code doesn’t
+compile, and indeed it definitely does not, and for good reason. But suspend
+your disbelief for a moment, and imagine what would happen if it did. Let’s draw
+a diagram, leaving out the reading lines for now:</p>
+<pre><code class="language-text">Thread 1     data    Thread 2
+╭───────╮   ┌────┐   ╭───────╮
+│  = 1  ├╌┐ │  0 │ ?╌┤  data │
+╰───────╯ ├╌┼╌╌╌╌┤   ╰───────╯
+          └╌┼╌╌╌╌┤
+            │  1 │
+            └────┘
+</code></pre>
+<p>Unfortunately, coherence doesn’t help us in finding out where Thread 2’s line
+joins up to, since there are no arrows connecting that operation to anything and
+therefore we can’t immediately rule any values out. As a result, we end up
+facing a situation we haven’t faced before: there is <em>more than one</em> potential
+value for Thread 2 to read.</p>
+<p>And this is where we encounter the big limitation with unsynchronized data
+accesses: the price we pay for their speed and optimization capability is that
+this situation is considered <strong>Undefined Behavior</strong>. For an unsynchronized read
+to be acceptable, there has to be <em>exactly one</em> potential value for it to read,
+and when there are multiple like in this situation it is considered a data race.</p>
+<p>So what can we do about this? Well, two things need to be changed. First of all,
+Thread 1 has to use an atomic store instead of an unsynchronized write, and
+secondly Thread 2 has to use an atomic load instead of an unsynchronized read.
+You’ll also notice that all the atomic functions accept one (and sometimes two)
+parameters of <code>atomic::Ordering</code>s — we’ll explore the details of the differences
+between them later, but for now we’ll use <code>Relaxed</code> because it is by far the
+simplest of the lot.</p>
+<pre><pre class="playground"><code class="language-rust edition2018"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">use std::sync::atomic::{self, AtomicU32};
+</span>// Initial state
+let data = AtomicU32::new(0);
+// Thread 1:
+data.store(1, atomic::Ordering::Relaxed);
+// Thread 2:
+data.load(atomic::Ordering::Relaxed);
+<span class="boring">}
+</span></code></pre></pre>
+<p>The use of the atomic store provides one additional ability in comparison to an
+unsynchronized store, and that is that there is no “in-between” state between
+the old and new values — instead, it immediately updates, resulting in a diagram
+that look a bit more like this:</p>
+<pre><code class="language-text">Thread 1     data
+╭───────╮   ┌────┐
+│  = 1  ├─┐ │  0 │
+╰───────╯ │ └────┘
+          └─┬────┐
+            │  1 │
+            └────┘
+</code></pre>
+<p>We have now established a <em>modification order</em> for <code>data</code>: a total, ordered list
+of distinct, separated values that it takes over its lifetime.</p>
+<p>On the loading side, we also obtain one additional ability: when there are
+multiple possible values to choose from in the modification order, instead of it
+triggering UB, exactly one (but it is unspecified which) value is chosen. This
+means that there are now <em>two</em> potential executions of our program, with no way
+for us to control which one occurs:</p>
+<pre><code class="language-text">     Possible Execution 1       ┃       Possible Execution 2
+                                ┃
+Thread 1     data    Thread 2   ┃  Thread 1     data    Thread 2
+╭───────╮   ┌────┐   ╭───────╮  ┃  ╭───────╮   ┌────┐   ╭───────╮
+│ store ├─┐ │  0 ├───┤  load │  ┃  │ store ├─┐ │  0 │ ┌─┤  load │
+╰───────╯ │ └────┘   ╰───────╯  ┃  ╰───────╯ │ └────┘ │ ╰───────╯
+          └─┬────┐              ┃            └─┬────┐ │
+            │  1 │              ┃              │  1 ├─┘
+            └────┘              ┃              └────┘
+</code></pre>
+<p>Note that <strong>both sides must be atomic to avoid the data race</strong>: if only the
+writing side used atomic operations, the reading side would still have multiple
+values to choose from (UB), and if only the reading side used atomic operations
+it could end up reading the garbage data “in-between” <code>0</code> and <code>1</code> (also UB).</p>
+<blockquote>
+<p><strong>NOTE:</strong> This description of why both sides are needed to be atomic
+operations, while neat and intuitive, is not strictly correct: in reality the
+answer is simply “because the spec says so”. However, it is functionally
+equivalent to the real rules, so it can aid in understanding.</p>
+</blockquote>
+<h2 id="read-modify-write-operations"><a class="header" href="#read-modify-write-operations">Read-modify-write operations</a></h2>
+<p>Loads and stores are pretty neat in avoiding data races, but you can’t get very
+far with them. For example, suppose you wanted to implement a global shared
+counter that can be used to assign unique IDs to objects. Naïvely, you might try
+to write code like this:</p>
+<pre><pre class="playground"><code class="language-rust edition2018"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">use std::sync::atomic::{self, AtomicU64};
+</span>static COUNTER: AtomicU64 = AtomicU64::new(0);
+pub fn get_id() -&gt; u64 {
+    let value = COUNTER.load(atomic::Ordering::Relaxed);
+    COUNTER.store(value + 1, atomic::Ordering::Relaxed);
+    value
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>But then calling that function from multiple threads opens you up to an
+execution like below that results in two threads obtaining the same ID (note
+that the duplication of <code>1</code> in the modification order is intentional; even if
+two values are the same, they always get separate entries in the order if they
+were caused by different accesses):</p>
+<pre><code class="language-text">Thread 1   COUNTER   Thread 2
+╭───────╮   ┌───┐   ╭───────╮
+│ load  ├───┤ 0 ├───┤  load │
+╰───╥───╯   └───┘   ╰────╥──╯
+╭───⇓───╮ ┌─┬───┐   ╭────⇓──╮
+│ store ├─┘ │ 1 │ ┌─┤ store │
+╰───────╯   └───┘ │ ╰───────╯
+            ┌───┬─┘
+            │ 1 │
+            └───┘
+</code></pre>
+<p>This is known as a a <strong>race condition</strong> — a logic error in a program caused by a
+specific unintended execution of concurrent code. Note that this is distinct
+from a <em>data race</em>: while a data race is caused by two threads performing
+unsynchronized operations at the same time and is always undefined behaviour,
+race conditions are totally OK and defined behaviour from the AM’s perspective,
+but are only harmful because the programmer didn’t expect it to be possible. You
+can think of the distinction between the two as analagous to the difference
+between indexing out-of-bounds and indexing in-bounds, but to the wrong element:
+both are bugs, but only one is universally a bug, and the other is merely a
+logic problem.</p>
+<p>Technically, I believe it is <em>possible</em> to solve this problem with just loads
+and stores, if you try hard enough and use several atomics. But luckily, you
+don’t have to because there also exists another kind of operation, the
+read-modify-write, which is specifically suited to this purpose.</p>
+<p>A read-modify-write operation (shortened to RMW) is a special kind of atomic
+operation that reads, changes and writes back a value <em>in one step</em>. This means
+that there are guaranteed to exist no other values in the modification order in
+between the read and the write; it happens as a single operation. I would also
+like to point out that this is true of <strong>all</strong> atomic orderings, since a common
+misconception is that the <code>Relaxed</code> ordering somehow negates this guarantee.</p>
+<blockquote>
+<p>Another common confusion about RMWs is that they are guaranteed to “see the
+latest value” of an atomic, which I believe came from a misinterpretation of
+the C++ specification and was later spread by rumour. Of course, this makes no
+sense, since atomics have no latest value due to the lack of the concept of
+time. The original statement in the specification was actually just specifying
+that atomic RMWs are atomic: they only consider the directly previous value in
+the modification order and not any value before it, and gave no additional
+guarantee.</p>
+</blockquote>
+<p>There are many different RMW operations to choose from, but the one most
+appropriate for this use case is <code>fetch_add</code>, which adds a number to the atomic,
+as well as returns the old value. So our code can be rewritten as this:</p>
+<pre><pre class="playground"><code class="language-rust edition2018"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">use std::sync::atomic::{self, AtomicU64};
+</span>static COUNTER: AtomicU64 = AtomicU64::new(0);
+pub fn get_id() -&gt; u64 {
+    COUNTER.fetch_add(1, atomic::Ordering::Relaxed)
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>And then, no matter how many threads there are, that race condition from earlier
+can never occur. Executions will have to look more like this:</p>
+<pre><code class="language-text">  Thread 1     COUNTER     Thread 2
+╭───────────╮   ┌───┐   ╭───────────╮
+│ fetch_add ├─┐ │ 0 │ ┌─┤ fetch_add │
+╰───────────╯ │ └───┘ │ ╰───────────╯
+              └─┬───┐ │
+                │ 1 │ │
+                └───┘ │
+                ┌───┬─┘
+                │ 2 │
+                └───┘
+</code></pre>
+<p>There is one problem with this code however, and that is that if <code>get_id()</code> is
+called over 18 446 744 073 709 551 615 times, the counter will overflow and it
+will start generating duplicate IDs. Of course, this won’t feasibly happen, but
+it can be problematic if you need to <em>prove</em> that it can’t happen (e.g. for
+safety purposes) or you’re using a smaller integer type like <code>u32</code>.</p>
+<p>So we’re going to modify this function so that instead of returning a plain
+<code>u64</code> it returns an <code>Option&lt;u64&gt;</code>, where <code>None</code> is used to indicate that an
+overflow occurred and no more IDs could be generated. Additionally, it’s not
+enough to just return <code>None</code> once, because if there are multiple threads
+involved they will not see that result if it just occurs on a single thread —
+instead, it needs to continue to return <code>None</code> <em>until the end of time</em> (or,
+well, this execution of the program).</p>
+<p>That means we have to do away with <code>fetch_add</code>, because <code>fetch_add</code> will always
+overflow and there’s no <code>checked_fetch_add</code> equivalent. We’ll return to our racy
+algorithm for a minute, this time thinking more about what went wrong. The steps
+look something like this:</p>
+<ol>
+<li>Load a value of the atomic</li>
+<li>Perform the checked add, propagating <code>None</code></li>
+<li>Store in the new value of the atomic</li>
+</ol>
+<p>The problem here is that the store does not necessarily occur directly after the
+load in the atomic’s modification order, and that leads to the races. What we
+need is some way to say, “add this new value to the modification order, but
+<em>only if</em> it occurs directly after the value we loaded”. And luckily for us,
+there exists a function that does exactly* this: <code>compare_exchange</code>.</p>
+<p><code>compare_exchange</code> is a bit like a store, but instead of unconditionally storing
+the value, it will first check the value directly before the <code>compare_exchange</code>
+in the modification order to see whether it is what we expect, and if not it
+will simply tell us that and not make any changes. It is an RMW operation, so
+all of this happens fully atomically — there is no chance for a race condition.</p>
+<blockquote>
+<p>* It’s not quite the same, because <code>compare_exchange</code> can suffer from ABA
+problems in which it will see a later value in the modification order that
+just happened to be same and succeed. For example, if the modification order
+contained <code>1, 2, 1</code> and a thread loaded the first <code>1</code>,
+<code>compare_exchange(1, 3)</code> could succeed in replacing either the first or second
+<code>1</code>, giving either <code>1, 3, 2, 1</code> or <code>1, 2, 1, 3</code>.</p>
+<p>For some algorithms, this is problematic and needs to be taken into account
+with additional checks; however for us, values can never be reused so we don’t
+have to worry about it.</p>
+</blockquote>
+<p>In our case, we can simply replace the store with a compare exchange of the old
+value and itself plus one (returning <code>None</code> instead if the addition overflowed,
+to prevent overflowing the atomic). Should the <code>compare_exchange</code> fail, we know
+that some other thread inserted a value in the modification order after the
+value we loaded. This isn’t really a problem — we can just try again and again
+until we succeed, and <code>compare_exchange</code> is even nice enough to give us the
+updated value so we don’t have to load again. Also note that after we’ve updated
+our value of the atomic, we’re guaranteed to never see the old value again, by
+the coherence rules from the previous chapter.</p>
+<p>So here’s how it looks with these changes appplied:</p>
+<pre><pre class="playground"><code class="language-rust edition2018"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">use std::sync::atomic::{self, AtomicU64};
+</span>static COUNTER: AtomicU64 = AtomicU64::new(0);
+pub fn get_id() -&gt; Option&lt;u64&gt; {
+    // Load the counter’s initial value from some place in the modification
+    // order (it doesn’t matter where, because the compare exchange makes sure
+    // that our new value appears directly after it).
+    let mut value = COUNTER.load(atomic::Ordering::Relaxed);
+    loop {
+        // Attempt to add one to the atomic.
+        let res = COUNTER.compare_exchange(
+            value,
+            value.checked_add(1)?,
+            atomic::Ordering::Relaxed,
+            atomic::Ordering::Relaxed,
+        );
+        // Check what happened…
+        match res {
+            // If there was no value in between the value we loaded and our
+            // newly written value in the modification order, the compare
+            // exchange suceeded and so we are done.
+            Ok(_) =&gt; break,
+
+            // Otherwise, there was a value in between and so we need to retry
+            // the addition and continue looping.
+            Err(updated_value) =&gt; value = updated_value,
+        }
+    }
+    Some(value)
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>This <code>compare_exchange</code> loop enables the algorithm to succeed even under
+contention; it will simply try again (and again and again). In the below
+execution, Thread 1 gets raced to storing its value of <code>1</code> to the counter, but
+that’s okay because it will just add <code>1</code> to the <code>1</code>, making <code>2</code>, and retry the
+compare exchange with that, eventually resulting in a unique ID.</p>
+<pre><code class="language-text">Thread 1   COUNTER   Thread 2
+╭───────╮   ┌───┐   ╭───────╮
+│ load  ├───┤ 0 ├───┤ load  │
+╰───╥───╯   └───┘   ╰───╥───╯
+╭───⇓───╮   ┌───┬─┐ ╭───⇓───╮
+│  cas  ├───┤ 1 │ └─┤  cas  │
+╰───╥───╯   └───┘   ╰───────╯
+╭───⇓───╮ ┌─┬───┐
+│  cas  ├─┘ │ 2 │
+╰───────╯   └───┘
+</code></pre>
+<blockquote>
+<p><code>compare_exchange</code> is abbreviated to CAS here (which stands for
+compare-and-swap), since that is the more general name for the operation. It
+is not to be confused with <code>compare_and_swap</code>, a deprecated method on Rust
+atomics that performs the same task as <code>compare_exchange</code> but has an inferior
+design in some ways.</p>
+</blockquote>
+<p>There are two additional improvements we can make here. First, because our
+algorithm occurs in a loop, it is actually perfectly fine for the CAS to fail
+even when there wasn’t a value inserted in the modification order in between,
+since we’ll just run it again. This allows to switch out our call to
+<code>compare_exchange</code> with a call to the weaker <code>compare_exchange_weak</code>, that
+unlike the former function is allowed to <em>spuriously</em> (i.e. randomly, from the
+programmer’s perspective) fail. This often results in better performance on
+architectures like ARM, since their <code>compare_exchange</code> is really just a loop
+around the underlying <code>compare_exchange_weak</code>. x86_64 however will see no
+difference in performance.</p>
+<p>The second improvement is that this pattern is so common that the standard
+library even provides a helper function for it, called <code>fetch_update</code>. It
+implements the boilerplate <code>load</code>-<code>loop</code>-<code>match</code> parts for us, so all we have to
+do is provide the closure that calls <code>checked_add(1)</code> and it will all just work.
+This leads us to our final code for this example:</p>
+<pre><pre class="playground"><code class="language-rust edition2018"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">use std::sync::atomic::{self, AtomicU64};
+</span>static COUNTER: AtomicU64 = AtomicU64::new(0);
+pub fn get_id() -&gt; Option&lt;u64&gt; {
+    COUNTER.fetch_update(
+        atomic::Ordering::Relaxed,
+        atomic::Ordering::Relaxed,
+        |value| value.checked_add(1),
+    )
+    .ok()
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>These CAS loops are the absolute bread and butter of concurrent programming;
+they’re absolutely everywhere and essential to know about. Every other RMW
+operation on atomics can (and often is, if the hardware doesn’t have a more
+efficient implementation) be implemented via a CAS loop. This is why CAS is seen
+as the canonical example of an RMW — it’s pretty much the most fundamental
+operation you can get on atomics.</p>
+<p>I’d also like to briefly bring attention to the atomic orderings used in this
+section. They were mostly glossed over, but we were exclusively using <code>Relaxed</code>,
+and that’s because for something as simple as a global ID counter, <em>you never
+need more than <code>Relaxed</code></em>. The more complex cases which we’ll look at later
+definitely do need stronger orderings, but as a general rule, if:</p>
+<ul>
+<li>you only have one atomic, and</li>
+<li>you have no other related pieces of data</li>
+</ul>
+<p><code>Relaxed</code> is more than sufficient.</p>
+<h2 id="out-of-thin-air-values"><a class="header" href="#out-of-thin-air-values">“Out-of-thin-air” values</a></h2>
+<p>One peculiar consequence of the semantics of <code>Relaxed</code> operations is that it is
+theoretically possible for values to come into existence “out-of-thin-air”
+(commonly abbreviated to OOTA) — that is, a value could appear despite not ever
+being calculated anywhere in code. In particular, consider this setup:</p>
+<pre><pre class="playground"><code class="language-rust edition2018"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">use std::sync::atomic::{self, AtomicU32};
+</span>let x = AtomicU32::new(0);
+let y = AtomicU32::new(0);
+
+// Thread 1:
+let r1 = y.load(atomic::Ordering::Relaxed);
+x.store(r1, atomic::Ordering::Relaxed);
+
+// Thread 2:
+let r2 = x.load(atomic::Ordering::Relaxed);
+y.store(r2, atomic::Ordering::Relaxed);
+<span class="boring">}
+</span></code></pre></pre>
+<p>When starting to draw a diagram for a possible execution of this program, we
+have to first lay out the basic facts that we know:</p>
+<ul>
+<li><code>x</code> and <code>y</code> both start out as zero</li>
+<li>Thread 1 performs a load of <code>y</code> followed by a store of <code>x</code></li>
+<li>Thread 2 performs a load of <code>x</code> followed by a store of <code>y</code></li>
+<li>Each of <code>x</code> and <code>y</code> take on exactly two values in their lifetime</li>
+</ul>
+<p>Then we can start to construct boxes:</p>
+<pre><code class="language-text">Thread 1      x       y      Thread 2
+╭───────╮   ┌───┐   ┌───┐   ╭───────╮
+│  load ├─┐ │ 0 │   │ 0 │ ┌─┤ load  │
+╰───╥───╯ │ └───┘   └───┘ │ ╰───╥───╯
+    ║     │   ?───────────┘     ║
+╭───⇓───╮ └───────────?     ╭───⇓───╮
+│ store ├───┬───┐   ┌───┬───┤ store │
+╰───────╯   │ ? │   │ ? │   ╰───────╯
+            └───┘   └───┘
+</code></pre>
+<p>At this point, if either of those lines were to connect to the higher box then
+the execution would be simple: that thread would forward the value to its lower
+box, which the other thread would then either read, or load the same value
+(zero) from the box above it, and we’d end up with zero in both atomics. But
+what if they were to connect downwards? Then we’d end up with an execution that
+looks like this:</p>
+<pre><code class="language-text">Thread 1      x       y      Thread 2
+╭───────╮   ┌───┐   ┌───┐   ╭───────╮
+│  load ├─┐ │ 0 │   │ 0 │ ┌─┤ load  │
+╰───╥───╯ │ └───┘   └───┘ │ ╰───╥───╯
+    ║     │   ┌───────────┘     ║
+╭───⇓───╮ └───┼───────┐     ╭───⇓───╮
+│ store ├───┬─┴─┐   ┌─┴─┬───┤ store │
+╰───────╯   │ ? │   │ ? │   ╰───────╯
+            └───┘   └───┘
+</code></pre>
+<p>But hang on — it’s not fully resolved yet, we still haven’t put in a value in
+those lower question marks. So what value should it be? Well, the second value
+of <code>x</code> is just copied from from the second value of <code>y</code>, so we just have to find
+the value of that — but the second value of <code>y</code> is itself copied from the second
+value of <code>x</code>! This means that we can actually put any value we like in that box,
+including <code>0</code> or <code>42</code>, and the logic will check out perfectly fine — meaning if
+this program were to execute in this fashion, it would end up reading a value
+produced out of thin air!</p>
+<p>Now, if we were to strictly follow the rules we’ve laid out thus far, then this
+would be totally valid thing to happen. But luckily, the authors of the C++
+specification have recognized this as a problem, and as such refined the
+semantics of <code>Relaxed</code> to implement a thorough, logically sound, mathematically
+proven formal model that prevents it, that’s just too complex and technical to
+explain here—</p>
+<blockquote>
+<p>No “out-of-thin-air” values can be computed that circularly depend on their
+own computations.</p>
+</blockquote>
+<p>Just kidding. Turns out, it’s a <em>really</em> difficult problem to solve, and to my
+knowledge even now there is no known formal way to express how to prevent it. So
+in the specification they just kind of hand-wave and say that it shouldn’t
+happen, and that the above program must always give zero in both atomics,
+despite the theoretical execution that could result in something else. Well, it
+generally works in practice so I can’t complain — it’s just a very interesting
+detail to know about.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../atomics/multithread.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../atomics/acquire-release.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../atomics/multithread.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../atomics/acquire-release.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
