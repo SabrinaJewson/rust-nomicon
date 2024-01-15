@@ -1,14 +1,16 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js light">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>FFI - The Rustonomicon</title>
+
+
         <!-- Custom HTML head -->
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        
         <meta name="description" content="The Dark Arts of Advanced and Unsafe Rust Programming">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#ffffff">
 
         <link rel="icon" href="favicon.svg">
         <link rel="shortcut icon" href="favicon.png">
@@ -16,9 +18,11 @@
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
         <link rel="stylesheet" href="css/print.css" media="print">
+
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
         <link rel="stylesheet" href="fonts/fonts.css">
+
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
@@ -26,16 +30,18 @@
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="theme/nomicon.css">
+
     </head>
-    <body>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -51,50 +57,81 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             var html = document.querySelector('html');
-            html.classList.remove('no-js')
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add('js');
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
-            var html = document.querySelector('html');
-            var sidebar = 'hidden';
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
             }
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
                 <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">Introduction</a></li><li class="chapter-item expanded "><a href="meet-safe-and-unsafe.html"><strong aria-hidden="true">1.</strong> Meet Safe and Unsafe</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="safe-unsafe-meaning.html"><strong aria-hidden="true">1.1.</strong> How Safe and Unsafe Interact</a></li><li class="chapter-item expanded "><a href="what-unsafe-does.html"><strong aria-hidden="true">1.2.</strong> What Unsafe Can Do</a></li><li class="chapter-item expanded "><a href="working-with-unsafe.html"><strong aria-hidden="true">1.3.</strong> Working with Unsafe</a></li></ol></li><li class="chapter-item expanded "><a href="data.html"><strong aria-hidden="true">2.</strong> Data Layout</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="repr-rust.html"><strong aria-hidden="true">2.1.</strong> repr(Rust)</a></li><li class="chapter-item expanded "><a href="exotic-sizes.html"><strong aria-hidden="true">2.2.</strong> Exotically Sized Types</a></li><li class="chapter-item expanded "><a href="other-reprs.html"><strong aria-hidden="true">2.3.</strong> Other reprs</a></li></ol></li><li class="chapter-item expanded "><a href="ownership.html"><strong aria-hidden="true">3.</strong> Ownership</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="references.html"><strong aria-hidden="true">3.1.</strong> References</a></li><li class="chapter-item expanded "><a href="aliasing.html"><strong aria-hidden="true">3.2.</strong> Aliasing</a></li><li class="chapter-item expanded "><a href="lifetimes.html"><strong aria-hidden="true">3.3.</strong> Lifetimes</a></li><li class="chapter-item expanded "><a href="lifetime-mismatch.html"><strong aria-hidden="true">3.4.</strong> Limits of Lifetimes</a></li><li class="chapter-item expanded "><a href="lifetime-elision.html"><strong aria-hidden="true">3.5.</strong> Lifetime Elision</a></li><li class="chapter-item expanded "><a href="unbounded-lifetimes.html"><strong aria-hidden="true">3.6.</strong> Unbounded Lifetimes</a></li><li class="chapter-item expanded "><a href="hrtb.html"><strong aria-hidden="true">3.7.</strong> Higher-Rank Trait Bounds</a></li><li class="chapter-item expanded "><a href="subtyping.html"><strong aria-hidden="true">3.8.</strong> Subtyping and Variance</a></li><li class="chapter-item expanded "><a href="dropck.html"><strong aria-hidden="true">3.9.</strong> Drop Check</a></li><li class="chapter-item expanded "><a href="phantom-data.html"><strong aria-hidden="true">3.10.</strong> PhantomData</a></li><li class="chapter-item expanded "><a href="borrow-splitting.html"><strong aria-hidden="true">3.11.</strong> Splitting Borrows</a></li></ol></li><li class="chapter-item expanded "><a href="conversions.html"><strong aria-hidden="true">4.</strong> Type Conversions</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="coercions.html"><strong aria-hidden="true">4.1.</strong> Coercions</a></li><li class="chapter-item expanded "><a href="dot-operator.html"><strong aria-hidden="true">4.2.</strong> The Dot Operator</a></li><li class="chapter-item expanded "><a href="casts.html"><strong aria-hidden="true">4.3.</strong> Casts</a></li><li class="chapter-item expanded "><a href="transmutes.html"><strong aria-hidden="true">4.4.</strong> Transmutes</a></li></ol></li><li class="chapter-item expanded "><a href="uninitialized.html"><strong aria-hidden="true">5.</strong> Uninitialized Memory</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="checked-uninit.html"><strong aria-hidden="true">5.1.</strong> Checked</a></li><li class="chapter-item expanded "><a href="drop-flags.html"><strong aria-hidden="true">5.2.</strong> Drop Flags</a></li><li class="chapter-item expanded "><a href="unchecked-uninit.html"><strong aria-hidden="true">5.3.</strong> Unchecked</a></li></ol></li><li class="chapter-item expanded "><a href="obrm.html"><strong aria-hidden="true">6.</strong> Ownership Based Resource Management</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="constructors.html"><strong aria-hidden="true">6.1.</strong> Constructors</a></li><li class="chapter-item expanded "><a href="destructors.html"><strong aria-hidden="true">6.2.</strong> Destructors</a></li><li class="chapter-item expanded "><a href="leaking.html"><strong aria-hidden="true">6.3.</strong> Leaking</a></li></ol></li><li class="chapter-item expanded "><a href="unwinding.html"><strong aria-hidden="true">7.</strong> Unwinding</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="exception-safety.html"><strong aria-hidden="true">7.1.</strong> Exception Safety</a></li><li class="chapter-item expanded "><a href="poisoning.html"><strong aria-hidden="true">7.2.</strong> Poisoning</a></li></ol></li><li class="chapter-item expanded "><a href="concurrency.html"><strong aria-hidden="true">8.</strong> Concurrency</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="races.html"><strong aria-hidden="true">8.1.</strong> Races</a></li><li class="chapter-item expanded "><a href="send-and-sync.html"><strong aria-hidden="true">8.2.</strong> Send and Sync</a></li><li class="chapter-item expanded "><a href="atomics/atomics.html"><strong aria-hidden="true">8.3.</strong> Atomics</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="atomics/multithread.html"><strong aria-hidden="true">8.3.1.</strong> Multithreaded Execution</a></li><li class="chapter-item expanded "><a href="atomics/relaxed.html"><strong aria-hidden="true">8.3.2.</strong> Relaxed</a></li><li class="chapter-item expanded "><a href="atomics/acquire-release.html"><strong aria-hidden="true">8.3.3.</strong> Acquire and Release</a></li><li class="chapter-item expanded "><a href="atomics/seqcst.html"><strong aria-hidden="true">8.3.4.</strong> SeqCst</a></li><li class="chapter-item expanded "><a href="atomics/fences.html"><strong aria-hidden="true">8.3.5.</strong> Fences</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="vec/vec.html"><strong aria-hidden="true">9.</strong> Implementing Vec</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="vec/vec-layout.html"><strong aria-hidden="true">9.1.</strong> Layout</a></li><li class="chapter-item expanded "><a href="vec/vec-alloc.html"><strong aria-hidden="true">9.2.</strong> Allocating</a></li><li class="chapter-item expanded "><a href="vec/vec-push-pop.html"><strong aria-hidden="true">9.3.</strong> Push and Pop</a></li><li class="chapter-item expanded "><a href="vec/vec-dealloc.html"><strong aria-hidden="true">9.4.</strong> Deallocating</a></li><li class="chapter-item expanded "><a href="vec/vec-deref.html"><strong aria-hidden="true">9.5.</strong> Deref</a></li><li class="chapter-item expanded "><a href="vec/vec-insert-remove.html"><strong aria-hidden="true">9.6.</strong> Insert and Remove</a></li><li class="chapter-item expanded "><a href="vec/vec-into-iter.html"><strong aria-hidden="true">9.7.</strong> IntoIter</a></li><li class="chapter-item expanded "><a href="vec/vec-raw.html"><strong aria-hidden="true">9.8.</strong> RawVec</a></li><li class="chapter-item expanded "><a href="vec/vec-drain.html"><strong aria-hidden="true">9.9.</strong> Drain</a></li><li class="chapter-item expanded "><a href="vec/vec-zsts.html"><strong aria-hidden="true">9.10.</strong> Handling Zero-Sized Types</a></li><li class="chapter-item expanded "><a href="vec/vec-final.html"><strong aria-hidden="true">9.11.</strong> Final Code</a></li></ol></li><li class="chapter-item expanded "><a href="arc-mutex/arc-and-mutex.html"><strong aria-hidden="true">10.</strong> Implementing Arc and Mutex</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arc-mutex/arc.html"><strong aria-hidden="true">10.1.</strong> Arc</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arc-mutex/arc-layout.html"><strong aria-hidden="true">10.1.1.</strong> Layout</a></li><li class="chapter-item expanded "><a href="arc-mutex/arc-base.html"><strong aria-hidden="true">10.1.2.</strong> Base Code</a></li><li class="chapter-item expanded "><a href="arc-mutex/arc-clone.html"><strong aria-hidden="true">10.1.3.</strong> Cloning</a></li><li class="chapter-item expanded "><a href="arc-mutex/arc-drop.html"><strong aria-hidden="true">10.1.4.</strong> Dropping</a></li><li class="chapter-item expanded "><a href="arc-mutex/arc-final.html"><strong aria-hidden="true">10.1.5.</strong> Final Code</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="ffi.html" class="active"><strong aria-hidden="true">11.</strong> FFI</a></li><li class="chapter-item expanded "><a href="beneath-std.html"><strong aria-hidden="true">12.</strong> Beneath std</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="panic-handler.html"><strong aria-hidden="true">12.1.</strong> #[panic_handler]</a></li></ol></li></ol>
             </div>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
         </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
 
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky bordered">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
                             <i class="fa fa-bars"></i>
-                        </button>
+                        </label>
                         <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -114,6 +151,7 @@
                         <a href="https://github.com/rust-lang/nomicon" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
+
                     </div>
                 </div>
 
@@ -127,8 +165,9 @@
                         </ul>
                     </div>
                 </div>
+
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -166,8 +205,7 @@ extern {
 fn main() {
     let x = unsafe { snappy_max_compressed_length(100) };
     println!(&quot;max compressed length of a 100 byte buffer: {}&quot;, x);
-}
-</code></pre>
+}</code></pre>
 <p>The <code>extern</code> block is a list of function signatures in a foreign library, in
 this case with the platform's C ABI. The <code>#[link(...)]</code> attribute is used to
 instruct the linker to link against the snappy library so the symbols are
@@ -202,8 +240,7 @@ extern {
     fn snappy_validate_compressed_buffer(compressed: *const u8,
                                          compressed_length: size_t) -&gt; c_int;
 }
-<span class="boring">fn main() {}
-</span></code></pre>
+<span class="boring">fn main() {}</span></code></pre>
 <h2 id="creating-a-safe-interface"><a class="header" href="#creating-a-safe-interface">Creating a safe interface</a></h2>
 <p>The raw C API needs to be wrapped to provide memory safety and make use of higher-level concepts
 like vectors. A library can choose to expose only the safe, high-level interface and hide the unsafe
@@ -220,8 +257,7 @@ the allocated memory. The length is less than or equal to the capacity.</p>
     unsafe {
         snappy_validate_compressed_buffer(src.as_ptr(), src.len() as size_t) == 0
     }
-}
-</code></pre>
+}</code></pre>
 <p>The <code>validate_compressed_buffer</code> wrapper above makes use of an <code>unsafe</code> block, but it makes the
 guarantee that calling it is safe for all inputs by leaving off <code>unsafe</code> from the function
 signature.</p>
@@ -250,8 +286,7 @@ the true length after compression for setting the length.</p>
         dst.set_len(dstlen as usize);
         dst
     }
-}
-</code></pre>
+}</code></pre>
 <p>Decompression is similar, because snappy stores the uncompressed size as part of the compression
 format and <code>snappy_uncompressed_length</code> will retrieve the exact buffer size required.</p>
 <!-- ignore: requires libc crate -->
@@ -282,8 +317,7 @@ format and <code>snappy_uncompressed_length</code> will retrieve the exact buffe
             None // SNAPPY_INVALID_INPUT
         }
     }
-}
-</code></pre>
+}</code></pre>
 <p>Then, we can add some tests to show how to use them.</p>
 <!-- ignore: requires libc crate -->
 <pre><code class="language-rust ignore"><span class="boring">use libc::{c_int, size_t};
@@ -335,8 +369,7 @@ mod tests {
         assert!(validate_compressed_buffer(&amp;c));
         assert!(uncompress(&amp;c) == Some(d));
     }
-}
-</code></pre>
+}</code></pre>
 <h2 id="destructors"><a class="header" href="#destructors">Destructors</a></h2>
 <p>Foreign libraries often hand off ownership of resources to the calling code.
 When this occurs, we must use Rust's destructors to provide safety and guarantee
@@ -348,13 +381,12 @@ This is fairly easy, but requires a few things.</p>
 <h3 id="rust-side"><a class="header" href="#rust-side">Rust side</a></h3>
 <p>First, we assume you have a lib crate named as <code>rust_from_c</code>.
 <code>lib.rs</code> should have Rust code as following:</p>
-<pre><pre class="playground"><code class="language-rust edition2018">#[no_mangle]
+<pre><pre class="playground"><code class="language-rust edition2021">#[no_mangle]
 pub extern &quot;C&quot; fn hello_from_rust() {
     println!(&quot;Hello from Rust!&quot;);
 }
-<span class="boring">fn main() {}
-</span></code></pre></pre>
-<p>The <code>extern &quot;C&quot;</code> makes this function adhere to the C calling convention, as discussed above in &quot;<a href="ffi.html#foreign-calling-conventions">Foreign Calling Conventions</a>&quot;.
+<span class="boring">fn main() {}</span></code></pre></pre>
+<p>The <code>extern &quot;C&quot;</code> makes this function adhere to the C calling convention, as discussed below in &quot;<a href="ffi.html#foreign-calling-conventions">Foreign Calling Conventions</a>&quot;.
 The <code>no_mangle</code> attribute turns off Rust's name mangling, so that it has a well defined symbol to link to.</p>
 <p>Then, to compile Rust code as a shared library that can be called from C, add the following to your <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[lib]
@@ -393,7 +425,7 @@ with the correct calling convention to make it callable from C code.</p>
 to the C library and afterwards be invoked from there.</p>
 <p>A basic example is:</p>
 <p>Rust code:</p>
-<pre><pre class="playground"><code class="language-rust no_run edition2018">extern fn callback(a: i32) {
+<pre><pre class="playground"><code class="language-rust no_run edition2021">extern fn callback(a: i32) {
     println!(&quot;I'm called from C with value {0}&quot;, a);
 }
 
@@ -408,8 +440,7 @@ fn main() {
         register_callback(callback);
         trigger_callback(); // Triggers the callback.
     }
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>C code:</p>
 <pre><code class="language-c">typedef void (*rust_callback)(int32_t);
 rust_callback cb;
@@ -435,7 +466,7 @@ C library. The C library can then include the pointer to the Rust object in
 the notification. This will allow the callback to unsafely access the
 referenced Rust object.</p>
 <p>Rust code:</p>
-<pre><pre class="playground"><code class="language-rust no_run edition2018">struct RustObject {
+<pre><pre class="playground"><code class="language-rust no_run edition2021">struct RustObject {
     a: i32,
     // Other members...
 }
@@ -463,8 +494,7 @@ fn main() {
         register_callback(&amp;mut *rust_object, callback);
         trigger_callback();
     }
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>C code:</p>
 <pre><code class="language-c">typedef void (*rust_callback)(void*, int32_t);
 void* cb_target;
@@ -551,11 +581,10 @@ unsafe are only allowed inside unsafe blocks. Unsafe blocks isolate unsafety and
 the compiler that the unsafety does not leak out of the block.</p>
 <p>Unsafe functions, on the other hand, advertise it to the world. An unsafe function is written like
 this:</p>
-<pre><pre class="playground"><code class="language-rust edition2018"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>unsafe fn kaboom(ptr: *const i32) -&gt; i32 { *ptr }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>This function can only be called from an <code>unsafe</code> block or another <code>unsafe</code> function.</p>
 <h2 id="accessing-foreign-globals"><a class="header" href="#accessing-foreign-globals">Accessing foreign globals</a></h2>
 <p>Foreign APIs often export a global variable which could do something like track
@@ -570,8 +599,7 @@ extern {
 fn main() {
     println!(&quot;You have readline version {} installed.&quot;,
              unsafe { rl_readline_version as i32 });
-}
-</code></pre>
+}</code></pre>
 <p>Alternatively, you may need to alter global state provided by a foreign
 interface. To do this, statics can be declared with <code>mut</code> so we can mutate
 them.</p>
@@ -593,8 +621,7 @@ fn main() {
 
         rl_prompt = ptr::null();
     }
-}
-</code></pre>
+}</code></pre>
 <p>Note that all interaction with a <code>static mut</code> is unsafe, both reading and
 writing. Dealing with global mutable state requires a great deal of care.</p>
 <h2 id="foreign-calling-conventions"><a class="header" href="#foreign-calling-conventions">Foreign calling conventions</a></h2>
@@ -608,8 +635,7 @@ conventions. Rust provides a way to tell the compiler which convention to use:</
 extern &quot;stdcall&quot; {
     fn SetEnvironmentVariableA(n: *const u8, v: *const u8) -&gt; libc::c_int;
 }
-<span class="boring">fn main() { }
-</span></code></pre>
+<span class="boring">fn main() { }</span></code></pre>
 <p>This applies to the entire <code>extern</code> block. The list of supported ABI constraints
 are:</p>
 <ul>
@@ -617,6 +643,7 @@ are:</p>
 <li><code>aapcs</code></li>
 <li><code>cdecl</code></li>
 <li><code>fastcall</code></li>
+<li><code>thiscall</code></li>
 <li><code>vectorcall</code>
 This is currently hidden behind the <code>abi_vectorcall</code> gate and is subject to change.</li>
 <li><code>Rust</code></li>
@@ -667,19 +694,19 @@ fn main() {
 }
 </code></pre>
 <p>Normal Rust functions can <em>not</em> be variadic:</p>
-<pre><pre class="playground"><code class="language-rust compile_fail edition2018"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust compile_fail edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// This will not compile
 
 fn foo(x: i32, ...) {}
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="the-nullable-pointer-optimization"><a class="header" href="#the-nullable-pointer-optimization">The &quot;nullable pointer optimization&quot;</a></h2>
 <p>Certain Rust types are defined to never be <code>null</code>. This includes references (<code>&amp;T</code>,
 <code>&amp;mut T</code>), boxes (<code>Box&lt;T&gt;</code>), and function pointers (<code>extern &quot;abi&quot; fn()</code>). When
 interfacing with C, pointers that might be <code>null</code> are often used, which would seem to
 require some messy <code>transmute</code>s and/or unsafe code to handle conversions to/from Rust types.
-However, the language provides a workaround.</p>
+However, trying to construct/work with these invalid values <strong>is undefined behavior</strong>,
+so you should use the following workaround instead.</p>
 <p>As a special case, an <code>enum</code> is eligible for the &quot;nullable pointer optimization&quot; if it contains
 exactly two variants, one of which contains no data and the other contains a field of one of the
 non-nullable types listed above.  This means no extra space is required for a discriminant; rather,
@@ -720,8 +747,7 @@ fn main() {
     unsafe {
         register(Some(apply));
     }
-}
-</code></pre>
+}</code></pre>
 <p>And the code on the C side looks like this:</p>
 <pre><code class="language-c">void register(int (*f)(int (*)(int), int)) {
     ...
@@ -729,16 +755,19 @@ fn main() {
 </code></pre>
 <p>No <code>transmute</code> required!</p>
 <h2 id="ffi-and-unwinding"><a class="header" href="#ffi-and-unwinding">FFI and unwinding</a></h2>
-<p>It’s important to be mindful of unwinding when working with FFI. Each
-non-<code>Rust</code> ABI comes in two variants, one with <code>-unwind</code> suffix and one without. If
-you expect Rust <code>panic</code>s or foreign (e.g. C++) exceptions to cross an FFI
-boundary, that boundary must use the appropriate <code>-unwind</code> ABI string (note
-that compiling with <code>panic=abort</code> will still cause <code>panic!</code> to immediately
+<p>It’s important to be mindful of unwinding when working with FFI. Most
+ABI strings come in two variants, one with an <code>-unwind</code> suffix and one without.
+The <code>Rust</code> ABI always permits unwinding, so there is no <code>Rust-unwind</code> ABI.</p>
+<p>If you expect Rust <code>panic</code>s or foreign (e.g. C++) exceptions to cross an FFI
+boundary, that boundary must use the appropriate <code>-unwind</code> ABI string.
+Conversely, if you do not expect unwinding to cross an ABI boundary, use one of
+the non-<code>unwind</code> ABI strings.</p>
+<blockquote>
+<p>Note: Compiling with <code>panic=abort</code> will still cause <code>panic!</code> to immediately
 abort the process, regardless of which ABI is specified by the function that
-<code>panic</code>s).</p>
-<p>Conversely, if you do not expect unwinding to cross an ABI boundary, use one of
-the non-<code>unwind</code> ABI strings (other than <code>Rust</code>, which always permits
-unwinding). If an unwinding operation does encounter an ABI boundary that is
+<code>panic</code>s.</p>
+</blockquote>
+<p>If an unwinding operation does encounter an ABI boundary that is
 not permitted to unwind, the behavior depends on the source of the unwinding
 (Rust <code>panic</code> or a foreign exception):</p>
 <ul>
@@ -753,8 +782,7 @@ mechanisms (notably C++'s <code>try</code>/<code>catch</code>).</p>
 <pre><code class="language-rust ignore">#[no_mangle]
 extern &quot;C-unwind&quot; fn example() {
     panic!(&quot;Uh oh&quot;);
-}
-</code></pre>
+}</code></pre>
 <p>This function (when compiled with <code>panic=unwind</code>) is permitted to unwind C++
 stack frames.</p>
 <pre><code class="language-text">[Rust function with `catch_unwind`, which stops the unwinding]
@@ -783,8 +811,7 @@ extern &quot;C-unwind&quot; fn rust_passthrough() {
     let b = Box::new(5);
     unsafe { may_throw(); }
     println!(&quot;{:?}&quot;, &amp;b);
-}
-</code></pre>
+}</code></pre>
 <p>A C++ function with a <code>try</code> block may invoke <code>rust_passthrough</code> and <code>catch</code> an
 exception thrown by <code>may_throw</code>.</p>
 <pre><code class="language-text">[C++ function with `try` block that invokes `rust_passthrough`]
@@ -802,20 +829,19 @@ exception thrown by <code>may_throw</code>.</p>
 <p>If <code>may_throw</code> does throw an exception, <code>b</code> will be dropped. Otherwise, <code>5</code>
 will be printed.</p>
 <h3 id="panic-can-be-stopped-at-an-abi-boundary"><a class="header" href="#panic-can-be-stopped-at-an-abi-boundary"><code>panic</code> can be stopped at an ABI boundary</a></h3>
-<pre><pre class="playground"><code class="language-rust edition2018"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[no_mangle]
 extern &quot;C&quot; fn assert_nonzero(input: u32) {
     assert!(input != 0)
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>If <code>assert_nonzero</code> is called with the argument <code>0</code>, the runtime is guaranteed
 to (safely) abort the process, whether or not compiled with <code>panic=abort</code>.</p>
 <h3 id="catching-panic-preemptively"><a class="header" href="#catching-panic-preemptively">Catching <code>panic</code> preemptively</a></h3>
 <p>If you are writing Rust code that may panic, and you don't wish to abort the
 process if it panics, you must use <a href="../std/panic/fn.catch_unwind.html"><code>catch_unwind</code></a>:</p>
-<pre><pre class="playground"><code class="language-rust edition2018">use std::panic::catch_unwind;
+<pre><pre class="playground"><code class="language-rust edition2021">use std::panic::catch_unwind;
 
 #[no_mangle]
 pub extern &quot;C&quot; fn oh_no() -&gt; i32 {
@@ -828,8 +854,7 @@ pub extern &quot;C&quot; fn oh_no() -&gt; i32 {
     }
 }
 
-fn main() {}
-</code></pre></pre>
+fn main() {}</code></pre></pre>
 <p>Please note that <a href="../std/panic/fn.catch_unwind.html"><code>catch_unwind</code></a> will only catch unwinding panics, not
 those that abort the process. See the documentation of <a href="../std/panic/fn.catch_unwind.html"><code>catch_unwind</code></a>
 for more information.</p>
@@ -845,8 +870,7 @@ void bar(void *arg);
     pub fn foo(arg: *mut libc::c_void);
     pub fn bar(arg: *mut libc::c_void);
 }
-<span class="boring">fn main() {}
-</span></code></pre>
+<span class="boring">fn main() {}</span></code></pre>
 <p>This is a perfectly valid way of handling the situation. However, we can do a bit
 better. To solve this, some C libraries will instead create a <code>struct</code>, where
 the details and memory layout of the struct are private. This gives some amount
@@ -857,7 +881,7 @@ void foo(struct Foo *arg);
 void bar(struct Bar *arg);
 </code></pre>
 <p>To do this in Rust, let’s create our own opaque types:</p>
-<pre><pre class="playground"><code class="language-rust edition2018">#[repr(C)]
+<pre><pre class="playground"><code class="language-rust edition2021">#[repr(C)]
 pub struct Foo {
     _data: [u8; 0],
     _marker:
@@ -874,8 +898,7 @@ extern &quot;C&quot; {
     pub fn foo(arg: *mut Foo);
     pub fn bar(arg: *mut Bar);
 }
-<span class="boring">fn main() {}
-</span></code></pre></pre>
+<span class="boring">fn main() {}</span></code></pre></pre>
 <p>By including at least one private field and no constructor,
 we create an opaque type that we can't instantiate outside of this module.
 (A struct with no field could be instantiated by anyone.)
@@ -901,9 +924,11 @@ But it's currently (as of June 2021) unstable and has some unresolved questions,
                             <a rel="prev" href="arc-mutex/arc-final.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                            <a rel="next" href="beneath-std.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+
+                            <a rel="next prefetch" href="beneath-std.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
+
                         <div style="clear: both"></div>
                     </nav>
                 </div>
@@ -913,23 +938,33 @@ But it's currently (as of June 2021) unstable and has some unresolved questions,
                     <a rel="prev" href="arc-mutex/arc-final.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                    <a rel="next" href="beneath-std.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+
+                    <a rel="next prefetch" href="beneath-std.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 
         </div>
 
-        <script type="text/javascript">
+
+
+
+        <script>
             window.playground_copyable = true;
         </script>
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
+
+
+    </div>
     </body>
 </html>
