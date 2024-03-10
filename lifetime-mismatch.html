@@ -191,7 +191,7 @@ fn main() {
     let mut foo = Foo;
     let loan = foo.mutate_and_share();
     foo.share();
-    println!(&quot;{:?}&quot;, loan);
+    println!("{:?}", loan);
 }</code></pre></pre>
 <p>One might expect it to compile. We call <code>mutate_and_share</code>, which mutably
 borrows <code>foo</code> temporarily, but then returns only a shared reference. Therefore
@@ -204,7 +204,7 @@ we would expect <code>foo.share()</code> to succeed as <code>foo</code> shouldn'
    |                --- mutable borrow occurs here
 12 |     foo.share();
    |     ^^^ immutable borrow occurs here
-13 |     println!(&quot;{:?}&quot;, loan);
+13 |     println!("{:?}", loan);
 </code></pre>
 <p>What happened? Well, we got the exact same reasoning as we did for
 <a href="lifetimes.html#example-aliasing-a-mutable-reference">Example 2 in the previous section</a>. We desugar the program and we get
@@ -225,7 +225,7 @@ fn main() {
             'd: {
                 Foo::share::&lt;'d&gt;(&amp;'d foo);
             }
-            println!(&quot;{:?}&quot;, loan);
+            println!("{:?}", loan);
         }
     }
 }</code></pre>

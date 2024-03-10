@@ -192,19 +192,19 @@ For this example, we will say that <code>value</code> has type <code>T</code>.</
 type we are calling a function on.</p>
 <ul>
 <li>First, the compiler checks if it can call <code>T::foo(value)</code> directly.
-This is called a &quot;by value&quot; method call.</li>
+This is called a "by value" method call.</li>
 <li>If it can't call this function (for example, if the function has the wrong type
 or a trait isn't implemented for <code>Self</code>), then the compiler tries to add in an
 automatic reference.
 This means that the compiler tries <code>&lt;&amp;T&gt;::foo(value)</code> and <code>&lt;&amp;mut T&gt;::foo(value)</code>.
-This is called an &quot;autoref&quot; method call.</li>
+This is called an "autoref" method call.</li>
 <li>If none of these candidates worked, it dereferences <code>T</code> and tries again.
 This uses the <code>Deref</code> trait - if <code>T: Deref&lt;Target = U&gt;</code> then it tries again with
 type <code>U</code> instead of <code>T</code>.
 If it can't dereference <code>T</code>, it can also try <em>unsizing</em> <code>T</code>.
-This just means that if <code>T</code> has a size parameter known at compile time, it &quot;forgets&quot;
+This just means that if <code>T</code> has a size parameter known at compile time, it "forgets"
 it for the purpose of resolving methods.
-For instance, this unsizing step can convert <code>[i32; 2]</code> into <code>[i32]</code> by &quot;forgetting&quot;
+For instance, this unsizing step can convert <code>[i32; 2]</code> into <code>[i32]</code> by "forgetting"
 the size of the array.</li>
 </ul>
 <p>Here is an example of the method lookup algorithm:</p>

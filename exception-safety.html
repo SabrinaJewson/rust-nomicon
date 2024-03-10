@@ -297,7 +297,7 @@ cause any double-drops! If the algorithm terminates normally, then this
 operation happens to coincide precisely with how we finish up regardless.</p>
 <p>Sadly, Rust has no such construct, so we're going to need to roll our own! The
 way to do this is to store the algorithm's state in a separate struct with a
-destructor for the &quot;finally&quot; logic. Whether we panic or not, that destructor
+destructor for the "finally" logic. Whether we panic or not, that destructor
 will run and clean up after us.</p>
 <!-- ignore: simplified code -->
 <pre><code class="language-rust ignore">struct Hole&lt;'a, T: 'a&gt; {

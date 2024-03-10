@@ -195,7 +195,7 @@ unsafe impl&lt;T: Sync&gt; Sync for RawVec&lt;T&gt; {}
 
 impl&lt;T&gt; RawVec&lt;T&gt; {
     fn new() -&gt; Self {
-        assert!(mem::size_of::&lt;T&gt;() != 0, &quot;TODO: implement ZST support&quot;);
+        assert!(mem::size_of::&lt;T&gt;() != 0, "TODO: implement ZST support");
         RawVec {
             ptr: NonNull::dangling(),
             cap: 0,
@@ -212,7 +212,7 @@ impl&lt;T&gt; RawVec&lt;T&gt; {
         let new_layout = Layout::array::&lt;T&gt;(new_cap).unwrap();
 
         // Ensure that the new allocation doesn't exceed `isize::MAX` bytes.
-        assert!(new_layout.size() &lt;= isize::MAX as usize, &quot;Allocation too large&quot;);
+        assert!(new_layout.size() &lt;= isize::MAX as usize, "Allocation too large");
 
         let new_ptr = if self.cap == 0 {
             unsafe { alloc::alloc(new_layout) }

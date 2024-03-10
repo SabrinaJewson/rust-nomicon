@@ -306,7 +306,7 @@ requires different monomorphizations to have <em>different field orderings</em>.
 <p>And indeed this is approximately how it would be laid out (modulo the
 size and position of <code>tag</code>).</p>
 <p>However there are several cases where such a representation is inefficient. The
-classic case of this is Rust's &quot;null pointer optimization&quot;: an enum consisting
+classic case of this is Rust's "null pointer optimization": an enum consisting
 of a single outer unit variant (e.g. <code>None</code>) and a (potentially nested) non-
 nullable pointer variant (e.g. <code>Some(&amp;T)</code>) makes the tag unnecessary. A null
 pointer can safely be interpreted as the unit (<code>None</code>) variant. The net

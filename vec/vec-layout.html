@@ -198,7 +198,7 @@ so we'd like to not use it if possible, though.</p>
 <p>As a recap, Unique is a wrapper around a raw pointer that declares that:</p>
 <ul>
 <li>We are covariant over <code>T</code></li>
-<li>We may own a value of type <code>T</code> (this is not relevant for our example here, but see 
+<li>We may own a value of type <code>T</code> (this is not relevant for our example here, but see
 <a href="../phantom-data.html">the chapter on PhantomData</a> on why the real <code>std::vec::Vec&lt;T&gt;</code> needs this)</li>
 <li>We are Send/Sync if <code>T</code> is Send/Sync</li>
 <li>Our pointer is never null (so <code>Option&lt;Vec&lt;T&gt;&gt;</code> is null-pointer-optimized)</li>

@@ -208,7 +208,7 @@ method of <code>RawVec</code>.</p>
         // This branch should be stripped at compile time.
         let cap = if mem::size_of::&lt;T&gt;() == 0 { usize::MAX } else { 0 };
 
-        // `NonNull::dangling()` doubles as &quot;unallocated&quot; and &quot;zero-sized allocation&quot;
+        // `NonNull::dangling()` doubles as "unallocated" and "zero-sized allocation"
         RawVec {
             ptr: NonNull::dangling(),
             cap,
@@ -218,7 +218,7 @@ method of <code>RawVec</code>.</p>
     fn grow(&amp;mut self) {
         // since we set the capacity to usize::MAX when T has size 0,
         // getting to here necessarily means the Vec is overfull.
-        assert!(mem::size_of::&lt;T&gt;() != 0, &quot;capacity overflow&quot;);
+        assert!(mem::size_of::&lt;T&gt;() != 0, "capacity overflow");
 
         let (new_cap, new_layout) = if self.cap == 0 {
             (1, Layout::array::&lt;T&gt;(1).unwrap())
@@ -234,7 +234,7 @@ method of <code>RawVec</code>.</p>
         };
 
         // Ensure that the new allocation doesn't exceed `isize::MAX` bytes.
-        assert!(new_layout.size() &lt;= isize::MAX as usize, &quot;Allocation too large&quot;);
+        assert!(new_layout.size() &lt;= isize::MAX as usize, "Allocation too large");
 
         let new_ptr = if self.cap == 0 {
             unsafe { alloc::alloc(new_layout) }
@@ -310,7 +310,7 @@ map size 0 to divide by 1. Here's what <code>next</code> will be:</p>
         }
     }
 }</code></pre>
-<p>Do you see the &quot;bug&quot;? No one else did! The original author only noticed the
+<p>Do you see the "bug"? No one else did! The original author only noticed the
 problem when linking to this page years later. This code is kind of dubious
 because abusing the iterator pointers to be <em>counters</em> makes them unaligned!
 Our <em>one job</em> when using ZSTs is to keep pointers aligned! <em>forehead slap</em></p>

@@ -187,7 +187,7 @@ See the <a href="https://github.com/rust-lang/nomicon/issues">issue tracker</a> 
 </div>
 <h2 id="the-dark-arts-of-unsafe-rust"><a class="header" href="#the-dark-arts-of-unsafe-rust">The Dark Arts of Unsafe Rust</a></h2>
 <blockquote>
-<p>THE KNOWLEDGE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF UNLEASHING INDESCRIBABLE HORRORS THAT SHATTER YOUR PSYCHE AND SET YOUR MIND ADRIFT IN THE UNKNOWABLY INFINITE COSMOS.</p>
+<p>THE KNOWLEDGE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF UNLEASHING INDESCRIBABLE HORRORS THAT SHATTER YOUR PSYCHE AND SET YOUR MIND ADRIFT IN THE UNKNOWABLY INFINITE COSMOS.</p>
 </blockquote>
 <p>The Rustonomicon digs into all the awful details that you need to understand when writing Unsafe Rust programs.</p>
 <p>Should you wish a long and happy career of writing Rust programs, you should turn back now and forget you ever saw this book.
@@ -291,7 +291,7 @@ allowing memory safety to be freely violated.</li>
 <li><a href="../std/mem/fn.transmute.html"><code>mem::transmute</code></a> reinterprets some value as having a given type,
 bypassing type safety in arbitrary ways (see <a href="conversions.html">conversions</a> for details).</li>
 <li>Every raw pointer to a sized type has an <a href="../std/primitive.pointer.html#method.offset"><code>offset</code></a> method that
-invokes Undefined Behavior if the passed offset is not <a href="../std/primitive.pointer.html#method.offset">&quot;in bounds&quot;</a>.</li>
+invokes Undefined Behavior if the passed offset is not <a href="../std/primitive.pointer.html#method.offset">"in bounds"</a>.</li>
 <li>All FFI (Foreign Function Interface) functions are <code>unsafe</code> to call because the
 other language can do arbitrary operations that the Rust compiler can't check.</li>
 </ul>
@@ -316,7 +316,7 @@ relationship between Safe and Unsafe Rust. Safe Rust inherently has to
 trust that any Unsafe Rust it touches has been written correctly.
 On the other hand, Unsafe Rust cannot trust Safe Rust without care.</p>
 <p>As an example, Rust has the <a href="../std/cmp/trait.PartialOrd.html"><code>PartialOrd</code></a> and <a href="../std/cmp/trait.Ord.html"><code>Ord</code></a> traits to differentiate
-between types which can &quot;just&quot; be compared, and those that provide a &quot;total&quot;
+between types which can "just" be compared, and those that provide a "total"
 ordering (which basically means that comparison behaves reasonably).</p>
 <p><a href="../std/collections/struct.BTreeMap.html"><code>BTreeMap</code></a> doesn't really make sense for partially-ordered types, and so it
 requires that its keys implement <code>Ord</code>. However, <code>BTreeMap</code> has Unsafe Rust code
@@ -340,7 +340,7 @@ by the same people who maintain <code>BTreeMap</code>, so it's easy to keep tabs
 means trusting every <code>Ord</code> implementation in the past, present, and future.
 Here the risk is high: someone somewhere is going to make a mistake and mess up
 their <code>Ord</code> implementation, or even just straight up lie about providing a total
-ordering because &quot;it seems to work&quot;. When that happens, <code>BTreeMap</code> needs to be
+ordering because "it seems to work". When that happens, <code>BTreeMap</code> needs to be
 prepared.</p>
 <p>The same logic applies to trusting a closure that's passed to you to behave
 correctly.</p>
@@ -437,13 +437,13 @@ feature, but some stable libstd types, like <code>NonNull</code>, make use of it
 </ul>
 </li>
 </ul>
-<p>&quot;Producing&quot; a value happens any time a value is assigned, passed to a
+<p>"Producing" a value happens any time a value is assigned, passed to a
 function/primitive operation or returned from a function/primitive operation.</p>
-<p>A reference/pointer is &quot;dangling&quot; if it is null or not all of the bytes it
+<p>A reference/pointer is "dangling" if it is null or not all of the bytes it
 points to are part of the same allocation (so in particular they all have to be
 part of <em>some</em> allocation). The span of bytes it points to is determined by the
 pointer value and the size of the pointee type. As a consequence, if the span is
-empty, &quot;dangling&quot; is the same as &quot;null&quot;. Note that slices and strings point
+empty, "dangling" is the same as "null". Note that slices and strings point
 to their entire range, so it's important that the length metadata is never too
 large (in particular, allocations and therefore slices and strings cannot be
 bigger than <code>isize::MAX</code> bytes). If for some reason this is too cumbersome,
@@ -458,7 +458,7 @@ the above problems. Some additional constraints may also derive from compiler
 intrinsics that make special assumptions about how code can be optimized. For instance,
 Vec and Box make use of intrinsics that require their pointers to be non-null at all times.</p>
 <p>Rust is otherwise quite permissive with respect to other dubious operations.
-Rust considers it &quot;safe&quot; to:</p>
+Rust considers it "safe" to:</p>
 <ul>
 <li>Deadlock</li>
 <li>Have a <a href="races.html">race condition</a></li>
@@ -508,7 +508,7 @@ questionable. Consider changing the <code>&lt;</code> to a <code>&lt;=</code>:</
 <p>This program is now <em>unsound</em>, Safe Rust can cause Undefined Behavior, and yet
 <em>we only modified safe code</em>. This is the fundamental problem of safety: it's
 non-local. The soundness of our unsafe operations necessarily depends on the
-state established by otherwise &quot;safe&quot; operations.</p>
+state established by otherwise "safe" operations.</p>
 <p>Safety is modular in the sense that opting into unsafety doesn't require you
 to consider arbitrary other kinds of badness. For instance, doing an unchecked
 index into a slice doesn't mean you suddenly need to worry about the slice being
@@ -711,7 +711,7 @@ requires different monomorphizations to have <em>different field orderings</em>.
 <p>And indeed this is approximately how it would be laid out (modulo the
 size and position of <code>tag</code>).</p>
 <p>However there are several cases where such a representation is inefficient. The
-classic case of this is Rust's &quot;null pointer optimization&quot;: an enum consisting
+classic case of this is Rust's "null pointer optimization": an enum consisting
 of a single outer unit variant (e.g. <code>None</code>) and a (potentially nested) non-
 nullable pointer variant (e.g. <code>Some(&amp;T)</code>) makes the tag unnecessary. A null
 pointer can safely be interpreted as the unit (<code>None</code>) variant. The net
@@ -733,7 +733,7 @@ know the size and alignment of something in order to correctly work with it! In
 this regard, DSTs are not normal types. Because they lack a statically known
 size, these types can only exist behind a pointer. Any pointer to a
 DST consequently becomes a <em>wide</em> pointer consisting of the pointer and the
-information that &quot;completes&quot; them (more on this below).</p>
+information that "completes" them (more on this below).</p>
 <p>There are two major DSTs exposed by the language:</p>
 <ul>
 <li>trait objects: <code>dyn MyTrait</code></li>
@@ -774,8 +774,8 @@ fn main() {
 
     let dynamic: &amp;MySuperSliceable&lt;[u8]&gt; = &amp;sized;
 
-    // prints: &quot;17 [0, 0, 0, 0, 0, 0, 0, 0]&quot;
-    println!(&quot;{} {:?}&quot;, dynamic.info, &amp;dynamic.data);
+    // prints: "17 [0, 0, 0, 0, 0, 0, 0, 0]"
+    println!("{} {:?}", dynamic.info, &amp;dynamic.data);
 }</code></pre></pre>
 <p>(Yes, custom DSTs are a largely half-baked feature for now.)</p>
 <h2 id="zero-sized-types-zsts"><a class="header" href="#zero-sized-types-zsts">Zero Sized Types (ZSTs)</a></h2>
@@ -864,7 +864,7 @@ of Undefined Behavior.</p>
 <h2 id="extern-types"><a class="header" href="#extern-types">Extern Types</a></h2>
 <p>There is <a href="https://github.com/rust-lang/rfcs/blob/master/text/1861-extern-types.md">an accepted RFC</a> to add proper types with an unknown size,
 called <em>extern types</em>, which would let Rust developers model things like C's <code>void*</code>
-and other &quot;declared but never defined&quot; types more accurately. However as of
+and other "declared but never defined" types more accurately. However as of
 Rust 2018, <a href="https://github.com/rust-lang/rust/issues/43467">the feature is stuck in limbo over how <code>size_of_val::&lt;MyExternType&gt;()</code>
 should behave</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="alternative-representations"><a class="header" href="#alternative-representations">Alternative representations</a></h1>
@@ -882,7 +882,7 @@ boundaries for you. The Rust team works closely with those projects to ensure
 that they work robustly and are compatible with current and future guarantees
 about type layouts and <code>repr</code>s.</p>
 <p>The interaction of <code>repr(C)</code> with Rust's more exotic data layout features must be
-kept in mind. Due to its dual purpose as &quot;for FFI&quot; and &quot;for layout control&quot;,
+kept in mind. Due to its dual purpose as "for FFI" and "for layout control",
 <code>repr(C)</code> can be applied to types that will be nonsensical or problematic if
 passed through the FFI boundary.</p>
 <ul>
@@ -914,7 +914,7 @@ difference from a struct is that the fields aren’t named.</p>
 <p><code>repr(C)</code> is equivalent to one of <code>repr(u*)</code> (see the next section) for
 fieldless enums. The chosen size is the default enum size for the target platform's C
 application binary interface (ABI). Note that enum representation in C is implementation
-defined, so this is really a &quot;best guess&quot;. In particular, this may be incorrect
+defined, so this is really a "best guess". In particular, this may be incorrect
 when the C code of interest is compiled with certain flags.</p>
 </li>
 <li>
@@ -950,7 +950,7 @@ the integer it has to fit in, it will produce a compile-time error. You can
 manually ask Rust to allow this by setting the overflowing element to explicitly
 be 0. However Rust will not allow you to create an enum where two variants have
 the same discriminant.</p>
-<p>The term &quot;fieldless enum&quot; only means that the enum doesn't have data in any
+<p>The term "fieldless enum" only means that the enum doesn't have data in any
 of its variants. A fieldless enum without a <code>repr(u*)</code> or <code>repr(C)</code> is
 still a Rust native type, and does not have a stable ABI representation.
 Adding a <code>repr</code> causes it to be treated exactly like the specified
@@ -1021,7 +1021,7 @@ language have made at one point:</p>
 </span><span class="boring">fn main() {
 </span>fn as_str(data: &amp;u32) -&gt; &amp;str {
     // compute the string
-    let s = format!(&quot;{}&quot;, data);
+    let s = format!("{}", data);
 
     // OH NO! We returned a reference to something that
     // exists only in this function!
@@ -1054,7 +1054,7 @@ let x = &amp;data[0];
 // (this does not compile in Rust)
 data.push(4);
 
-println!(&quot;{}&quot;, x);
+println!("{}", x);
 <span class="boring">}</span></code></pre></pre>
 <p>naive scope analysis would be insufficient to prevent this bug, because <code>data</code>
 does in fact live as long as we needed. However it was <em>changed</em> while we had
@@ -1076,7 +1076,7 @@ referent and its owners.</p>
 <pre><code class="language-text">error[E0425]: cannot find value `aliased` in this scope
  --&gt; &lt;rust.rs&gt;:2:20
   |
-2 |     println!(&quot;{}&quot;, aliased);
+2 |     println!("{}", aliased);
   |                    ^^^^^^^ not found in this scope
 
 error: aborting due to previous error
@@ -1195,7 +1195,7 @@ occur before it:</p>
 aliased by things that existed before it was declared. This is an assumption
 every language freely makes, and so this version of the function could be
 optimized the way we want in any language.</p>
-<p>This is why the definition of &quot;alias&quot; that Rust will use likely involves some
+<p>This is why the definition of "alias" that Rust will use likely involves some
 notion of liveness and mutation: we don't actually care if aliasing occurs if
 there aren't any actual writes to memory happening.</p>
 <p>Of course, a full aliasing model for Rust must also take into consideration things like
@@ -1228,7 +1228,7 @@ this chapter.</p>
 <p>Originally, our examples made use of <em>aggressive</em> sugar -- high fructose corn
 syrup even -- around scopes and lifetimes, because writing everything out
 explicitly is <em>extremely noisy</em>. All Rust code relies on aggressive inference
-and elision of &quot;obvious&quot; things.</p>
+and elision of "obvious" things.</p>
 <p>One particularly interesting piece of sugar is that each <code>let</code> statement
 implicitly introduces a scope. For the most part, this doesn't really matter.
 However it does matter for variables that refer to each other. As a simple
@@ -1250,7 +1250,7 @@ likely desugar to the following:</p>
         let y: &amp;'b i32 = &amp;'b x;
         'c: {
             // ditto on 'c
-            let z: &amp;'c &amp;'b i32 = &amp;'c y; // &quot;a reference to a reference to an i32&quot; (with lifetimes annotated)
+            let z: &amp;'c &amp;'b i32 = &amp;'c y; // "a reference to a reference to an i32" (with lifetimes annotated)
         }
     }
 }</code></pre>
@@ -1282,7 +1282,7 @@ z = y;
 <pre><pre class="playground"><code class="language-rust compile_fail edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn as_str(data: &amp;u32) -&gt; &amp;str {
-    let s = format!(&quot;{}&quot;, data);
+    let s = format!("{}", data);
     &amp;s
 }
 <span class="boring">}</span></code></pre></pre>
@@ -1290,7 +1290,7 @@ z = y;
 <!-- ignore: desugared code -->
 <pre><code class="language-rust ignore">fn as_str&lt;'a&gt;(data: &amp;'a u32) -&gt; &amp;'a str {
     'b: {
-        let s = format!(&quot;{}&quot;, data);
+        let s = format!("{}", data);
         return &amp;'a s;
     }
 }</code></pre>
@@ -1312,7 +1312,7 @@ up in our face.</p>
 <!-- ignore: desugared code -->
 <pre><code class="language-rust ignore">fn as_str&lt;'a&gt;(data: &amp;'a u32) -&gt; &amp;'a str {
     'b: {
-        let s = format!(&quot;{}&quot;, data);
+        let s = format!("{}", data);
         return &amp;'a s
     }
 }
@@ -1325,7 +1325,7 @@ fn main() {
             // need to last for the whole scope x is valid for. The return
             // of as_str must find a str somewhere before this function
             // call. Obviously not happening.
-            println!(&quot;{}&quot;, as_str::&lt;'d&gt;(&amp;'d x));
+            println!("{}", as_str::&lt;'d&gt;(&amp;'d x));
         }
     }
 }</code></pre>
@@ -1334,7 +1334,7 @@ fn main() {
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn to_string(data: &amp;u32) -&gt; String {
-    format!(&quot;{}&quot;, data)
+    format!("{}", data)
 }
 <span class="boring">}</span></code></pre></pre>
 <p>We must produce an owned value inside the function to return it! The only way
@@ -1350,7 +1350,7 @@ our implementation <em>just a bit</em>.)</p>
 </span>let mut data = vec![1, 2, 3];
 let x = &amp;data[0];
 data.push(4);
-println!(&quot;{}&quot;, x);
+println!("{}", x);
 <span class="boring">}</span></code></pre></pre>
 <!-- ignore: desugared code -->
 <pre><code class="language-rust ignore">'a: {
@@ -1364,7 +1364,7 @@ println!(&quot;{}&quot;, x);
             // &amp;mut to last any longer.
             Vec::push(&amp;'c mut data, 4);
         }
-        println!(&quot;{}&quot;, x);
+        println!("{}", x);
     }
 }</code></pre>
 <p>The problem here is a bit more subtle and interesting. We want Rust to
@@ -1397,7 +1397,7 @@ variable <code>x</code> <em>technically</em> exists to the very end of the scope
 </span><span class="boring">fn main() {
 </span>let mut data = vec![1, 2, 3];
 let x = &amp;data[0];
-println!(&quot;{}&quot;, x);
+println!("{}", x);
 // This is OK, x is no longer needed
 data.push(4);
 <span class="boring">}</span></code></pre></pre>
@@ -1415,7 +1415,7 @@ impl Drop for X&lt;'_&gt; {
 
 let mut data = vec![1, 2, 3];
 let x = X(&amp;data[0]);
-println!(&quot;{:?}&quot;, x);
+println!("{:?}", x);
 data.push(4);
 // Here, the destructor is run and therefore this'll fail to compile.
 <span class="boring">}</span></code></pre></pre>
@@ -1429,7 +1429,7 @@ example in each branch of a condition.</p>
 let x = &amp;data[0];
 
 if some_condition() {
-    println!(&quot;{}&quot;, x); // This is the last use of `x` in this branch
+    println!("{}", x); // This is the last use of `x` in this branch
     data.push(4);      // So we can push here
 } else {
     // There's no use of `x` in here, so effectively the last use is the
@@ -1447,10 +1447,10 @@ the last time at the top of the next iteration).</p>
 // This mut allows us to change where the reference points to
 let mut x = &amp;data[0];
 
-println!(&quot;{}&quot;, x); // Last use of this borrow
+println!("{}", x); // Last use of this borrow
 data.push(4);
 x = &amp;data[3]; // We start a new borrow here
-println!(&quot;{}&quot;, x);
+println!("{}", x);
 <span class="boring">}</span></code></pre></pre>
 <p>Historically, Rust kept the borrow alive until the end of scope, so these
 examples might fail to compile with older compilers. Also, there are still some
@@ -1471,7 +1471,7 @@ fn main() {
     let mut foo = Foo;
     let loan = foo.mutate_and_share();
     foo.share();
-    println!(&quot;{:?}&quot;, loan);
+    println!("{:?}", loan);
 }</code></pre></pre>
 <p>One might expect it to compile. We call <code>mutate_and_share</code>, which mutably
 borrows <code>foo</code> temporarily, but then returns only a shared reference. Therefore
@@ -1484,7 +1484,7 @@ we would expect <code>foo.share()</code> to succeed as <code>foo</code> shouldn'
    |                --- mutable borrow occurs here
 12 |     foo.share();
    |     ^^^ immutable borrow occurs here
-13 |     println!(&quot;{:?}&quot;, loan);
+13 |     println!("{:?}", loan);
 </code></pre>
 <p>What happened? Well, we got the exact same reasoning as we did for
 <a href="lifetimes.html#example-aliasing-a-mutable-reference">Example 2 in the previous section</a>. We desugar the program and we get
@@ -1505,7 +1505,7 @@ fn main() {
             'd: {
                 Foo::share::&lt;'d&gt;(&amp;'d foo);
             }
-            println!(&quot;{:?}&quot;, loan);
+            println!("{:?}", loan);
         }
     }
 }</code></pre>
@@ -1567,7 +1567,7 @@ overlaps other mutable borrows, resulting in a compile error:</p>
 <pre><code class="language-rust ignore">&amp;'a T
 &amp;'a mut T
 T&lt;'a&gt;</code></pre>
-<p>Lifetime positions can appear as either &quot;input&quot; or &quot;output&quot;:</p>
+<p>Lifetime positions can appear as either "input" or "output":</p>
 <ul>
 <li>
 <p>For <code>fn</code> definitions, <code>fn</code> types, and the traits <code>Fn</code>, <code>FnMut</code>, and <code>FnOnce</code>,
@@ -1647,10 +1647,10 @@ unbounded. For instance:</p>
 }
 
 fn main() {
-    let soon_dropped = String::from(&quot;hello&quot;);
+    let soon_dropped = String::from("hello");
     let dangling = get_str(&amp;soon_dropped);
     drop(soon_dropped);
-    println!(&quot;Invalid str: {}&quot;, dangling); // Invalid str: gӚ_`
+    println!("Invalid str: {}", dangling); // Invalid str: gӚ_`
 }</code></pre></pre>
 <p>The easiest way to avoid unbounded lifetimes is to use lifetime elision at the
 function boundary. If an output lifetime is elided, then it <em>must</em> be bounded by
@@ -1682,7 +1682,7 @@ fn do_it(data: &amp;(u8, u16)) -&gt; &amp;u8 { &amp;data.0 }
 
 fn main() {
     let clo = Closure { data: (0, 1), func: do_it };
-    println!(&quot;{}&quot;, clo.call());
+    println!("{}", clo.call());
 }</code></pre></pre>
 <p>If we try to naively desugar this code in the same way that we did in the
 <a href="lifetimes.html">lifetimes section</a>, we run into some trouble:</p>
@@ -1706,7 +1706,7 @@ fn do_it&lt;'b&gt;(data: &amp;'b (u8, u16)) -&gt; &amp;'b u8 { &amp;'b data.0 }
 fn main() {
     'x: {
         let clo = Closure { data: (0, 1), func: do_it };
-        println!(&quot;{}&quot;, clo.call());
+        println!("{}", clo.call());
     }
 }</code></pre>
 <p>How on earth are we supposed to express the lifetimes on <code>F</code>'s trait bound? We
@@ -1722,7 +1722,7 @@ desugar this is as follows:</p>
 <pre><code class="language-rust ignore">where F: for&lt;'a&gt; Fn(&amp;'a (u8, u16)) -&gt; &amp;'a u8,</code></pre>
 <p>(Where <code>Fn(a, b, c) -&gt; d</code> is itself just sugar for the unstable <em>real</em> <code>Fn</code>
 trait)</p>
-<p><code>for&lt;'a&gt;</code> can be read as &quot;for all choices of <code>'a</code>&quot;, and basically produces an
+<p><code>for&lt;'a&gt;</code> can be read as "for all choices of <code>'a</code>", and basically produces an
 <em>infinite list</em> of trait bounds that F must satisfy. Intense. There aren't many
 places outside of the <code>Fn</code> traits where we encounter HRTBs, and even for
 those we have a nice magic sugar for the common cases.</p>
@@ -1744,7 +1744,7 @@ fn do_it(data: &amp;(u8, u16)) -&gt; &amp;u8 { &amp;data.0 }
 
 fn main() {
     let clo = Closure { data: (0, 1), func: do_it };
-    println!(&quot;{}&quot;, clo.call());
+    println!("{}", clo.call());
 }</code></pre></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="subtyping-and-variance"><a class="header" href="#subtyping-and-variance">Subtyping and Variance</a></h1>
 <p>Rust uses lifetimes to track the relationships between borrows and ownership.
@@ -1755,13 +1755,13 @@ while also preventing their misuse, Rust uses <strong>subtyping</strong> and <st
 <p>Let's start with an example.</p>
 <pre><pre class="playground"><code class="language-rust edition2021">// Note: debug expects two parameters with the *same* lifetime
 fn debug&lt;'a&gt;(a: &amp;'a str, b: &amp;'a str) {
-    println!(&quot;a = {a:?} b = {b:?}&quot;);
+    println!("a = {a:?} b = {b:?}");
 }
 
 fn main() {
-    let hello: &amp;'static str = &quot;hello&quot;;
+    let hello: &amp;'static str = "hello";
     {
-        let world = String::from(&quot;world&quot;);
+        let world = String::from("world");
         let world = &amp;world; // 'world has a shorter lifetime than 'static
         debug(hello, world);
     }
@@ -1806,16 +1806,16 @@ so we need to understand how this stuff really works, and how we can mess it up.
 <p>Going back to our example above, we can say that <code>'static &lt;: 'world</code>.
 For now, let's also accept the idea that subtypes of lifetimes can be passed through references
 (more on this in <a href="subtyping.html#variance">Variance</a>),
-<em>e.g.</em> <code>&amp;'static str</code> is a subtype of <code>&amp;'world str</code>, then we can &quot;downgrade&quot; <code>&amp;'static str</code> into a <code>&amp;'world str</code>.
+<em>e.g.</em> <code>&amp;'static str</code> is a subtype of <code>&amp;'world str</code>, then we can "downgrade" <code>&amp;'static str</code> into a <code>&amp;'world str</code>.
 With that, the example above will compile:</p>
 <pre><pre class="playground"><code class="language-rust edition2021">fn debug&lt;'a&gt;(a: &amp;'a str, b: &amp;'a str) {
-    println!(&quot;a = {a:?} b = {b:?}&quot;);
+    println!("a = {a:?} b = {b:?}");
 }
 
 fn main() {
-    let hello: &amp;'static str = &quot;hello&quot;;
+    let hello: &amp;'static str = "hello";
     {
-        let world = String::from(&quot;world&quot;);
+        let world = String::from("world");
         let world = &amp;world; // 'world has a shorter lifetime than 'static
         debug(hello, world); // hello silently downgrades from `&amp;'static str` into `&amp;'world str`
     }
@@ -1828,12 +1828,12 @@ It's not always as simple as this example, though. To understand that, let's try
 }
 
 fn main() {
-    let mut hello: &amp;'static str = &quot;hello&quot;;
+    let mut hello: &amp;'static str = "hello";
     {
-        let world = String::from(&quot;world&quot;);
+        let world = String::from("world");
         assign(&amp;mut hello, &amp;world);
     }
-    println!(&quot;{hello}&quot;); // use after free 😿
+    println!("{hello}"); // use after free 😿
 }</code></pre></pre>
 <p>In <code>assign</code>, we are setting the <code>hello</code> reference to point to <code>world</code>.
 But then <code>world</code> goes out of scope, before the later use of <code>hello</code> in the println!</p>
@@ -1853,7 +1853,7 @@ subtyping of its outputs. There are three kinds of variance in Rust. Given two
 types <code>Sub</code> and <code>Super</code>, where <code>Sub</code> is a subtype of <code>Super</code>:</p>
 <ul>
 <li><code>F</code> is <strong>covariant</strong> if <code>F&lt;Sub&gt;</code> is a subtype of <code>F&lt;Super&gt;</code> (the subtype property is passed through)</li>
-<li><code>F</code> is <strong>contravariant</strong> if <code>F&lt;Super&gt;</code> is a subtype of <code>F&lt;Sub&gt;</code> (the subtype property is &quot;inverted&quot;)</li>
+<li><code>F</code> is <strong>contravariant</strong> if <code>F&lt;Super&gt;</code> is a subtype of <code>F&lt;Sub&gt;</code> (the subtype property is "inverted")</li>
 <li><code>F</code> is <strong>invariant</strong> otherwise (no subtyping relationship exists)</li>
 </ul>
 <p>If we remember from the above examples,
@@ -1882,12 +1882,12 @@ therefore we can say that <code>&amp;mut T</code> is <em>invariant</em> over <co
 <li><code>*const T</code> follows the logic of <code>&amp;T</code></li>
 <li><code>*mut T</code> follows the logic of <code>&amp;mut T</code> (or <code>UnsafeCell&lt;T&gt;</code>)</li>
 </ul>
-<p>For more types, see the <a href="../reference/subtyping.html#variance">&quot;Variance&quot; section</a> on the reference.</p>
+<p>For more types, see the <a href="../reference/subtyping.html#variance">"Variance" section</a> on the reference.</p>
 <blockquote>
 <p>NOTE: the <em>only</em> source of contravariance in the language is the arguments to
 a function, which is why it really doesn't come up much in practice. Invoking
 contravariance involves higher-order programming with function pointers that
-take references with specific lifetimes (as opposed to the usual &quot;any lifetime&quot;,
+take references with specific lifetimes (as opposed to the usual "any lifetime",
 which gets into higher rank lifetimes, which work independently of subtyping).</p>
 </blockquote>
 <p>Now that we have some more formal understanding of variance,
@@ -1897,18 +1897,18 @@ let's go through some more examples in more detail.</p>
 }
 
 fn main() {
-    let mut hello: &amp;'static str = &quot;hello&quot;;
+    let mut hello: &amp;'static str = "hello";
     {
-        let world = String::from(&quot;world&quot;);
+        let world = String::from("world");
         assign(&amp;mut hello, &amp;world);
     }
-    println!(&quot;{hello}&quot;);
+    println!("{hello}");
 }</code></pre></pre>
 <p>And what do we get when we run this?</p>
 <pre><code class="language-text">error[E0597]: `world` does not live long enough
   --&gt; src/main.rs:9:28
    |
-6  |     let mut hello: &amp;'static str = &quot;hello&quot;;
+6  |     let mut hello: &amp;'static str = "hello";
    |                    ------------ type annotation requires that `world` is borrowed for `'static`
 ...
 9  |         assign(&amp;mut hello, &amp;world);
@@ -1934,7 +1934,7 @@ to the first argument, and so <code>T</code> must be exactly <code>&amp;'static 
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn debug&lt;T: std::fmt::Debug&gt;(a: T, b: T) {
-    println!(&quot;a = {a:?} b = {b:?}&quot;);
+    println!("a = {a:?} b = {b:?}");
 }
 <span class="boring">}</span></code></pre></pre>
 <p>where similarly <code>a</code> and <code>b</code> must have the same type <code>T</code>.
@@ -1946,7 +1946,7 @@ This is true, so the compiler is happy to continue compiling this code.</p>
 <p>However Box makes it easier to focus on the by-value aspect of references that we partially glossed over.</p>
 <p>Unlike a lot of languages which allow values to be freely aliased at all times, Rust has a very strict rule: if you're allowed to mutate or move a value, you are guaranteed to be the only one with access to it.</p>
 <p>Consider the following code:</p>
-<pre><code class="language-rust ignore">let hello: Box&lt;&amp;'static str&gt; = Box::new(&quot;hello&quot;);
+<pre><code class="language-rust ignore">let hello: Box&lt;&amp;'static str&gt; = Box::new("hello");
 
 let mut world: Box&lt;&amp;'b str&gt;;
 world = hello;</code></pre>
@@ -1992,10 +1992,10 @@ fn demo&lt;'a&gt;(input: &amp;'a str, f: fn(&amp;'a str)) {
 }
 
 fn main() {
-    demo(&quot;hello&quot;, store); // &quot;hello&quot; is 'static. Can call `store` fine
+    demo("hello", store); // "hello" is 'static. Can call `store` fine
 
     {
-        let smuggle = String::from(&quot;smuggle&quot;);
+        let smuggle = String::from("smuggle");
 
         // `&amp;smuggle` is not static. If we were to call `store` with `&amp;smuggle`,
         // we would have pushed an invalid lifetime into the `StaticVecs`.
@@ -2004,7 +2004,7 @@ fn main() {
     }
 
     // use after free 😿
-    StaticVecs.with_borrow(|v| println!(&quot;{v:?}&quot;));
+    StaticVecs.with_borrow(|v| println!("{v:?}"));
 }</code></pre></pre>
 <p>And that's why function types, unlike anything else in the language, are
 <strong>contra</strong>variant over their arguments.</p>
@@ -2099,7 +2099,7 @@ alive, so is <code>days</code>.</p>
 
 impl&lt;'a&gt; Drop for Inspector&lt;'a&gt; {
     fn drop(&amp;mut self) {
-        println!(&quot;I was only {} days from retirement!&quot;, self.0);
+        println!("I was only {} days from retirement!", self.0);
     }
 }
 
@@ -2158,7 +2158,7 @@ access borrowed data:</p>
 
 impl&lt;'a&gt; Drop for Inspector&lt;'a&gt; {
     fn drop(&amp;mut self) {
-        println!(&quot;Inspector(_, {}) knows when *not* to inspect.&quot;, self.1);
+        println!("Inspector(_, {}) knows when *not* to inspect.", self.1);
     }
 }
 
@@ -2172,7 +2172,7 @@ fn main() {
         inspector: None,
         days: Box::new(1),
     };
-    world.inspector = Some(Inspector(&amp;world.days, &quot;gadget&quot;));
+    world.inspector = Some(Inspector(&amp;world.days, "gadget"));
     // Let's say `days` happens to get dropped first.
     // Even when Inspector is dropped, its destructor will not access the
     // borrowed `days`.
@@ -2182,7 +2182,7 @@ fn main() {
 
 impl&lt;T&gt; Drop for Inspector&lt;T&gt; {
     fn drop(&amp;mut self) {
-        println!(&quot;Inspector(_, {}) knows when *not* to inspect.&quot;, self.1);
+        println!("Inspector(_, {}) knows when *not* to inspect.", self.1);
     }
 }
 
@@ -2196,7 +2196,7 @@ fn main() {
         inspector: None,
         days: Box::new(1),
     };
-    world.inspector = Some(Inspector(&amp;world.days, &quot;gadget&quot;));
+    world.inspector = Some(Inspector(&amp;world.days, "gadget"));
     // Let's say `days` happens to get dropped first.
     // Even when Inspector is dropped, its destructor will not access the
     // borrowed `days`.
@@ -2231,7 +2231,7 @@ struct Inspector&lt;'a&gt;(&amp;'a u8, &amp;'static str);
 
 unsafe impl&lt;#[may_dangle] 'a&gt; Drop for Inspector&lt;'a&gt; {
     fn drop(&amp;mut self) {
-        println!(&quot;Inspector(_, {}) knows when *not* to inspect.&quot;, self.1);
+        println!("Inspector(_, {}) knows when *not* to inspect.", self.1);
     }
 }
 
@@ -2245,7 +2245,7 @@ fn main() {
         inspector: None,
         days: Box::new(1),
     };
-    world.inspector = Some(Inspector(&amp;world.days, &quot;gadget&quot;));
+    world.inspector = Some(Inspector(&amp;world.days, "gadget"));
 }</code></pre></pre>
 <p>Use of this attribute requires the <code>Drop</code> impl to be marked <code>unsafe</code> because the
 compiler is not checking the implicit assertion that no potentially expired data
@@ -2264,7 +2264,7 @@ struct Inspector&lt;'a, 'b, T, U: Display&gt;(&amp;'a u8, &amp;'b u8, T, U);
 
 unsafe impl&lt;'a, #[may_dangle] 'b, #[may_dangle] T, U: Display&gt; Drop for Inspector&lt;'a, 'b, T, U&gt; {
     fn drop(&amp;mut self) {
-        println!(&quot;Inspector({}, _, _, {})&quot;, self.0, self.3);
+        println!("Inspector({}, _, _, {})", self.0, self.3);
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -2285,7 +2285,7 @@ other avenues for such indirect access.)</p>
 impl&lt;T&gt; Drop for Inspector&lt;T&gt; {
     fn drop(&amp;mut self) {
         // The `self.2` call could access a borrow e.g. if `T` is `&amp;'a _`.
-        println!(&quot;Inspector({}, {}) unwittingly inspects expired data.&quot;,
+        println!("Inspector({}, {}) unwittingly inspects expired data.",
                  (self.2)(&amp;self.0), self.1);
     }
 }
@@ -2301,7 +2301,7 @@ impl&lt;T: fmt::Display&gt; Drop for Inspector&lt;T&gt; {
     fn drop(&amp;mut self) {
         // There is a hidden call to `&lt;T as Display&gt;::fmt` below, which
         // could access a borrow e.g. if `T` is `&amp;'a _`
-        println!(&quot;Inspector({}, {}) unwittingly inspects expired data.&quot;,
+        println!("Inspector({}, {}) unwittingly inspects expired data.",
                  self.0, self.1);
     }
 }
@@ -2426,7 +2426,7 @@ field will then require <code>T</code> to be droppable whenever the containing t
 <hr />
 <p>But this situation can sometimes lead to overly restrictive code. That's why the
 standard library uses an unstable and <code>unsafe</code> attribute to opt back into the old
-&quot;unchecked&quot; drop-checking behavior, that this very documentation warned about: the
+"unchecked" drop-checking behavior, that this very documentation warned about: the
 <code>#[may_dangle]</code> attribute.</p>
 <h3 id="an-exception-the-special-case-of-the-standard-library-and-its-unstable-may_dangle"><a class="header" href="#an-exception-the-special-case-of-the-standard-library-and-its-unstable-may_dangle">An exception: the special case of the standard library and its unstable <code>#[may_dangle]</code></a></h3>
 <p>This section can be skipped if you are only writing your own library code; but if you are
@@ -2436,7 +2436,7 @@ that it still needs to use a <code>_owns_T: PhantomData&lt;T&gt;</code> field fo
 <p>Consider the following example:</p>
 <pre><pre class="playground"><code class="language-rust edition2021">fn main() {
     let mut v: Vec&lt;&amp;str&gt; = Vec::new();
-    let s: String = &quot;Short-lived&quot;.into();
+    let s: String = "Short-lived".into();
     v.push(&amp;s);
     drop(s);
 } // &lt;- `v` is dropped here</code></pre></pre>
@@ -2469,9 +2469,9 @@ drop each <code>T</code> item when it has drop glue; in the case of <code>PrintO
 <code>Drop for Vec&lt;PrintOnDrop&lt;'s&gt;&gt;</code> has to transitively drop the <code>PrintOnDrop&lt;'s&gt;</code>s elements before
 deallocating the backing buffer.</p>
 <p>So when we said that <code>'s</code> <code>#[may_dangle]</code>, it was an excessively loose statement. We'd rather want
-to say: &quot;<code>'s</code> may dangle provided it not be involved in some transitive drop glue&quot;. Or, more generally,
-&quot;<code>T</code> may dangle provided it not be involved in some transitive drop glue&quot;. This &quot;exception to the
-exception&quot; is a pervasive situation whenever <strong>we own a <code>T</code></strong>. That's why Rust's <code>#[may_dangle]</code> is
+to say: "<code>'s</code> may dangle provided it not be involved in some transitive drop glue". Or, more generally,
+"<code>T</code> may dangle provided it not be involved in some transitive drop glue". This "exception to the
+exception" is a pervasive situation whenever <strong>we own a <code>T</code></strong>. That's why Rust's <code>#[may_dangle]</code> is
 smart enough to know of this opt-out, and will thus be disabled <em>when the generic parameter is held
 in an owned fashion</em> by the fields of the struct.</p>
 <p>Hence why the standard library ends up with:</p>
@@ -2516,7 +2516,7 @@ standard library made a utility for itself called <code>Unique&lt;T&gt;</code> w
 <h2 id="table-of-phantomdata-patterns"><a class="header" href="#table-of-phantomdata-patterns">Table of <code>PhantomData</code> patterns</a></h2>
 <p>Here’s a table of all the wonderful ways <code>PhantomData</code> could be used:</p>
 <div class="table-wrapper"><table><thead><tr><th>Phantom type</th><th style="text-align: center">variance of <code>'a</code></th><th style="text-align: center">variance of <code>T</code></th><th style="text-align: center"><code>Send</code>/<code>Sync</code><br/>(or lack thereof)</th><th style="text-align: center">dangling <code>'a</code> or <code>T</code> in drop glue<br/>(<em>e.g.</em>, <code>#[may_dangle] Drop</code>)</th></tr></thead><tbody>
-<tr><td><code>PhantomData&lt;T&gt;</code></td><td style="text-align: center">-</td><td style="text-align: center"><strong>cov</strong>ariant</td><td style="text-align: center">inherited</td><td style="text-align: center">disallowed (&quot;owns <code>T</code>&quot;)</td></tr>
+<tr><td><code>PhantomData&lt;T&gt;</code></td><td style="text-align: center">-</td><td style="text-align: center"><strong>cov</strong>ariant</td><td style="text-align: center">inherited</td><td style="text-align: center">disallowed ("owns <code>T</code>")</td></tr>
 <tr><td><code>PhantomData&lt;&amp;'a T&gt;</code></td><td style="text-align: center"><strong>cov</strong>ariant</td><td style="text-align: center"><strong>cov</strong>ariant</td><td style="text-align: center"><code>Send + Sync</code><br/>requires<br/><code>T : Sync</code></td><td style="text-align: center">allowed</td></tr>
 <tr><td><code>PhantomData&lt;&amp;'a mut T&gt;</code></td><td style="text-align: center"><strong>cov</strong>ariant</td><td style="text-align: center"><strong>inv</strong>ariant</td><td style="text-align: center">inherited</td><td style="text-align: center">allowed</td></tr>
 <tr><td><code>PhantomData&lt;*const T&gt;</code></td><td style="text-align: center">-</td><td style="text-align: center"><strong>cov</strong>ariant</td><td style="text-align: center"><code>!Send + !Sync</code></td><td style="text-align: center">allowed</td></tr>
@@ -2551,7 +2551,7 @@ let c = &amp;x.c;
 *b += 1;
 let c2 = &amp;x.c;
 *a += 10;
-println!(&quot;{} {} {} {}&quot;, a, b, c, c2);
+println!("{} {} {} {}", a, b, c, c2);
 <span class="boring">}</span></code></pre></pre>
 <p>However borrowck doesn't understand arrays or slices in any way, so this doesn't
 work:</p>
@@ -2560,7 +2560,7 @@ work:</p>
 </span>let mut x = [1, 2, 3];
 let a = &amp;mut x[0];
 let b = &amp;mut x[1];
-println!(&quot;{} {}&quot;, a, b);
+println!("{} {}", a, b);
 <span class="boring">}</span></code></pre></pre>
 <pre><code class="language-text">error[E0499]: cannot borrow `x[..]` as mutable more than once at a time
  --&gt; src/lib.rs:4:18
@@ -2569,7 +2569,7 @@ println!(&quot;{} {}&quot;, a, b);
   |                  ---- first mutable borrow occurs here
 4 |     let b = &amp;mut x[1];
   |                  ^^^^ second mutable borrow occurs here
-5 |     println!(&quot;{} {}&quot;, a, b);
+5 |     println!("{} {}", a, b);
 6 | }
   | - first borrow ends here
 
@@ -2579,7 +2579,7 @@ error: aborting due to previous error
 pretty clearly hopeless for borrowck to understand disjointness in general
 container types like a tree, especially if distinct keys actually <em>do</em> map
 to the same value.</p>
-<p>In order to &quot;teach&quot; borrowck that what we're doing is ok, we need to drop down
+<p>In order to "teach" borrowck that what we're doing is ok, we need to drop down
 to unsafe code. For instance, mutable slices expose a <code>split_at_mut</code> function
 that consumes the slice and returns two mutable slices. One for everything to
 the left of the index, and one for everything to the right. Intuitively we know
@@ -2834,7 +2834,7 @@ more ergonomic alternatives.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="coercions"><a class="header" href="#coercions">Coercions</a></h1>
 <p>Types can implicitly be coerced to change in certain contexts.
 These changes are generally just <em>weakening</em> of types, largely focused around pointers and lifetimes.
-They mostly exist to make Rust &quot;just work&quot; in more cases, and are largely harmless.</p>
+They mostly exist to make Rust "just work" in more cases, and are largely harmless.</p>
 <p>For an exhaustive list of all the types of coercions, see the <a href="../reference/type-coercions.html#coercion-types">Coercion types</a> section on the reference.</p>
 <p>Note that we do not perform coercions when matching traits (except for receivers, see the <a href="./dot-operator.html">next page</a>).
 If there is an <code>impl</code> for some type <code>U</code> and <code>T</code> coerces to <code>U</code>, that does not constitute an implementation for <code>T</code>.
@@ -2878,19 +2878,19 @@ For this example, we will say that <code>value</code> has type <code>T</code>.</
 type we are calling a function on.</p>
 <ul>
 <li>First, the compiler checks if it can call <code>T::foo(value)</code> directly.
-This is called a &quot;by value&quot; method call.</li>
+This is called a "by value" method call.</li>
 <li>If it can't call this function (for example, if the function has the wrong type
 or a trait isn't implemented for <code>Self</code>), then the compiler tries to add in an
 automatic reference.
 This means that the compiler tries <code>&lt;&amp;T&gt;::foo(value)</code> and <code>&lt;&amp;mut T&gt;::foo(value)</code>.
-This is called an &quot;autoref&quot; method call.</li>
+This is called an "autoref" method call.</li>
 <li>If none of these candidates worked, it dereferences <code>T</code> and tries again.
 This uses the <code>Deref</code> trait - if <code>T: Deref&lt;Target = U&gt;</code> then it tries again with
 type <code>U</code> instead of <code>T</code>.
 If it can't dereference <code>T</code>, it can also try <em>unsizing</em> <code>T</code>.
-This just means that if <code>T</code> has a size parameter known at compile time, it &quot;forgets&quot;
+This just means that if <code>T</code> has a size parameter known at compile time, it "forgets"
 it for the purpose of resolving methods.
-For instance, this unsizing step can convert <code>[i32; 2]</code> into <code>[i32]</code> by &quot;forgetting&quot;
+For instance, this unsizing step can convert <code>[i32; 2]</code> into <code>[i32]</code> by "forgetting"
 the size of the array.</li>
 </ul>
 <p>Here is an example of the method lookup algorithm:</p>
@@ -2970,7 +2970,7 @@ So it deduces that <code>clone</code> is called by autoref, and so <code>bar_clo
 <div style="break-before: page; page-break-before: always;"></div><h1 id="casts"><a class="header" href="#casts">Casts</a></h1>
 <p>Casts are a superset of coercions: every coercion can be explicitly invoked via a cast.
 However some conversions require a cast.
-While coercions are pervasive and largely harmless, these &quot;true casts&quot; are rare and potentially dangerous.
+While coercions are pervasive and largely harmless, these "true casts" are rare and potentially dangerous.
 As such, casts must be explicitly invoked using the <code>as</code> keyword: <code>expr as Type</code>.</p>
 <p>You can find an exhaustive list of <a href="../reference/expressions/operator-expr.html#type-cast-expressions">all the true casts</a> and <a href="../reference/expressions/operator-expr.html#semantics">casting semantics</a> on the reference.</p>
 <h2 id="safety-of-casting"><a class="header" href="#safety-of-casting">Safety of casting</a></h2>
@@ -3060,15 +3060,15 @@ explicitly assigned to them. Unlike C, Rust statically prevents you from ever
 reading them until you do:</p>
 <pre><pre class="playground"><code class="language-rust compile_fail edition2021">fn main() {
     let x: i32;
-    println!(&quot;{}&quot;, x);
+    println!("{}", x);
 }</code></pre></pre>
 <pre><code class="language-text">  |
-3 |     println!(&quot;{}&quot;, x);
+3 |     println!("{}", x);
   |                    ^ use of possibly uninitialized `x`
 </code></pre>
 <p>This is based off of a basic branch analysis: every branch must assign a value
-to <code>x</code> before it is first used. For short, we also say that &quot;<code>x</code> is init&quot; or
-&quot;<code>x</code> is uninit&quot;.</p>
+to <code>x</code> before it is first used. For short, we also say that "<code>x</code> is init" or
+"<code>x</code> is uninit".</p>
 <p>Interestingly, Rust doesn't require the variable
 to be mutable to perform a delayed initialization if every branch assigns
 exactly once. However the analysis does not take advantage of constant analysis
@@ -3082,7 +3082,7 @@ or anything like that. So this compiles:</p>
         x = 2;
     }
 
-    println!(&quot;{}&quot;, x);
+    println!("{}", x);
 }</code></pre></pre>
 <p>but this doesn't:</p>
 <pre><pre class="playground"><code class="language-rust compile_fail edition2021">fn main() {
@@ -3090,10 +3090,10 @@ or anything like that. So this compiles:</p>
     if true {
         x = 1;
     }
-    println!(&quot;{}&quot;, x);
+    println!("{}", x);
 }</code></pre></pre>
 <pre><code class="language-text">  |
-6 |     println!(&quot;{}&quot;, x);
+6 |     println!("{}", x);
   |                    ^ use of possibly uninitialized `x`
 </code></pre>
 <p>while this does:</p>
@@ -3101,7 +3101,7 @@ or anything like that. So this compiles:</p>
     let x: i32;
     if true {
         x = 1;
-        println!(&quot;{}&quot;, x);
+        println!("{}", x);
     }
     // Don't care that there are branches where it's not initialized
     // since we don't use the value in those branches
@@ -3126,7 +3126,7 @@ loop {
 }
 // It also knows that it's impossible to get here without reaching the break.
 // And therefore that `x` must be initialized here!
-println!(&quot;{}&quot;, x);
+println!("{}", x);
 <span class="boring">}</span></code></pre></pre>
 <p>If a value is moved out of a variable, that variable becomes logically
 uninitialized if the type of the value isn't Copy. That is:</p>
@@ -3189,7 +3189,7 @@ to initialization has static drop semantics:</p>
 if condition {
     drop(x)                 // x gets moved out; make x uninit.
 } else {
-    println!(&quot;{}&quot;, x);
+    println!("{}", x);
     drop(x)                 // x gets moved out; make x uninit.
 }
 x = Box::new(0);            // x was uninit; just overwrite.
@@ -3202,7 +3202,7 @@ x = Box::new(0);            // x was uninit; just overwrite.
 </span>let x;
 if condition {
     x = Box::new(0);        // x was uninit; just overwrite.
-    println!(&quot;{}&quot;, x);
+    println!("{}", x);
 }
                             // x goes out of scope; x might be uninit;
                             // check the flag!
@@ -3213,7 +3213,7 @@ if condition {
 </span><span class="boring">let condition = true;
 </span>if condition {
     let x = Box::new(0);
-    println!(&quot;{}&quot;, x);
+    println!("{}", x);
 }
 <span class="boring">}</span></code></pre></pre>
 <p>The drop flags are tracked on the stack.
@@ -3377,7 +3377,7 @@ it around at all, be sure to be <em>really</em> careful.</p>
 interact with a lot in Rust. Especially if you use the standard library.</p>
 <p>Roughly speaking the pattern is as follows: to acquire a resource, you create an
 object that manages it. To release the resource, you simply destroy the object,
-and it cleans up the resource for you. The most common &quot;resource&quot; this pattern
+and it cleans up the resource for you. The most common "resource" this pattern
 manages is simply <em>memory</em>. <code>Box</code>, <code>Rc</code>, and basically everything in
 <code>std::collections</code> is a convenience to enable correctly managing memory. This is
 particularly important in Rust because we have no pervasive GC to rely on for
@@ -3414,7 +3414,7 @@ There are no Copy, Default, Assignment, Move, or whatever constructors. The
 reasons for this are varied, but it largely boils down to Rust's philosophy of
 <em>being explicit</em>.</p>
 <p>Move constructors are meaningless in Rust because we don't enable types to
-&quot;care&quot; about their location in memory. Every type must be ready for it to be
+"care" about their location in memory. Every type must be ready for it to be
 blindly memcopied to somewhere else in memory. This means pure on-the-stack-but-
 still-movable intrusive linked lists are simply not happening in Rust (safely).</p>
 <p>Assignment and copy constructors similarly don't exist because move semantics
@@ -3423,17 +3423,17 @@ the x variable. Rust does provide two facilities for providing C++'s copy-
 oriented semantics: <code>Copy</code> and <code>Clone</code>. Clone is our moral equivalent of a copy
 constructor, but it's never implicitly invoked. You have to explicitly call
 <code>clone</code> on an element you want to be cloned. Copy is a special case of Clone
-where the implementation is just &quot;copy the bits&quot;. Copy types <em>are</em> implicitly
+where the implementation is just "copy the bits". Copy types <em>are</em> implicitly
 cloned whenever they're moved, but because of the definition of Copy this just
 means not treating the old copy as uninitialized -- a no-op.</p>
 <p>While Rust provides a <code>Default</code> trait for specifying the moral equivalent of a
 default constructor, it's incredibly rare for this trait to be used. This is
 because variables <a href="uninitialized.html">aren't implicitly initialized</a>. Default is basically
 only useful for generic programming. In concrete contexts, a type will provide a
-static <code>new</code> method for any kind of &quot;default&quot; constructor. This has no relation
+static <code>new</code> method for any kind of "default" constructor. This has no relation
 to <code>new</code> in other languages and has no special meaning. It's just a naming
 convention.</p>
-<p>TODO: talk about &quot;placement new&quot;?</p>
+<p>TODO: talk about "placement new"?</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="destructors"><a class="header" href="#destructors">Destructors</a></h1>
 <p>What the language <em>does</em> provide is full-blown automatic destructors through the
 <code>Drop</code> trait, which provides the following method:</p>
@@ -3442,8 +3442,8 @@ convention.</p>
 <p>This method gives the type time to somehow finish what it was doing.</p>
 <p><strong>After <code>drop</code> is run, Rust will recursively try to drop all of the fields
 of <code>self</code>.</strong></p>
-<p>This is a convenience feature so that you don't have to write &quot;destructor
-boilerplate&quot; to drop children. If a struct has no special logic for being
+<p>This is a convenience feature so that you don't have to write "destructor
+boilerplate" to drop children. If a struct has no special logic for being
 dropped other than dropping its children, then it means <code>Drop</code> doesn't need to
 be implemented at all!</p>
 <p><strong>There is no stable way to prevent this behavior in Rust 1.0.</strong></p>
@@ -3517,7 +3517,7 @@ regardless of whether they implement Drop. Therefore something like</p>
     info: u32,
 }
 <span class="boring">}</span></code></pre></pre>
-<p>will have its data1 and data2's fields destructors whenever it &quot;would&quot; be
+<p>will have its data1 and data2's fields destructors whenever it "would" be
 dropped, even though it itself doesn't implement Drop. We say that such a type
 <em>needs Drop</em>, even though it is not itself Drop.</p>
 <p>Similarly,</p>
@@ -3590,7 +3590,7 @@ is perfect and all of our problems are solved.</p>
 this is basically true. You would be surprised to see a Safe Rust program
 leak resources in an uncontrolled way.</p>
 <p>However from a theoretical perspective this is absolutely not the case, no
-matter how you look at it. In the strictest sense, &quot;leaking&quot; is so abstract as
+matter how you look at it. In the strictest sense, "leaking" is so abstract as
 to be unpreventable. It's quite trivial to initialize a collection at the start
 of a program, fill it with tons of objects with destructors, and then enter an
 infinite event loop that never refers to it. The collection will sit around
@@ -3653,7 +3653,7 @@ unwinding-safe! Easy!</p>
 }
 
 // Oops, vec[0] was dropped, we're reading a pointer into free'd memory!
-println!(&quot;{}&quot;, vec[0]);</code></pre>
+println!("{}", vec[0]);</code></pre>
 <p>This is pretty clearly Not Good. Unfortunately, we're kind of stuck between a
 rock and a hard place: maintaining consistent state at every step has an
 enormous cost (and would negate any benefits of the API). Failing to maintain
@@ -3822,7 +3822,7 @@ to Rust's philosophy of zero-cost abstractions.</p>
 <p>There is an API called <a href="https://doc.rust-lang.org/std/panic/fn.catch_unwind.html"><code>catch_unwind</code></a> that enables catching a panic
 without spawning a thread. Still, we would encourage you to only do this
 sparingly. In particular, Rust's current unwinding implementation is heavily
-optimized for the &quot;doesn't unwind&quot; case. If a program doesn't unwind, there
+optimized for the "doesn't unwind" case. If a program doesn't unwind, there
 should be no runtime cost for the program being <em>ready</em> to unwind. As a
 consequence, actually unwinding will be more expensive than in e.g. Java.
 Don't build your programs to unwind under normal circumstances. Ideally, you
@@ -3954,7 +3954,7 @@ cause any double-drops! If the algorithm terminates normally, then this
 operation happens to coincide precisely with how we finish up regardless.</p>
 <p>Sadly, Rust has no such construct, so we're going to need to roll our own! The
 way to do this is to store the algorithm's state in a separate struct with a
-destructor for the &quot;finally&quot; logic. Whether we panic or not, that destructor
+destructor for the "finally" logic. Whether we panic or not, that destructor
 will run and clean up after us.</p>
 <!-- ignore: simplified code -->
 <pre><code class="language-rust ignore">struct Hole&lt;'a, T: 'a&gt; {
@@ -4074,7 +4074,7 @@ scheduler, which is true for the normal OS environment. If you do control
 preemption, it <em>can be</em> possible to prevent general races - this technique is
 used by frameworks such as <a href="https://github.com/rtic-rs/rtic">RTIC</a>. However,
 actually having control over scheduling is a very uncommon case.</p>
-<p>For this reason, it is considered &quot;safe&quot; for Rust to get deadlocked or do
+<p>For this reason, it is considered "safe" for Rust to get deadlocked or do
 something nonsensical with incorrect synchronization: this is known as a general
 race condition or resource race. Obviously such a program isn't very good, but
 Rust of course cannot prevent all logic errors.</p>
@@ -4110,7 +4110,7 @@ thread::spawn(move || {
 // managed to increment before this ran. A race condition because correct
 // program execution (panicking is rarely correct) depends on order of
 // thread execution.
-println!(&quot;{}&quot;, data[idx.load(Ordering::SeqCst)]);
+println!("{}", data[idx.load(Ordering::SeqCst)]);
 <span class="boring">}</span></code></pre></pre>
 <p>We can cause a data race if we instead do the bound check in advance, and then
 unsafely access the data with an unchecked value:</p>
@@ -4137,7 +4137,7 @@ if idx.load(Ordering::SeqCst) &lt; data.len() {
         // Incorrectly loading the idx after we did the bounds check.
         // It could have changed. This is a race condition, *and dangerous*
         // because we decided to do `get_unchecked`, which is `unsafe`.
-        println!(&quot;{}&quot;, data.get_unchecked(idx.load(Ordering::SeqCst)));
+        println!("{}", data.get_unchecked(idx.load(Ordering::SeqCst)));
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -4172,7 +4172,7 @@ pretty much all types you'll ever interact with are Send and Sync.</p>
 unsynchronized shared mutable state. However raw pointers are, strictly
 speaking, marked as thread-unsafe as more of a <em>lint</em>. Doing anything useful
 with a raw pointer requires dereferencing it, which is already unsafe. In that
-sense, one could argue that it would be &quot;fine&quot; for them to be marked as thread
+sense, one could argue that it would be "fine" for them to be marked as thread
 safe.</p>
 <p>However it's important that they aren't thread-safe to prevent types that
 contain them from being automatically marked as thread-safe. These types have
@@ -4221,7 +4221,7 @@ to the heap.</p>
 </span><span class="boring">   pub use ::std::os::raw::{c_int, c_void};
 </span><span class="boring">   #[allow(non_camel_case_types)]
 </span><span class="boring">   pub type size_t = usize;
-</span><span class="boring">   extern &quot;C&quot; { pub fn posix_memalign(memptr: *mut *mut c_void, align: size_t, size: size_t) -&gt; c_int; }
+</span><span class="boring">   extern "C" { pub fn posix_memalign(memptr: *mut *mut c_void, align: size_t, size: size_t) -&gt; c_int; }
 </span><span class="boring">}
 </span>use std::{
     mem::{align_of, size_of},
@@ -4234,7 +4234,7 @@ struct Carton&lt;T&gt;(ptr::NonNull&lt;T&gt;);
 impl&lt;T&gt; Carton&lt;T&gt; {
     pub fn new(value: T) -&gt; Self {
         // Allocate enough memory on the heap to store one T.
-        assert_ne!(size_of::&lt;T&gt;(), 0, &quot;Zero-sized types are out of the scope of this example&quot;);
+        assert_ne!(size_of::&lt;T&gt;(), 0, "Zero-sized types are out of the scope of this example");
         let mut memptr: *mut T = ptr::null_mut();
         unsafe {
             let ret = libc::posix_memalign(
@@ -4242,7 +4242,7 @@ impl&lt;T&gt; Carton&lt;T&gt; {
                 max(align_of::&lt;T&gt;(), size_of::&lt;usize&gt;()),
                 size_of::&lt;T&gt;()
             );
-            assert_eq!(ret, 0, &quot;Failed to allocate or invalid alignment&quot;);
+            assert_eq!(ret, 0, "Failed to allocate or invalid alignment");
         };
 
         // NonNull is just a wrapper that enforces that the pointer isn't null.
@@ -4250,7 +4250,7 @@ impl&lt;T&gt; Carton&lt;T&gt; {
             // Safety: memptr is dereferenceable because we created it from a
             // reference and have exclusive access.
             ptr::NonNull::new(memptr)
-                .expect(&quot;Guaranteed non-null if posix_memalign returns 0&quot;)
+                .expect("Guaranteed non-null if posix_memalign returns 0")
         };
 
         // Move value from the stack to the location we allocated on the heap.
@@ -4352,7 +4352,7 @@ allocation done on another thread. We can check this is true in the docs for
 </span><span class="boring">struct Carton&lt;T&gt;(std::ptr::NonNull&lt;T&gt;);
 </span><span class="boring">mod libc {
 </span><span class="boring">    pub use ::std::os::raw::c_void;
-</span><span class="boring">    extern &quot;C&quot; { pub fn free(p: *mut c_void); }
+</span><span class="boring">    extern "C" { pub fn free(p: *mut c_void); }
 </span><span class="boring">}
 </span>impl&lt;T&gt; Drop for Carton&lt;T&gt; {
     fn drop(&amp;mut self) {
@@ -4379,7 +4379,7 @@ this model is quite complex and known to have <a href="http://plv.mpi-sws.org/c1
 Rather, it is a pragmatic concession to the fact that <em>everyone</em> is pretty bad
 at modeling atomics. At very least, we can benefit from existing tooling and
 research around the C/C++ memory model.
-(You'll often see this model referred to as &quot;C/C++11&quot; or just &quot;C11&quot;. C just copies
+(You'll often see this model referred to as "C/C++11" or just "C11". C just copies
 the C++ memory model; and C++11 was the first version of the model but it has
 received some bugfixes since then.)</p>
 <p>Trying to fully explain the model in this book is fairly hopeless. It's defined
@@ -4527,15 +4527,15 @@ does exist a single total ordering <em>within</em> each thread, which is known a
 <em>sequence</em>. For example, given this simple Rust program:</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>println!(&quot;A&quot;);
-println!(&quot;B&quot;);
+</span>println!("A");
+println!("B");
 <span class="boring">}</span></code></pre></pre>
 <p>its sequence during one possible execution can be visualized like so:</p>
 <pre><code class="language-text">╭───────────────╮
-│ println!(&quot;A&quot;) │
+│ println!("A") │
 ╰───────╥───────╯
 ╭───────⇓───────╮
-│ println!(&quot;B&quot;) │
+│ println!("B") │
 ╰───────────────╯
 </code></pre>
 <p>That double arrow in between the two boxes (<code>⇒</code>) represents that the second
@@ -4547,20 +4547,20 @@ happen one after the other and on the same thread.</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Thread 1:
-println!(&quot;A&quot;);
-println!(&quot;B&quot;);
+println!("A");
+println!("B");
 // Thread 2:
-eprintln!(&quot;01&quot;);
-eprintln!(&quot;02&quot;);
+eprintln!("01");
+eprintln!("02");
 <span class="boring">}</span></code></pre></pre>
 <p>it will simply coexist in parallel, with each thread getting its own independent
 sequence:</p>
 <pre><code class="language-text">    Thread 1              Thread 2
 ╭───────────────╮    ╭─────────────────╮
-│ println!(&quot;A&quot;) │    │ eprintln!(&quot;01&quot;) │
+│ println!("A") │    │ eprintln!("01") │
 ╰───────╥───────╯    ╰────────╥────────╯
 ╭───────⇓───────╮    ╭────────⇓────────╮
-│ println!(&quot;B&quot;) │    │ eprintln!(&quot;02&quot;) │
+│ println!("B") │    │ eprintln!("02") │
 ╰───────────────╯    ╰─────────────────╯
 </code></pre>
 <p>We can say that the prints of <code>A</code> and <code>B</code> are <em>unsequenced</em> with regard to the
@@ -4579,9 +4579,9 @@ both threads read it.</p>
 </span>// Initial state
 let data = 0;
 // Thread 1:
-println!(&quot;{data}&quot;);
+println!("{data}");
 // Thread 2:
-eprintln!(&quot;{data}&quot;);
+eprintln!("{data}");
 <span class="boring">}</span></code></pre></pre>
 <p>Each memory location, similarly to threads, can be shown as another column on
 our diagram, but holding values instead of instructions, and each access (read
@@ -4623,7 +4623,7 @@ that reads <em>and</em> writes data — woah, scary!</p>
 </span><span class="boring">fn main() {
 </span>let mut data = 0;
 data = 1;
-println!(&quot;{data}&quot;);
+println!("{data}");
 data = 2;
 <span class="boring">}</span></code></pre></pre>
 <p>Working out executions of code like this is rather like solving a Sudoku puzzle:
@@ -4737,7 +4737,7 @@ let mut data = 0;
 // Thread 1:
 data = 1;
 // Thread 2:
-println!(&quot;{data}&quot;);
+println!("{data}");
 <span class="boring">}</span></code></pre></pre>
 <p>Of course, any Rust programmer will immediately tell you that this code doesn’t
 compile, and indeed it definitely does not, and for good reason. But suspend
@@ -5214,7 +5214,7 @@ if let Some(guard) = mutex.lock() {
 }
 // Thread 2
 if let Some(guard) = mutex.lock() {
-    println!(&quot;{}&quot;, *guard);
+    println!("{}", *guard);
 }</code></pre>
 <p>Now, there are many possible executions of this code. For example, Thread 2 (the
 reader thread) could lock the mutex first, and Thread 1 (the writer thread)
@@ -5457,10 +5457,8 @@ realize just how incredibly convoluted and hard to follow the actual rules
 behind it are, and it gets really ugly really fast as soon as you try to mix it
 with any other ordering.</p>
 <p>To understand <code>SeqCst</code>, we first have to understand the problem it exists to
-solve. The first complexity is that this problem can only be observed in the
-presence of at least four different threads <em>and</em> two separate atomic variables;
-anything less and it’s not possible to notice a difference. The common example
-used to show where weaker orderings produce counterintuitive results is this:</p>
+solve. A simple example used to show where weaker orderings produce
+counterintuitive results is this:</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">use std::sync::atomic::{self, AtomicBool};
@@ -5474,49 +5472,41 @@ const ORDERING: atomic::Ordering = atomic::Ordering::Relaxed;
 static X: AtomicBool = AtomicBool::new(false);
 static Y: AtomicBool = AtomicBool::new(false);
 
-let a = thread::spawn(|| { X.store(true, ORDERING) });
-let b = thread::spawn(|| { Y.store(true, ORDERING) });
-let c = thread::spawn(|| { while !X.load(ORDERING) {} Y.load(ORDERING) });
-let d = thread::spawn(|| { while !Y.load(ORDERING) {} X.load(ORDERING) });
+let a = thread::spawn(|| { X.store(true, ORDERING); Y.load(ORDERING) });
+let b = thread::spawn(|| { Y.store(true, ORDERING); X.load(ORDERING) });
 
 let a = a.join().unwrap();
 let b = b.join().unwrap();
-let c = c.join().unwrap();
-let d = d.join().unwrap();
 
 <span class="boring">return;
 </span>// This assert is allowed to fail.
-assert!(c || d);
+assert!(a || b);
 <span class="boring">}</span></code></pre></pre>
 <p>The basic setup of this code, for all of its possible executions, looks like
 this:</p>
-<pre><code class="language-text">     a        static X         c               d        static Y         b
-╭─────────╮   ┌───────┐   ╭─────────╮     ╭─────────╮   ┌───────┐   ╭─────────╮
-│ store X ├─┐ │ false │ ┌─┤ load X  │     │ load Y  ├─┐ │ false │ ┌─┤ store Y │
-╰─────────╯ │ └───────┘ │ ╰────╥────╯     ╰────╥────╯ │ └───────┘ │ ╰─────────╯
-            └─┬───────┐ │ ╭────⇓────╮     ╭────⇓────╮ │ ┌───────┬─┘
-              │ true  ├─┘ │ load Y  ├─? ?─┤ load X  │ └─┤ true  │
-              └───────┘   ╰─────────╯     ╰─────────╯   └───────┘
+<pre><code class="language-text">     a        static X    static Y         b
+╭─────────╮   ┌───────┐   ┌───────┐   ╭─────────╮
+│ store X ├─┐ │ false │   │ false │ ┌─┤ store Y │
+╰────╥────╯ │ └───────┘   └───────┘ │ ╰────╥────╯
+╭────⇓────╮ └─┬───────┐   ┌───────┬─┘ ╭────⇓────╮
+│ load Y  ├─? │ true  │   │ true  │ ?─┤ load X  │
+╰─────────╯   └───────┘   └───────┘   ╰─────────╯
 </code></pre>
-<p>In other words, <code>a</code> and <code>b</code> are guaranteed to, at some point, store <code>true</code> into
-<code>X</code> and <code>Y</code> respectively, and <code>c</code> and <code>d</code> are guaranteed to, at some point, load
-those values of <code>true</code> from <code>X</code> and <code>Y</code> (there could also be an arbitrary number
-of loads of <code>false</code> by <code>c</code> and <code>d</code>, but they’ve been omitted since they don’t
-actually affect the execution at all). The question now is when <code>c</code> and <code>d</code> load
-from <code>Y</code> and <code>X</code> respectively, is it possible for them <em>both</em> to load <code>false</code>?</p>
+<p>In other words, <code>a</code> and <code>b</code> are guaranteed to store <code>true</code> into <code>X</code> and <code>Y</code>
+respectively, and then attempt to load from the other thread’s atomic. The
+question now is: is it possible for them <em>both</em> to load <code>false</code>?</p>
 <p>And looking at this diagram, there’s absolutely no reason why not. There isn’t
-even a single arrow connecting the left and right hand sides so far, so the load
-has no coherence-based restrictions on which value it is allowed to pick — and
-this goes for both sides equally, so we could end up with an execution like
-this:</p>
-<pre><code class="language-text">     a        static X         c             d        static Y         b
-╭─────────╮   ┌───────┐   ╭─────────╮   ╭─────────╮   ┌───────┐   ╭─────────╮
-│ store X ├─┐ │ false ├┐ ┌┤ load X  │   │ load Y  ├┐ ┌┤ false │ ┌─┤ store Y │
-╰─────────╯ │ └───────┘│ │╰────╥────╯   ╰────╥────╯│ │└───────┘ │ ╰─────────╯
-            └─┬───────┐└─│─────║──────┐┌─────║─────│─┘┌───────┬─┘
-              │ true  ├──┘╭────⇓────╮┌─┘╭────⇓────╮└──┤ true  │
-              └───────┘   │ load Y  ├┘└─┤ load X  │   └───────┘
-                          ╰─────────╯   ╰─────────╯
+even a single arrow connecting the left and right hand sides so far, so the
+loads have no coherence-based restrictions on which values they are allowed to
+pick, and we could end up with an execution like this:</p>
+<pre><code class="language-text">     a        static X    static Y         b
+╭─────────╮   ┌───────┐   ┌───────┐   ╭─────────╮
+│ store X ├┐  │ false ├─┐┌┤ false │  ┌┤ store Y │
+╰────╥────╯│  └───────┘┌─┘└───────┘  │╰────╥────╯
+     ║     │ ┌─────────┘└───────────┐│     ║
+╭────⇓────╮└─│┬───────┐   ┌───────┬─│┘╭────⇓────╮
+│ load Y  ├──┘│ true  │   │ true  │ └─┤ load X  │
+╰─────────╯   └───────┘   └───────┘   ╰─────────╯
 </code></pre>
 <p>Which results in a failed assert. This execution is brought about because the
 model of separate modification orders means that there is no relative ordering
@@ -5599,15 +5589,15 @@ consistent with it.</p>
 <p>So, looking back at our program, let’s consider how we could use <code>SeqCst</code> to
 make that execution invalid. As a refresher, here’s the framework for every
 possible execution of the program:</p>
-<pre><code class="language-text">     a        static X         c               d        static Y         b
-╭─────────╮   ┌───────┐   ╭─────────╮     ╭─────────╮   ┌───────┐   ╭─────────╮
-│ store X ├─┐ │ false │ ┌─┤ load X  │     │ load Y  ├─┐ │ false │ ┌─┤ store Y │
-╰─────────╯ │ └───────┘ │ ╰────╥────╯     ╰────╥────╯ │ └───────┘ │ ╰─────────╯
-            └─┬───────┐ │ ╭────⇓────╮     ╭────⇓────╮ │ ┌───────┬─┘
-              │ true  ├─┘ │ load Y  ├─? ?─┤ load X  │ └─┤ true  │
-              └───────┘   ╰─────────╯     ╰─────────╯   └───────┘
+<pre><code class="language-text">     a        static X    static Y         b
+╭─────────╮   ┌───────┐   ┌───────┐   ╭─────────╮
+│ store X ├─┐ │ false │   │ false │ ┌─┤ store Y │
+╰────╥────╯ │ └───────┘   └───────┘ │ ╰────╥────╯
+╭────⇓────╮ └─┬───────┐   ┌───────┬─┘ ╭────⇓────╮
+│ load Y  ├─? │ true  │   │ true  │ ?─┤ load X  │
+╰─────────╯   └───────┘   └───────┘   ╰─────────╯
 </code></pre>
-<p>First of all, both the final loads (<code>c</code> and <code>d</code>’s second operations) need to
+<p>First of all, both the final loads (<code>a</code> and <code>b</code>’s second operations) need to
 become <code>SeqCst</code>, because they need to be aware of the total ordering that
 determines whether <code>X</code> or <code>Y</code> becomes <code>true</code> first. And secondly, we need to
 establish that ordering in the first place, and that needs to be done by making
@@ -5615,92 +5605,90 @@ sure that there is always one operation in <em>S</em> that both sees one of the 
 as <code>true</code> and precedes both final loads in <em>S</em>, so that the coherence ordering
 guarantee will apply (the final loads themselves don’t work for this since
 although they “know” that their corresponding atomic is <code>true</code> they don’t
-interact with it directly so <em>S</em> doesn’t care).</p>
-<p>There are two operations in the program that could fulfill the first condition,
-should they be made <code>SeqCst</code>: the stores of <code>true</code> and the first loads. However,
-the second condition ends up ruling out using the stores, since in order to make
-sure that they precede the final loads in <em>S</em> it would be necessary to have the
-first loads be <code>SeqCst</code> anyway (due to the mixed-<code>SeqCst</code> special case detailed
-later), so in the end we can just leave them as <code>Relaxed</code>.</p>
+interact with it directly so <em>S</em> doesn’t care) — for this, we must set both
+stores to use the <code>SeqCst</code> ordering.</p>
 <p>This leaves us with the correct version of the above program, which is
 guaranteed to never panic:</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span><span class="boring">use std::sync::atomic::{AtomicBool, Ordering::{Relaxed, SeqCst}};
+</span><span class="boring">use std::sync::atomic::{self, AtomicBool};
 </span>use std::thread;
+
+const ORDERING: atomic::Ordering = atomic::Ordering::SeqCst;
 
 static X: AtomicBool = AtomicBool::new(false);
 static Y: AtomicBool = AtomicBool::new(false);
 
-let a = thread::spawn(|| { X.store(true, Relaxed) });
-let b = thread::spawn(|| { Y.store(true, Relaxed) });
-let c = thread::spawn(|| { while !X.load(SeqCst) {} Y.load(SeqCst) });
-let d = thread::spawn(|| { while !Y.load(SeqCst) {} X.load(SeqCst) });
+let a = thread::spawn(|| { X.store(true, ORDERING); Y.load(ORDERING) });
+let b = thread::spawn(|| { Y.store(true, ORDERING); X.load(ORDERING) });
 
 let a = a.join().unwrap();
 let b = b.join().unwrap();
-let c = c.join().unwrap();
-let d = d.join().unwrap();
 
-// This assert is **not** allowed to fail.
-assert!(c || d);
+<span class="boring">return;
+</span>// This assert is **not** allowed to fail.
+assert!(a || b);
 <span class="boring">}</span></code></pre></pre>
 <p>As there are four <code>SeqCst</code> operations with a partial order between two pairs in
 them (caused by the sequenced-before relation), there are six possible
 executions of this program:</p>
 <ul>
-<li>All of <code>c</code>’s loads precede <code>d</code>’s loads:
+<li>All of <code>a</code>’s operations precede <code>b</code>’s operations:
 <ol>
-<li><code>c</code> loads <code>X</code> (gives <code>true</code>)</li>
-<li><code>c</code> loads <code>Y</code> (gives either <code>false</code> or <code>true</code>)</li>
-<li><code>d</code> loads <code>Y</code> (gives <code>true</code>)</li>
-<li><code>d</code> loads <code>X</code> (required to be <code>true</code>)</li>
+<li><code>a</code> stores <code>true</code> into <code>X</code></li>
+<li><code>a</code> loads <code>Y</code> (gives <code>false</code>)</li>
+<li><code>b</code> stores <code>true</code> into <code>Y</code></li>
+<li><code>b</code> loads <code>X</code> (required to give <code>true</code>)</li>
 </ol>
 </li>
-<li>Both initial loads precede both final loads:
+<li>All of <code>b</code>’s operations precede <code>a</code>’s operations:
 <ol>
-<li><code>c</code> loads <code>X</code> (gives <code>true</code>)</li>
-<li><code>d</code> loads <code>Y</code> (gives <code>true</code>)</li>
-<li><code>c</code> loads <code>Y</code> (required to be <code>true</code>)</li>
-<li><code>d</code> loads <code>X</code> (required to be <code>true</code>)</li>
+<li><code>b</code> stores <code>true</code> into <code>Y</code></li>
+<li><code>b</code> loads <code>X</code> (gives <code>false</code>)</li>
+<li><code>a</code> stores <code>true</code> into <code>X</code></li>
+<li><code>a</code> loads <code>Y</code> (required to give <code>true</code>)</li>
 </ol>
 </li>
-<li>As above, but the final loads occur in a different order:
+<li>The stores precede the loads,
+<code>a</code>’s store precedes <code>b</code>’s and <code>a</code>’s load precedes <code>b</code>’s:
 <ol>
-<li><code>c</code> loads <code>X</code> (gives <code>true</code>)</li>
-<li><code>d</code> loads <code>Y</code> (gives <code>true</code>)</li>
-<li><code>d</code> loads <code>X</code> (required to be <code>true</code>)</li>
-<li><code>c</code> loads <code>Y</code> (required to be <code>true</code>)</li>
+<li><code>a</code> stores <code>true</code> to <code>X</code></li>
+<li><code>b</code> stores <code>true</code> into <code>Y</code></li>
+<li><code>a</code> loads <code>Y</code> (required to give <code>true</code>)</li>
+<li><code>b</code> loads <code>X</code> (required to give <code>true</code>)</li>
 </ol>
 </li>
-<li>As before, but the initial loads occur in a different order:
+<li>The stores precede the loads,
+<code>a</code>’s store precedes <code>b</code>’s and <code>b</code>’s load precedes <code>a</code>’s:
 <ol>
-<li><code>d</code> loads <code>Y</code> (gives <code>true</code>)</li>
-<li><code>c</code> loads <code>X</code> (gives <code>true</code>)</li>
-<li><code>c</code> loads <code>Y</code> (required to be <code>true</code>)</li>
-<li><code>d</code> loads <code>X</code> (required to be <code>true</code>)</li>
+<li><code>a</code> stores <code>true</code> to <code>X</code></li>
+<li><code>b</code> stores <code>true</code> into <code>Y</code></li>
+<li><code>b</code> loads <code>X</code> (required to give <code>true</code>)</li>
+<li><code>a</code> loads <code>Y</code> (required to give <code>true</code>)</li>
 </ol>
 </li>
-<li>As above, but the final loads occur in a different order:
+<li>The stores precede the loads,
+<code>b</code>’s store precedes <code>a</code>’s and <code>a</code>’s load precedes <code>b</code>’s:
 <ol>
-<li><code>d</code> loads <code>Y</code> (gives <code>true</code>)</li>
-<li><code>c</code> loads <code>X</code> (gives <code>true</code>)</li>
-<li><code>d</code> loads <code>X</code> (required to be <code>true</code>)</li>
-<li><code>c</code> loads <code>Y</code> (required to be <code>true</code>)</li>
+<li><code>b</code> stores <code>true</code> into <code>Y</code></li>
+<li><code>a</code> stores <code>true</code> to <code>X</code></li>
+<li><code>a</code> loads <code>Y</code> (required to give <code>true</code>)</li>
+<li><code>b</code> loads <code>X</code> (required to give <code>true</code>)</li>
 </ol>
 </li>
-<li>All of <code>d</code>’s loads precede <code>c</code>’s loads:
+<li>The stores precede the loads,
+<code>b</code>’s store precedes <code>a</code>’s and <code>b</code>’s load precedes <code>a</code>’s:
 <ol>
-<li><code>d</code> loads <code>Y</code> (gives <code>true</code>)</li>
-<li><code>d</code> loads <code>X</code> (gives either <code>false</code> or <code>true</code>)</li>
-<li><code>c</code> loads <code>X</code> (gives <code>true</code>)</li>
-<li><code>c</code> loads <code>Y</code> (required to be <code>true</code>)</li>
+<li><code>b</code> stores <code>true</code> into <code>Y</code></li>
+<li><code>a</code> stores <code>true</code> to <code>X</code></li>
+<li><code>b</code> loads <code>X</code> (required to give <code>true</code>)</li>
+<li><code>a</code> loads <code>Y</code> (required to give <code>true</code>)</li>
 </ol>
 </li>
 </ul>
 <p>All the places where the load was required to give <code>true</code> were caused by a
-preceding load in <em>S</em> of the same atomic which saw <code>true</code> — otherwise, the load
-would be coherence-ordered-before a load which precedes it in <em>S</em>, and that is
+preceding store in <em>S</em> of the same atomic of <code>true</code> — otherwise, the load would
+be coherence-ordered-before a store which precedes it in <em>S</em>, and that is
 impossible.</p>
 <h2 id="the-mixed-seqcst-special-case"><a class="header" href="#the-mixed-seqcst-special-case">The mixed-<code>SeqCst</code> special case</a></h2>
 <p>As I’ve been alluding to for a while, I wasn’t being totally truthful when I
@@ -6062,22 +6050,22 @@ it.</p>
 </blockquote>
 <p>The “motivating use-case” for <code>SeqCst</code> demonstrated in the <code>SeqCst</code> chapter can
 also be rewritten to use exclusively <code>SeqCst</code> fences and <code>Relaxed</code> operations,
-by inserting fences in between the loads in threads <code>c</code> and <code>d</code>:</p>
-<pre><code class="language-text">     a        static X         c               d        static Y         b
-╭─────────╮   ┌───────┐   ╭─────────╮     ╭─────────╮   ┌───────┐   ╭─────────╮
-│ store X ├─┐ │ false │ ┌─┤ load X  │     │ load Y  ├─┐ │ false │ ┌─┤ store Y │
-╰─────────╯ │ └───────┘ │ ╰────╥────╯     ╰────╥────╯ │ └───────┘ │ ╰─────────╯
-            └─┬───────┐ │ ╭────⇓────╮     ╭────⇓────╮ │ ┌───────┬─┘
-              │ true  ├─┘ │ *fence* │     │ *fence* │ └─┤ true  │
-              └───────┘   ╰────╥────╯     ╰────╥────╯   └───────┘
-                          ╭────⇓────╮     ╭────⇓────╮
-                          │ load Y  ├─? ?─┤ load X  │
-                          ╰─────────╯     ╰─────────╯
+by inserting fences in between the operations in the two threads:</p>
+<pre><code class="language-text">     a        static X    static Y         b
+╭─────────╮   ┌───────┐   ┌───────┐   ╭─────────╮
+│ store X ├─┐ │ false │   │ false │ ┌─┤ store Y │
+╰────╥────╯ │ └───────┘   └───────┘ │ ╰────╥────╯
+╭────⇓────╮ └─┬───────┐   ┌───────┬─┘ ╭────⇓────╮
+│ *fence* │   │ true  │   │ true  │   │ *fence* │
+╰────╥────╯   └───────┘   └───────┘   ╰────╥────╯
+╭────⇓────╮                           ╭────⇓────╮
+│ load Y  ├─?                       ?─┤ load X  │
+╰─────────╯                           ╰─────────╯
 </code></pre>
 <p>There are two executions to consider here, depending on which way round the
-fences appear in <em>S</em>. Should <code>c</code>’s fence appear first, the fence–fence <code>SeqCst</code>
-guarantee tells us that <code>c</code>’s load of <code>X</code> is not coherence-ordered-after <code>d</code>’s
-load of <code>X</code>, which forbids <code>d</code>’s load of <code>X</code> from seeing the value <code>false</code>. The
+fences appear in <em>S</em>. Should <code>a</code>’s fence appear first, the fence–fence <code>SeqCst</code>
+guarantee tells us that <code>b</code>’s load of <code>X</code> is not coherence-ordered-after <code>a</code>’s
+store of <code>X</code>, which forbids <code>b</code>’s load of <code>X</code> from seeing the value <code>false</code>. The
 same logic can be applied should the fences appear the other way around, proving
 that at least one thread must load <code>true</code> in the end.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="example-implementing-vec"><a class="header" href="#example-implementing-vec">Example: Implementing Vec</a></h1>
@@ -6112,7 +6100,7 @@ so we'd like to not use it if possible, though.</p>
 <p>As a recap, Unique is a wrapper around a raw pointer that declares that:</p>
 <ul>
 <li>We are covariant over <code>T</code></li>
-<li>We may own a value of type <code>T</code> (this is not relevant for our example here, but see 
+<li>We may own a value of type <code>T</code> (this is not relevant for our example here, but see
 <a href="vec/../phantom-data.html">the chapter on PhantomData</a> on why the real <code>std::vec::Vec&lt;T&gt;</code> needs this)</li>
 <li>We are Send/Sync if <code>T</code> is Send/Sync</li>
 <li>Our pointer is never null (so <code>Option&lt;Vec&lt;T&gt;&gt;</code> is null-pointer-optimized)</li>
@@ -6153,7 +6141,7 @@ want to use <code>dangling</code> because there's no real allocation to talk abo
 
 impl&lt;T&gt; Vec&lt;T&gt; {
     pub fn new() -&gt; Self {
-        assert!(mem::size_of::&lt;T&gt;() != 0, &quot;We're not ready to handle ZSTs&quot;);
+        assert!(mem::size_of::&lt;T&gt;() != 0, "We're not ready to handle ZSTs");
         Vec {
             ptr: NonNull::dangling(),
             len: 0,
@@ -6175,7 +6163,7 @@ library provides a function <a href="vec/../../alloc/alloc/fn.handle_alloc_error
 which will abort the program in a platform-specific manner.
 The reason we abort and don't panic is because unwinding can cause allocations
 to happen, and that seems like a bad thing to do when your allocator just came
-back with &quot;hey I don't have any more memory&quot;.</p>
+back with "hey I don't have any more memory".</p>
 <p>Of course, this is a bit silly since most platforms don't actually run out of
 memory in a conventional way. Your operating system will probably kill the
 application by another means if you legitimately start using up all the memory.
@@ -6211,7 +6199,7 @@ However the compiler can't do this in general because if x and y point to
 the same location in memory, the operations need to be done to the same value,
 and they can't just be merged afterwards.</p>
 <p>When you use GEP inbounds, you are specifically telling LLVM that the offsets
-you're about to do are within the bounds of a single &quot;allocated&quot; entity. The
+you're about to do are within the bounds of a single "allocated" entity. The
 ultimate payoff being that LLVM can assume that if two pointers are known to
 point to two disjoint objects, all the offsets of those pointers are <em>also</em>
 known to not alias (because you won't just end up in some random place in
@@ -6241,11 +6229,11 @@ here, and just unconditionally check, rather than use clever platform-specific
 be two kinds of empty allocations we need to worry about: <code>cap = 0</code> for all T,
 and <code>cap &gt; 0</code> for zero-sized types.</p>
 <p>These cases are tricky because they come
-down to what LLVM means by &quot;allocated&quot;. LLVM's notion of an
+down to what LLVM means by "allocated". LLVM's notion of an
 allocation is significantly more abstract than how we usually use it. Because
 LLVM needs to work with different languages' semantics and custom allocators,
 it can't really intimately understand allocation. Instead, the main idea behind
-allocation is &quot;doesn't overlap with other stuff&quot;. That is, heap allocations,
+allocation is "doesn't overlap with other stuff". That is, heap allocations,
 stack allocations, and globals don't randomly overlap. Yep, it's about alias
 analysis. As such, Rust can technically play a bit fast and loose with the notion of
 an allocation as long as it's <em>consistent</em>.</p>
@@ -6285,7 +6273,7 @@ impl&lt;T&gt; Vec&lt;T&gt; {
         };
 
         // Ensure that the new allocation doesn't exceed `isize::MAX` bytes.
-        assert!(new_layout.size() &lt;= isize::MAX as usize, &quot;Allocation too large&quot;);
+        assert!(new_layout.size() &lt;= isize::MAX as usize, "Allocation too large");
 
         let new_ptr = if self.cap == 0 {
             unsafe { alloc::alloc(new_layout) }
@@ -6418,11 +6406,11 @@ using the old len.</p>
 <pre><code class="language-rust ignore">pub fn insert(&amp;mut self, index: usize, elem: T) {
     // Note: `&lt;=` because it's valid to insert after everything
     // which would be equivalent to push.
-    assert!(index &lt;= self.len, &quot;index out of bounds&quot;);
+    assert!(index &lt;= self.len, "index out of bounds");
     if self.len == self.cap { self.grow(); }
 
     unsafe {
-        // ptr::copy(src, dest, len): &quot;copy from src to dest len elems&quot;
+        // ptr::copy(src, dest, len): "copy from src to dest len elems"
         ptr::copy(
             self.ptr.as_ptr().add(index),
             self.ptr.as_ptr().add(index + 1),
@@ -6438,7 +6426,7 @@ using the old len.</p>
 <!-- ignore: simplified code -->
 <pre><code class="language-rust ignore">pub fn remove(&amp;mut self, index: usize) -&gt; T {
     // Note: `&lt;` because it's *not* valid to remove after everything
-    assert!(index &lt; self.len, &quot;index out of bounds&quot;);
+    assert!(index &lt; self.len, "index out of bounds");
     unsafe {
         self.len -= 1;
         let result = ptr::read(self.ptr.as_ptr().add(index));
@@ -6586,7 +6574,7 @@ unsafe impl&lt;T: Sync&gt; Sync for RawVec&lt;T&gt; {}
 
 impl&lt;T&gt; RawVec&lt;T&gt; {
     fn new() -&gt; Self {
-        assert!(mem::size_of::&lt;T&gt;() != 0, &quot;TODO: implement ZST support&quot;);
+        assert!(mem::size_of::&lt;T&gt;() != 0, "TODO: implement ZST support");
         RawVec {
             ptr: NonNull::dangling(),
             cap: 0,
@@ -6603,7 +6591,7 @@ impl&lt;T&gt; RawVec&lt;T&gt; {
         let new_layout = Layout::array::&lt;T&gt;(new_cap).unwrap();
 
         // Ensure that the new allocation doesn't exceed `isize::MAX` bytes.
-        assert!(new_layout.size() &lt;= isize::MAX as usize, &quot;Allocation too large&quot;);
+        assert!(new_layout.size() &lt;= isize::MAX as usize, "Allocation too large");
 
         let new_ptr = if self.cap == 0 {
             unsafe { alloc::alloc(new_layout) }
@@ -6711,13 +6699,13 @@ impl&lt;T&gt; IntoIterator for Vec&lt;T&gt; {
 <div style="break-before: page; page-break-before: always;"></div><h1 id="drain-1"><a class="header" href="#drain-1">Drain</a></h1>
 <p>Let's move on to Drain. Drain is largely the same as IntoIter, except that
 instead of consuming the Vec, it borrows the Vec and leaves its allocation
-untouched. For now we'll only implement the &quot;basic&quot; full-range version.</p>
+untouched. For now we'll only implement the "basic" full-range version.</p>
 <!-- ignore: simplified code -->
 <pre><code class="language-rust ignore">use std::marker::PhantomData;
 
 struct Drain&lt;'a, T: 'a&gt; {
     // Need to bound the lifetime here, so we do it with `&amp;'a mut Vec&lt;T&gt;`
-    // because that's semantically what we contain. We're &quot;just&quot; calling
+    // because that's semantically what we contain. We're "just" calling
     // `pop()` and `remove(0)`.
     vec: PhantomData&lt;&amp;'a mut Vec&lt;T&gt;&gt;,
     start: *const T,
@@ -6875,7 +6863,7 @@ method of <code>RawVec</code>.</p>
         // This branch should be stripped at compile time.
         let cap = if mem::size_of::&lt;T&gt;() == 0 { usize::MAX } else { 0 };
 
-        // `NonNull::dangling()` doubles as &quot;unallocated&quot; and &quot;zero-sized allocation&quot;
+        // `NonNull::dangling()` doubles as "unallocated" and "zero-sized allocation"
         RawVec {
             ptr: NonNull::dangling(),
             cap,
@@ -6885,7 +6873,7 @@ method of <code>RawVec</code>.</p>
     fn grow(&amp;mut self) {
         // since we set the capacity to usize::MAX when T has size 0,
         // getting to here necessarily means the Vec is overfull.
-        assert!(mem::size_of::&lt;T&gt;() != 0, &quot;capacity overflow&quot;);
+        assert!(mem::size_of::&lt;T&gt;() != 0, "capacity overflow");
 
         let (new_cap, new_layout) = if self.cap == 0 {
             (1, Layout::array::&lt;T&gt;(1).unwrap())
@@ -6901,7 +6889,7 @@ method of <code>RawVec</code>.</p>
         };
 
         // Ensure that the new allocation doesn't exceed `isize::MAX` bytes.
-        assert!(new_layout.size() &lt;= isize::MAX as usize, &quot;Allocation too large&quot;);
+        assert!(new_layout.size() &lt;= isize::MAX as usize, "Allocation too large");
 
         let new_ptr = if self.cap == 0 {
             unsafe { alloc::alloc(new_layout) }
@@ -6977,7 +6965,7 @@ map size 0 to divide by 1. Here's what <code>next</code> will be:</p>
         }
     }
 }</code></pre>
-<p>Do you see the &quot;bug&quot;? No one else did! The original author only noticed the
+<p>Do you see the "bug"? No one else did! The original author only noticed the
 problem when linking to this page years later. This code is kind of dubious
 because abusing the iterator pointers to be <em>counters</em> makes them unaligned!
 Our <em>one job</em> when using ZSTs is to keep pointers aligned! <em>forehead slap</em></p>
@@ -7055,7 +7043,7 @@ impl&lt;T&gt; RawVec&lt;T&gt; {
         // !0 is usize::MAX. This branch should be stripped at compile time.
         let cap = if mem::size_of::&lt;T&gt;() == 0 { !0 } else { 0 };
 
-        // `NonNull::dangling()` doubles as &quot;unallocated&quot; and &quot;zero-sized allocation&quot;
+        // `NonNull::dangling()` doubles as "unallocated" and "zero-sized allocation"
         RawVec {
             ptr: NonNull::dangling(),
             cap,
@@ -7065,7 +7053,7 @@ impl&lt;T&gt; RawVec&lt;T&gt; {
     fn grow(&amp;mut self) {
         // since we set the capacity to usize::MAX when T has size 0,
         // getting to here necessarily means the Vec is overfull.
-        assert!(mem::size_of::&lt;T&gt;() != 0, &quot;capacity overflow&quot;);
+        assert!(mem::size_of::&lt;T&gt;() != 0, "capacity overflow");
 
         let (new_cap, new_layout) = if self.cap == 0 {
             (1, Layout::array::&lt;T&gt;(1).unwrap())
@@ -7083,7 +7071,7 @@ impl&lt;T&gt; RawVec&lt;T&gt; {
         // Ensure that the new allocation doesn't exceed `isize::MAX` bytes.
         assert!(
             new_layout.size() &lt;= isize::MAX as usize,
-            &quot;Allocation too large&quot;
+            "Allocation too large"
         );
 
         let new_ptr = if self.cap == 0 {
@@ -7161,7 +7149,7 @@ impl&lt;T&gt; Vec&lt;T&gt; {
     }
 
     pub fn insert(&amp;mut self, index: usize, elem: T) {
-        assert!(index &lt;= self.len, &quot;index out of bounds&quot;);
+        assert!(index &lt;= self.len, "index out of bounds");
         if self.len == self.cap() {
             self.buf.grow();
         }
@@ -7179,7 +7167,7 @@ impl&lt;T&gt; Vec&lt;T&gt; {
     }
 
     pub fn remove(&amp;mut self, index: usize) -&gt; T {
-        assert!(index &lt; self.len, &quot;index out of bounds&quot;);
+        assert!(index &lt; self.len, "index out of bounds");
 
         self.len -= 1;
 
@@ -7371,7 +7359,7 @@ impl&lt;'a, T&gt; Drop for Drain&lt;'a, T&gt; {
 </span><span class="boring">    tests::iter_test();
 </span><span class="boring">    tests::test_drain();
 </span><span class="boring">    tests::test_zst();
-</span><span class="boring">    println!(&quot;All tests finished OK&quot;);
+</span><span class="boring">    println!("All tests finished OK");
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">mod tests {
@@ -7743,10 +7731,10 @@ fence, which happens before the deletion of the data.</p>
 <blockquote>
 <p>It is important to enforce any possible access to the object in one
 thread (through an existing reference) to <em>happen before</em> deleting
-the object in a different thread. This is achieved by a &quot;release&quot;
+the object in a different thread. This is achieved by a "release"
 operation after dropping a reference (any access to the object
 through this reference must obviously happened before), and an
-&quot;acquire&quot; operation before deleting the object.</p>
+"acquire" operation before deleting the object.</p>
 </blockquote>
 <p>In particular, while the contents of an Arc are usually immutable, it's
 possible to have interior writes to something like a Mutex<T>. Since a Mutex
@@ -7880,7 +7868,7 @@ snappy includes a C interface (documented in
 type definitions for C types, among other things. If you’re trying these
 examples yourself, you’ll need to add <code>libc</code> to your <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[dependencies]
-libc = &quot;0.2.0&quot;
+libc = "0.2.0"
 </code></pre>
 <h2 id="calling-foreign-functions"><a class="header" href="#calling-foreign-functions">Calling foreign functions</a></h2>
 <p>The following is a minimal example of calling a foreign function which will
@@ -7888,14 +7876,14 @@ compile if snappy is installed:</p>
 <!-- ignore: requires libc crate -->
 <pre><code class="language-rust ignore">use libc::size_t;
 
-#[link(name = &quot;snappy&quot;)]
+#[link(name = "snappy")]
 extern {
     fn snappy_max_compressed_length(source_length: size_t) -&gt; size_t;
 }
 
 fn main() {
     let x = unsafe { snappy_max_compressed_length(100) };
-    println!(&quot;max compressed length of a 100 byte buffer: {}&quot;, x);
+    println!("max compressed length of a 100 byte buffer: {}", x);
 }</code></pre>
 <p>The <code>extern</code> block is a list of function signatures in a foreign library, in
 this case with the platform's C ABI. The <code>#[link(...)]</code> attribute is used to
@@ -7914,7 +7902,7 @@ of keeping the binding correct at runtime.</p>
 <!-- ignore: requires libc crate -->
 <pre><code class="language-rust ignore">use libc::{c_int, size_t};
 
-#[link(name = &quot;snappy&quot;)]
+#[link(name = "snappy")]
 extern {
     fn snappy_compress(input: *const u8,
                        input_length: size_t,
@@ -8073,15 +8061,15 @@ This is fairly easy, but requires a few things.</p>
 <p>First, we assume you have a lib crate named as <code>rust_from_c</code>.
 <code>lib.rs</code> should have Rust code as following:</p>
 <pre><pre class="playground"><code class="language-rust edition2021">#[no_mangle]
-pub extern &quot;C&quot; fn hello_from_rust() {
-    println!(&quot;Hello from Rust!&quot;);
+pub extern "C" fn hello_from_rust() {
+    println!("Hello from Rust!");
 }
 <span class="boring">fn main() {}</span></code></pre></pre>
-<p>The <code>extern &quot;C&quot;</code> makes this function adhere to the C calling convention, as discussed below in &quot;<a href="ffi.html#foreign-calling-conventions">Foreign Calling Conventions</a>&quot;.
+<p>The <code>extern "C"</code> makes this function adhere to the C calling convention, as discussed below in "<a href="ffi.html#foreign-calling-conventions">Foreign Calling Conventions</a>".
 The <code>no_mangle</code> attribute turns off Rust's name mangling, so that it has a well defined symbol to link to.</p>
 <p>Then, to compile Rust code as a shared library that can be called from C, add the following to your <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[lib]
-crate-type = [&quot;cdylib&quot;]
+crate-type = ["cdylib"]
 </code></pre>
 <p>(NOTE: We could also use the <code>staticlib</code> crate type but it needs to tweak some linking flags.)</p>
 <p>Run <code>cargo build</code> and you're ready to go on the Rust side.</p>
@@ -8117,10 +8105,10 @@ to the C library and afterwards be invoked from there.</p>
 <p>A basic example is:</p>
 <p>Rust code:</p>
 <pre><pre class="playground"><code class="language-rust no_run edition2021">extern fn callback(a: i32) {
-    println!(&quot;I'm called from C with value {0}&quot;, a);
+    println!("I'm called from C with value {0}", a);
 }
 
-#[link(name = &quot;extlib&quot;)]
+#[link(name = "extlib")]
 extern {
    fn register_callback(cb: extern fn(i32)) -&gt; i32;
    fn trigger_callback();
@@ -8162,15 +8150,15 @@ referenced Rust object.</p>
     // Other members...
 }
 
-extern &quot;C&quot; fn callback(target: *mut RustObject, a: i32) {
-    println!(&quot;I'm called from C with value {0}&quot;, a);
+extern "C" fn callback(target: *mut RustObject, a: i32) {
+    println!("I'm called from C with value {0}", a);
     unsafe {
         // Update the value in RustObject with the value received from the callback:
         (*target).a = a;
     }
 }
 
-#[link(name = &quot;extlib&quot;)]
+#[link(name = "extlib")]
 extern {
    fn register_callback(target: *mut RustObject,
                         cb: extern fn(*mut RustObject, i32)) -&gt; i32;
@@ -8225,17 +8213,17 @@ callback will be performed after deregistration.</p>
 instructing rustc how it will link to native libraries. There are two accepted
 forms of the link attribute today:</p>
 <ul>
-<li><code>#[link(name = &quot;foo&quot;)]</code></li>
-<li><code>#[link(name = &quot;foo&quot;, kind = &quot;bar&quot;)]</code></li>
+<li><code>#[link(name = "foo")]</code></li>
+<li><code>#[link(name = "foo", kind = "bar")]</code></li>
 </ul>
 <p>In both of these cases, <code>foo</code> is the name of the native library that we're
 linking to, and in the second case <code>bar</code> is the type of native library that the
 compiler is linking to. There are currently three known types of native
 libraries:</p>
 <ul>
-<li>Dynamic - <code>#[link(name = &quot;readline&quot;)]</code></li>
-<li>Static - <code>#[link(name = &quot;my_build_dependency&quot;, kind = &quot;static&quot;)]</code></li>
-<li>Frameworks - <code>#[link(name = &quot;CoreFoundation&quot;, kind = &quot;framework&quot;)]</code></li>
+<li>Dynamic - <code>#[link(name = "readline")]</code></li>
+<li>Static - <code>#[link(name = "my_build_dependency", kind = "static")]</code></li>
+<li>Frameworks - <code>#[link(name = "CoreFoundation", kind = "framework")]</code></li>
 </ul>
 <p>Note that frameworks are only available on macOS targets.</p>
 <p>The different <code>kind</code> values are meant to differentiate how the native library
@@ -8251,7 +8239,7 @@ artifact.</p>
 <p>A native build dependency. Sometimes some C/C++ glue is needed when writing
 some Rust code, but distribution of the C/C++ code in a library format is
 a burden. In this case, the code will be archived into <code>libfoo.a</code> and then the
-Rust crate would declare a dependency via <code>#[link(name = &quot;foo&quot;, kind = &quot;static&quot;)]</code>.</p>
+Rust crate would declare a dependency via <code>#[link(name = "foo", kind = "static")]</code>.</p>
 <p>Regardless of the flavor of output for the crate, the native static library
 will be included in the output, meaning that distribution of the native static
 library is not necessary.</p>
@@ -8282,13 +8270,13 @@ this:</p>
 global state. In order to access these variables, you declare them in <code>extern</code>
 blocks with the <code>static</code> keyword:</p>
 <!-- ignore: requires libc crate -->
-<pre><code class="language-rust ignore">#[link(name = &quot;readline&quot;)]
+<pre><code class="language-rust ignore">#[link(name = "readline")]
 extern {
     static rl_readline_version: libc::c_int;
 }
 
 fn main() {
-    println!(&quot;You have readline version {} installed.&quot;,
+    println!("You have readline version {} installed.",
              unsafe { rl_readline_version as i32 });
 }</code></pre>
 <p>Alternatively, you may need to alter global state provided by a foreign
@@ -8298,17 +8286,17 @@ them.</p>
 <pre><code class="language-rust ignore">use std::ffi::CString;
 use std::ptr;
 
-#[link(name = &quot;readline&quot;)]
+#[link(name = "readline")]
 extern {
     static mut rl_prompt: *const libc::c_char;
 }
 
 fn main() {
-    let prompt = CString::new(&quot;[my-awesome-shell] $&quot;).unwrap();
+    let prompt = CString::new("[my-awesome-shell] $").unwrap();
     unsafe {
         rl_prompt = prompt.as_ptr();
 
-        println!(&quot;{:?}&quot;, rl_prompt);
+        println!("{:?}", rl_prompt);
 
         rl_prompt = ptr::null();
     }
@@ -8320,10 +8308,10 @@ writing. Dealing with global mutable state requires a great deal of care.</p>
 calling foreign functions. Some foreign functions, most notably the Windows API, use other calling
 conventions. Rust provides a way to tell the compiler which convention to use:</p>
 <!-- ignore: requires libc crate -->
-<pre><code class="language-rust ignore">#[cfg(all(target_os = &quot;win32&quot;, target_arch = &quot;x86&quot;))]
-#[link(name = &quot;kernel32&quot;)]
+<pre><code class="language-rust ignore">#[cfg(all(target_os = "win32", target_arch = "x86"))]
+#[link(name = "kernel32")]
 #[allow(non_snake_case)]
-extern &quot;stdcall&quot; {
+extern "stdcall" {
     fn SetEnvironmentVariableA(n: *const u8, v: *const u8) -&gt; libc::c_int;
 }
 <span class="boring">fn main() { }</span></code></pre>
@@ -8349,7 +8337,7 @@ seem a little odd. This constraint selects whatever the appropriate ABI is for
 interoperating with the target's libraries. For example, on win32 with a x86
 architecture, this means that the abi used would be <code>stdcall</code>. On x86_64,
 however, windows uses the <code>C</code> calling convention, so <code>C</code> would be used. This
-means that in our previous example, we could have used <code>extern &quot;system&quot; { ... }</code>
+means that in our previous example, we could have used <code>extern "system" { ... }</code>
 to define a block for all windows systems, not only x86 ones.</p>
 <h2 id="interoperability-with-foreign-code"><a class="header" href="#interoperability-with-foreign-code">Interoperability with foreign code</a></h2>
 <p>Rust guarantees that the layout of a <code>struct</code> is compatible with the platform's
@@ -8391,21 +8379,21 @@ fn main() {
 
 fn foo(x: i32, ...) {}
 <span class="boring">}</span></code></pre></pre>
-<h2 id="the-nullable-pointer-optimization"><a class="header" href="#the-nullable-pointer-optimization">The &quot;nullable pointer optimization&quot;</a></h2>
+<h2 id="the-nullable-pointer-optimization"><a class="header" href="#the-nullable-pointer-optimization">The "nullable pointer optimization"</a></h2>
 <p>Certain Rust types are defined to never be <code>null</code>. This includes references (<code>&amp;T</code>,
-<code>&amp;mut T</code>), boxes (<code>Box&lt;T&gt;</code>), and function pointers (<code>extern &quot;abi&quot; fn()</code>). When
+<code>&amp;mut T</code>), boxes (<code>Box&lt;T&gt;</code>), and function pointers (<code>extern "abi" fn()</code>). When
 interfacing with C, pointers that might be <code>null</code> are often used, which would seem to
 require some messy <code>transmute</code>s and/or unsafe code to handle conversions to/from Rust types.
 However, trying to construct/work with these invalid values <strong>is undefined behavior</strong>,
 so you should use the following workaround instead.</p>
-<p>As a special case, an <code>enum</code> is eligible for the &quot;nullable pointer optimization&quot; if it contains
+<p>As a special case, an <code>enum</code> is eligible for the "nullable pointer optimization" if it contains
 exactly two variants, one of which contains no data and the other contains a field of one of the
 non-nullable types listed above.  This means no extra space is required for a discriminant; rather,
 the empty variant is represented by putting a <code>null</code> value into the non-nullable field. This is
-called an &quot;optimization&quot;, but unlike other optimizations it is guaranteed to apply to eligible
+called an "optimization", but unlike other optimizations it is guaranteed to apply to eligible
 types.</p>
 <p>The most common type that takes advantage of the nullable pointer optimization is <code>Option&lt;T&gt;</code>,
-where <code>None</code> corresponds to <code>null</code>. So <code>Option&lt;extern &quot;C&quot; fn(c_int) -&gt; c_int&gt;</code> is a correct way
+where <code>None</code> corresponds to <code>null</code>. So <code>Option&lt;extern "C" fn(c_int) -&gt; c_int&gt;</code> is a correct way
 to represent a nullable function pointer using the C ABI (corresponding to the C type
 <code>int (*)(int)</code>).</p>
 <p>Here is a contrived example. Let's say some C library has a facility for registering a
@@ -8416,18 +8404,18 @@ we have function pointers flying across the FFI boundary in both directions.</p>
 <pre><code class="language-rust ignore">use libc::c_int;
 
 <span class="boring">#[cfg(hidden)]
-</span>extern &quot;C&quot; {
+</span>extern "C" {
     /// Registers the callback.
-    fn register(cb: Option&lt;extern &quot;C&quot; fn(Option&lt;extern &quot;C&quot; fn(c_int) -&gt; c_int&gt;, c_int) -&gt; c_int&gt;);
+    fn register(cb: Option&lt;extern "C" fn(Option&lt;extern "C" fn(c_int) -&gt; c_int&gt;, c_int) -&gt; c_int&gt;);
 }
-<span class="boring">unsafe fn register(_: Option&lt;extern &quot;C&quot; fn(Option&lt;extern &quot;C&quot; fn(c_int) -&gt; c_int&gt;,
+<span class="boring">unsafe fn register(_: Option&lt;extern "C" fn(Option&lt;extern "C" fn(c_int) -&gt; c_int&gt;,
 </span><span class="boring">                                           c_int) -&gt; c_int&gt;)
 </span><span class="boring">{}
 </span>
 /// This fairly useless function receives a function pointer and an integer
 /// from C, and returns the result of calling the function with the integer.
 /// In case no function is provided, it squares the integer by default.
-extern &quot;C&quot; fn apply(process: Option&lt;extern &quot;C&quot; fn(c_int) -&gt; c_int&gt;, int: c_int) -&gt; c_int {
+extern "C" fn apply(process: Option&lt;extern "C" fn(c_int) -&gt; c_int&gt;, int: c_int) -&gt; c_int {
     match process {
         Some(f) =&gt; f(int),
         None    =&gt; int * int
@@ -8468,11 +8456,11 @@ not permitted to unwind, the behavior depends on the source of the unwinding
 <p>Note that the interaction of <code>catch_unwind</code> with foreign exceptions <strong>is
 undefined</strong>, as is the interaction of <code>panic</code> with foreign exception-catching
 mechanisms (notably C++'s <code>try</code>/<code>catch</code>).</p>
-<h3 id="rust-panic-with-c-unwind"><a class="header" href="#rust-panic-with-c-unwind">Rust <code>panic</code> with <code>&quot;C-unwind&quot;</code></a></h3>
+<h3 id="rust-panic-with-c-unwind"><a class="header" href="#rust-panic-with-c-unwind">Rust <code>panic</code> with <code>"C-unwind"</code></a></h3>
 <!-- ignore: using unstable feature -->
 <pre><code class="language-rust ignore">#[no_mangle]
-extern &quot;C-unwind&quot; fn example() {
-    panic!(&quot;Uh oh&quot;);
+extern "C-unwind" fn example() {
+    panic!("Uh oh");
 }</code></pre>
 <p>This function (when compiled with <code>panic=unwind</code>) is permitted to unwind C++
 stack frames.</p>
@@ -8489,19 +8477,19 @@ stack frames.</p>
       +--- rust function panics --+
 </code></pre>
 <p>If the C++ frames have objects, their destructors will be called.</p>
-<h3 id="c-throw-with-c-unwind"><a class="header" href="#c-throw-with-c-unwind">C++ <code>throw</code> with <code>&quot;C-unwind&quot;</code></a></h3>
+<h3 id="c-throw-with-c-unwind"><a class="header" href="#c-throw-with-c-unwind">C++ <code>throw</code> with <code>"C-unwind"</code></a></h3>
 <!-- ignore: using unstable feature -->
 <pre><code class="language-rust ignore">#[link(...)]
-extern &quot;C-unwind&quot; {
+extern "C-unwind" {
     // A C++ function that may throw an exception
     fn may_throw();
 }
 
 #[no_mangle]
-extern &quot;C-unwind&quot; fn rust_passthrough() {
+extern "C-unwind" fn rust_passthrough() {
     let b = Box::new(5);
     unsafe { may_throw(); }
-    println!(&quot;{:?}&quot;, &amp;b);
+    println!("{:?}", &amp;b);
 }</code></pre>
 <p>A C++ function with a <code>try</code> block may invoke <code>rust_passthrough</code> and <code>catch</code> an
 exception thrown by <code>may_throw</code>.</p>
@@ -8523,7 +8511,7 @@ will be printed.</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[no_mangle]
-extern &quot;C&quot; fn assert_nonzero(input: u32) {
+extern "C" fn assert_nonzero(input: u32) {
     assert!(input != 0)
 }
 <span class="boring">}</span></code></pre></pre>
@@ -8535,9 +8523,9 @@ process if it panics, you must use <a href="../std/panic/fn.catch_unwind.html"><
 <pre><pre class="playground"><code class="language-rust edition2021">use std::panic::catch_unwind;
 
 #[no_mangle]
-pub extern &quot;C&quot; fn oh_no() -&gt; i32 {
+pub extern "C" fn oh_no() -&gt; i32 {
     let result = catch_unwind(|| {
-        panic!(&quot;Oops!&quot;);
+        panic!("Oops!");
     });
     match result {
         Ok(_) =&gt; 0,
@@ -8557,7 +8545,7 @@ void bar(void *arg);
 </code></pre>
 <p>We can represent this in Rust with the <code>c_void</code> type:</p>
 <!-- ignore: requires libc crate -->
-<pre><code class="language-rust ignore">extern &quot;C&quot; {
+<pre><code class="language-rust ignore">extern "C" {
     pub fn foo(arg: *mut libc::c_void);
     pub fn bar(arg: *mut libc::c_void);
 }
@@ -8585,7 +8573,7 @@ pub struct Bar {
         core::marker::PhantomData&lt;(*mut u8, core::marker::PhantomPinned)&gt;,
 }
 
-extern &quot;C&quot; {
+extern "C" {
     pub fn foo(arg: *mut Foo);
     pub fn bar(arg: *mut Bar);
 }
@@ -8604,7 +8592,7 @@ The compiler relies on empty enums being uninhabited, so handling values of type
 <code>&amp;Empty</code> is a huge footgun and can lead to buggy program behavior (by triggering
 undefined behavior).</p>
 <blockquote>
-<p><strong>NOTE:</strong> The simplest way would use &quot;extern types&quot;.
+<p><strong>NOTE:</strong> The simplest way would use "extern types".
 But it's currently (as of June 2021) unstable and has some unresolved questions, see the <a href="https://rust-lang.github.io/rfcs/1861-extern-types.html">RFC page</a> and the <a href="https://github.com/rust-lang/rust/issues/43467">tracking issue</a> for more details.</p>
 </blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="beneath-std"><a class="header" href="#beneath-std">Beneath <code>std</code></a></h1>
@@ -8615,7 +8603,7 @@ that <code>#![no_std]</code> developers have to deal with (i.e. provide) to buil
 <p>In order to build a <code>#[no_std]</code> executable we will need <code>libc</code> as a dependency.
 We can specify this using our <code>Cargo.toml</code> file:</p>
 <pre><code class="language-toml">[dependencies]
-libc = { version = &quot;0.2.146&quot;, default-features = false }
+libc = { version = "0.2.146", default-features = false }
 </code></pre>
 <p>Note that the default features have been disabled. This is a critical step -
 <strong>the default features of <code>libc</code> include the <code>std</code> crate and so must be
@@ -8635,7 +8623,7 @@ in the same format as C (aside from the exact integer types being used):</p>
 #![allow(internal_features)]
 #![no_std]
 
-// Necessary for `panic = &quot;unwind&quot;` builds on some platforms.
+// Necessary for `panic = "unwind"` builds on some platforms.
 #![feature(panic_unwind)]
 extern crate unwind;
 
@@ -8652,7 +8640,7 @@ fn main(_argc: isize, _argv: *const *const u8) -&gt; isize {
 
 // These functions are used by the compiler, but not for an empty program like this.
 // They are normally provided by `std`.
-#[lang = &quot;eh_personality&quot;]
+#[lang = "eh_personality"]
 fn rust_eh_personality() {}
 #[panic_handler]
 fn panic_handler(_info: &amp;PanicInfo) -&gt; ! { core::intrinsics::abort() }</code></pre></pre>
@@ -8665,7 +8653,7 @@ compiler's name mangling too:</p>
 #![no_std]
 #![no_main]
 
-// Necessary for `panic = &quot;unwind&quot;` builds on some platforms.
+// Necessary for `panic = "unwind"` builds on some platforms.
 #![feature(panic_unwind)]
 extern crate unwind;
 
@@ -8677,13 +8665,13 @@ use core::panic::PanicInfo;
 
 // Entry point for this program.
 #[no_mangle] // ensure that this symbol is included in the output as `main`
-extern &quot;C&quot; fn main(_argc: c_int, _argv: *const *const c_char) -&gt; c_int {
+extern "C" fn main(_argc: c_int, _argv: *const *const c_char) -&gt; c_int {
     0
 }
 
 // These functions are used by the compiler, but not for an empty program like this.
 // They are normally provided by `std`.
-#[lang = &quot;eh_personality&quot;]
+#[lang = "eh_personality"]
 fn rust_eh_personality() {}
 #[panic_handler]
 fn panic_handler(_info: &amp;PanicInfo) -&gt; ! { core::intrinsics::abort() }</code></pre></pre>
@@ -8728,8 +8716,8 @@ struct HStderr {
 fn panic(info: &amp;PanicInfo) -&gt; ! {
     let mut host_stderr = HStderr::new();
 
-    // logs &quot;panicked at '$reason', src/main.rs:27:4&quot; to the host stderr
-    writeln!(host_stderr, &quot;{}&quot;, info).ok();
+    // logs "panicked at '$reason', src/main.rs:27:4" to the host stderr
+    writeln!(host_stderr, "{}", info).ok();
 
     loop {}
 }</code></pre>

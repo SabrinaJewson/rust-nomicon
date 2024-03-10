@@ -195,7 +195,7 @@ scheduler, which is true for the normal OS environment. If you do control
 preemption, it <em>can be</em> possible to prevent general races - this technique is
 used by frameworks such as <a href="https://github.com/rtic-rs/rtic">RTIC</a>. However,
 actually having control over scheduling is a very uncommon case.</p>
-<p>For this reason, it is considered &quot;safe&quot; for Rust to get deadlocked or do
+<p>For this reason, it is considered "safe" for Rust to get deadlocked or do
 something nonsensical with incorrect synchronization: this is known as a general
 race condition or resource race. Obviously such a program isn't very good, but
 Rust of course cannot prevent all logic errors.</p>
@@ -231,7 +231,7 @@ thread::spawn(move || {
 // managed to increment before this ran. A race condition because correct
 // program execution (panicking is rarely correct) depends on order of
 // thread execution.
-println!(&quot;{}&quot;, data[idx.load(Ordering::SeqCst)]);
+println!("{}", data[idx.load(Ordering::SeqCst)]);
 <span class="boring">}</span></code></pre></pre>
 <p>We can cause a data race if we instead do the bound check in advance, and then
 unsafely access the data with an unchecked value:</p>
@@ -258,7 +258,7 @@ if idx.load(Ordering::SeqCst) &lt; data.len() {
         // Incorrectly loading the idx after we did the bounds check.
         // It could have changed. This is a race condition, *and dangerous*
         // because we decided to do `get_unchecked`, which is `unsafe`.
-        println!(&quot;{}&quot;, data.get_unchecked(idx.load(Ordering::SeqCst)));
+        println!("{}", data.get_unchecked(idx.load(Ordering::SeqCst)));
     }
 }
 <span class="boring">}</span></code></pre></pre>

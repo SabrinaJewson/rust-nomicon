@@ -188,7 +188,7 @@ is perfect and all of our problems are solved.</p>
 this is basically true. You would be surprised to see a Safe Rust program
 leak resources in an uncontrolled way.</p>
 <p>However from a theoretical perspective this is absolutely not the case, no
-matter how you look at it. In the strictest sense, &quot;leaking&quot; is so abstract as
+matter how you look at it. In the strictest sense, "leaking" is so abstract as
 to be unpreventable. It's quite trivial to initialize a collection at the start
 of a program, fill it with tons of objects with destructors, and then enter an
 infinite event loop that never refers to it. The collection will sit around
@@ -251,7 +251,7 @@ unwinding-safe! Easy!</p>
 }
 
 // Oops, vec[0] was dropped, we're reading a pointer into free'd memory!
-println!(&quot;{}&quot;, vec[0]);</code></pre>
+println!("{}", vec[0]);</code></pre>
 <p>This is pretty clearly Not Good. Unfortunately, we're kind of stuck between a
 rock and a hard place: maintaining consistent state at every step has an
 enormous cost (and would negate any benefits of the API). Failing to maintain

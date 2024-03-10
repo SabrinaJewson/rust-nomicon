@@ -182,7 +182,7 @@
 interact with a lot in Rust. Especially if you use the standard library.</p>
 <p>Roughly speaking the pattern is as follows: to acquire a resource, you create an
 object that manages it. To release the resource, you simply destroy the object,
-and it cleans up the resource for you. The most common &quot;resource&quot; this pattern
+and it cleans up the resource for you. The most common "resource" this pattern
 manages is simply <em>memory</em>. <code>Box</code>, <code>Rc</code>, and basically everything in
 <code>std::collections</code> is a convenience to enable correctly managing memory. This is
 particularly important in Rust because we have no pervasive GC to rely on for

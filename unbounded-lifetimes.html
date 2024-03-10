@@ -198,10 +198,10 @@ unbounded. For instance:</p>
 }
 
 fn main() {
-    let soon_dropped = String::from(&quot;hello&quot;);
+    let soon_dropped = String::from("hello");
     let dangling = get_str(&amp;soon_dropped);
     drop(soon_dropped);
-    println!(&quot;Invalid str: {}&quot;, dangling); // Invalid str: gӚ_`
+    println!("Invalid str: {}", dangling); // Invalid str: gӚ_`
 }</code></pre></pre>
 <p>The easiest way to avoid unbounded lifetimes is to use lifetime elision at the
 function boundary. If an output lifetime is elided, then it <em>must</em> be bounded by

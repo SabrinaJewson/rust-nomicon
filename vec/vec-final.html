@@ -197,7 +197,7 @@ impl&lt;T&gt; RawVec&lt;T&gt; {
         // !0 is usize::MAX. This branch should be stripped at compile time.
         let cap = if mem::size_of::&lt;T&gt;() == 0 { !0 } else { 0 };
 
-        // `NonNull::dangling()` doubles as &quot;unallocated&quot; and &quot;zero-sized allocation&quot;
+        // `NonNull::dangling()` doubles as "unallocated" and "zero-sized allocation"
         RawVec {
             ptr: NonNull::dangling(),
             cap,
@@ -207,7 +207,7 @@ impl&lt;T&gt; RawVec&lt;T&gt; {
     fn grow(&amp;mut self) {
         // since we set the capacity to usize::MAX when T has size 0,
         // getting to here necessarily means the Vec is overfull.
-        assert!(mem::size_of::&lt;T&gt;() != 0, &quot;capacity overflow&quot;);
+        assert!(mem::size_of::&lt;T&gt;() != 0, "capacity overflow");
 
         let (new_cap, new_layout) = if self.cap == 0 {
             (1, Layout::array::&lt;T&gt;(1).unwrap())
@@ -225,7 +225,7 @@ impl&lt;T&gt; RawVec&lt;T&gt; {
         // Ensure that the new allocation doesn't exceed `isize::MAX` bytes.
         assert!(
             new_layout.size() &lt;= isize::MAX as usize,
-            &quot;Allocation too large&quot;
+            "Allocation too large"
         );
 
         let new_ptr = if self.cap == 0 {
@@ -303,7 +303,7 @@ impl&lt;T&gt; Vec&lt;T&gt; {
     }
 
     pub fn insert(&amp;mut self, index: usize, elem: T) {
-        assert!(index &lt;= self.len, &quot;index out of bounds&quot;);
+        assert!(index &lt;= self.len, "index out of bounds");
         if self.len == self.cap() {
             self.buf.grow();
         }
@@ -321,7 +321,7 @@ impl&lt;T&gt; Vec&lt;T&gt; {
     }
 
     pub fn remove(&amp;mut self, index: usize) -&gt; T {
-        assert!(index &lt; self.len, &quot;index out of bounds&quot;);
+        assert!(index &lt; self.len, "index out of bounds");
 
         self.len -= 1;
 
@@ -513,7 +513,7 @@ impl&lt;'a, T&gt; Drop for Drain&lt;'a, T&gt; {
 </span><span class="boring">    tests::iter_test();
 </span><span class="boring">    tests::test_drain();
 </span><span class="boring">    tests::test_zst();
-</span><span class="boring">    println!(&quot;All tests finished OK&quot;);
+</span><span class="boring">    println!("All tests finished OK");
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">mod tests {

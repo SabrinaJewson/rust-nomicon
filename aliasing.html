@@ -287,7 +287,7 @@ occur before it:</p>
 aliased by things that existed before it was declared. This is an assumption
 every language freely makes, and so this version of the function could be
 optimized the way we want in any language.</p>
-<p>This is why the definition of &quot;alias&quot; that Rust will use likely involves some
+<p>This is why the definition of "alias" that Rust will use likely involves some
 notion of liveness and mutation: we don't actually care if aliasing occurs if
 there aren't any actual writes to memory happening.</p>
 <p>Of course, a full aliasing model for Rust must also take into consideration things like

@@ -198,7 +198,7 @@ let c = &amp;x.c;
 *b += 1;
 let c2 = &amp;x.c;
 *a += 10;
-println!(&quot;{} {} {} {}&quot;, a, b, c, c2);
+println!("{} {} {} {}", a, b, c, c2);
 <span class="boring">}</span></code></pre></pre>
 <p>However borrowck doesn't understand arrays or slices in any way, so this doesn't
 work:</p>
@@ -207,7 +207,7 @@ work:</p>
 </span>let mut x = [1, 2, 3];
 let a = &amp;mut x[0];
 let b = &amp;mut x[1];
-println!(&quot;{} {}&quot;, a, b);
+println!("{} {}", a, b);
 <span class="boring">}</span></code></pre></pre>
 <pre><code class="language-text">error[E0499]: cannot borrow `x[..]` as mutable more than once at a time
  --&gt; src/lib.rs:4:18
@@ -216,7 +216,7 @@ println!(&quot;{} {}&quot;, a, b);
   |                  ---- first mutable borrow occurs here
 4 |     let b = &amp;mut x[1];
   |                  ^^^^ second mutable borrow occurs here
-5 |     println!(&quot;{} {}&quot;, a, b);
+5 |     println!("{} {}", a, b);
 6 | }
   | - first borrow ends here
 
@@ -226,7 +226,7 @@ error: aborting due to previous error
 pretty clearly hopeless for borrowck to understand disjointness in general
 container types like a tree, especially if distinct keys actually <em>do</em> map
 to the same value.</p>
-<p>In order to &quot;teach&quot; borrowck that what we're doing is ok, we need to drop down
+<p>In order to "teach" borrowck that what we're doing is ok, we need to drop down
 to unsafe code. For instance, mutable slices expose a <code>split_at_mut</code> function
 that consumes the slice and returns two mutable slices. One for everything to
 the left of the index, and one for everything to the right. Intuitively we know

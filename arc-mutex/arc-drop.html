@@ -213,10 +213,10 @@ fence, which happens before the deletion of the data.</p>
 <blockquote>
 <p>It is important to enforce any possible access to the object in one
 thread (through an existing reference) to <em>happen before</em> deleting
-the object in a different thread. This is achieved by a &quot;release&quot;
+the object in a different thread. This is achieved by a "release"
 operation after dropping a reference (any access to the object
 through this reference must obviously happened before), and an
-&quot;acquire&quot; operation before deleting the object.</p>
+"acquire" operation before deleting the object.</p>
 </blockquote>
 <p>In particular, while the contents of an Arc are usually immutable, it's
 possible to have interior writes to something like a Mutex<T>. Since a Mutex

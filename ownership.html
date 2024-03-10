@@ -196,7 +196,7 @@ language have made at one point:</p>
 </span><span class="boring">fn main() {
 </span>fn as_str(data: &amp;u32) -&gt; &amp;str {
     // compute the string
-    let s = format!(&quot;{}&quot;, data);
+    let s = format!("{}", data);
 
     // OH NO! We returned a reference to something that
     // exists only in this function!
@@ -229,7 +229,7 @@ let x = &amp;data[0];
 // (this does not compile in Rust)
 data.push(4);
 
-println!(&quot;{}&quot;, x);
+println!("{}", x);
 <span class="boring">}</span></code></pre></pre>
 <p>naive scope analysis would be insufficient to prevent this bug, because <code>data</code>
 does in fact live as long as we needed. However it was <em>changed</em> while we had

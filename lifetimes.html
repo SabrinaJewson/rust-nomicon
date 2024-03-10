@@ -203,7 +203,7 @@ this chapter.</p>
 <p>Originally, our examples made use of <em>aggressive</em> sugar -- high fructose corn
 syrup even -- around scopes and lifetimes, because writing everything out
 explicitly is <em>extremely noisy</em>. All Rust code relies on aggressive inference
-and elision of &quot;obvious&quot; things.</p>
+and elision of "obvious" things.</p>
 <p>One particularly interesting piece of sugar is that each <code>let</code> statement
 implicitly introduces a scope. For the most part, this doesn't really matter.
 However it does matter for variables that refer to each other. As a simple
@@ -225,7 +225,7 @@ likely desugar to the following:</p>
         let y: &amp;'b i32 = &amp;'b x;
         'c: {
             // ditto on 'c
-            let z: &amp;'c &amp;'b i32 = &amp;'c y; // &quot;a reference to a reference to an i32&quot; (with lifetimes annotated)
+            let z: &amp;'c &amp;'b i32 = &amp;'c y; // "a reference to a reference to an i32" (with lifetimes annotated)
         }
     }
 }</code></pre>
@@ -257,7 +257,7 @@ z = y;
 <pre><pre class="playground"><code class="language-rust compile_fail edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn as_str(data: &amp;u32) -&gt; &amp;str {
-    let s = format!(&quot;{}&quot;, data);
+    let s = format!("{}", data);
     &amp;s
 }
 <span class="boring">}</span></code></pre></pre>
@@ -265,7 +265,7 @@ z = y;
 <!-- ignore: desugared code -->
 <pre><code class="language-rust ignore">fn as_str&lt;'a&gt;(data: &amp;'a u32) -&gt; &amp;'a str {
     'b: {
-        let s = format!(&quot;{}&quot;, data);
+        let s = format!("{}", data);
         return &amp;'a s;
     }
 }</code></pre>
@@ -287,7 +287,7 @@ up in our face.</p>
 <!-- ignore: desugared code -->
 <pre><code class="language-rust ignore">fn as_str&lt;'a&gt;(data: &amp;'a u32) -&gt; &amp;'a str {
     'b: {
-        let s = format!(&quot;{}&quot;, data);
+        let s = format!("{}", data);
         return &amp;'a s
     }
 }
@@ -300,7 +300,7 @@ fn main() {
             // need to last for the whole scope x is valid for. The return
             // of as_str must find a str somewhere before this function
             // call. Obviously not happening.
-            println!(&quot;{}&quot;, as_str::&lt;'d&gt;(&amp;'d x));
+            println!("{}", as_str::&lt;'d&gt;(&amp;'d x));
         }
     }
 }</code></pre>
@@ -309,7 +309,7 @@ fn main() {
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn to_string(data: &amp;u32) -&gt; String {
-    format!(&quot;{}&quot;, data)
+    format!("{}", data)
 }
 <span class="boring">}</span></code></pre></pre>
 <p>We must produce an owned value inside the function to return it! The only way
@@ -325,7 +325,7 @@ our implementation <em>just a bit</em>.)</p>
 </span>let mut data = vec![1, 2, 3];
 let x = &amp;data[0];
 data.push(4);
-println!(&quot;{}&quot;, x);
+println!("{}", x);
 <span class="boring">}</span></code></pre></pre>
 <!-- ignore: desugared code -->
 <pre><code class="language-rust ignore">'a: {
@@ -339,7 +339,7 @@ println!(&quot;{}&quot;, x);
             // &amp;mut to last any longer.
             Vec::push(&amp;'c mut data, 4);
         }
-        println!(&quot;{}&quot;, x);
+        println!("{}", x);
     }
 }</code></pre>
 <p>The problem here is a bit more subtle and interesting. We want Rust to
@@ -372,7 +372,7 @@ variable <code>x</code> <em>technically</em> exists to the very end of the scope
 </span><span class="boring">fn main() {
 </span>let mut data = vec![1, 2, 3];
 let x = &amp;data[0];
-println!(&quot;{}&quot;, x);
+println!("{}", x);
 // This is OK, x is no longer needed
 data.push(4);
 <span class="boring">}</span></code></pre></pre>
@@ -390,7 +390,7 @@ impl Drop for X&lt;'_&gt; {
 
 let mut data = vec![1, 2, 3];
 let x = X(&amp;data[0]);
-println!(&quot;{:?}&quot;, x);
+println!("{:?}", x);
 data.push(4);
 // Here, the destructor is run and therefore this'll fail to compile.
 <span class="boring">}</span></code></pre></pre>
@@ -404,7 +404,7 @@ example in each branch of a condition.</p>
 let x = &amp;data[0];
 
 if some_condition() {
-    println!(&quot;{}&quot;, x); // This is the last use of `x` in this branch
+    println!("{}", x); // This is the last use of `x` in this branch
     data.push(4);      // So we can push here
 } else {
     // There's no use of `x` in here, so effectively the last use is the
@@ -422,10 +422,10 @@ the last time at the top of the next iteration).</p>
 // This mut allows us to change where the reference points to
 let mut x = &amp;data[0];
 
-println!(&quot;{}&quot;, x); // Last use of this borrow
+println!("{}", x); // Last use of this borrow
 data.push(4);
 x = &amp;data[3]; // We start a new borrow here
-println!(&quot;{}&quot;, x);
+println!("{}", x);
 <span class="boring">}</span></code></pre></pre>
 <p>Historically, Rust kept the borrow alive until the end of scope, so these
 examples might fail to compile with older compilers. Also, there are still some

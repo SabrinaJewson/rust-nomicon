@@ -185,8 +185,8 @@
 <p>This method gives the type time to somehow finish what it was doing.</p>
 <p><strong>After <code>drop</code> is run, Rust will recursively try to drop all of the fields
 of <code>self</code>.</strong></p>
-<p>This is a convenience feature so that you don't have to write &quot;destructor
-boilerplate&quot; to drop children. If a struct has no special logic for being
+<p>This is a convenience feature so that you don't have to write "destructor
+boilerplate" to drop children. If a struct has no special logic for being
 dropped other than dropping its children, then it means <code>Drop</code> doesn't need to
 be implemented at all!</p>
 <p><strong>There is no stable way to prevent this behavior in Rust 1.0.</strong></p>
@@ -260,7 +260,7 @@ regardless of whether they implement Drop. Therefore something like</p>
     info: u32,
 }
 <span class="boring">}</span></code></pre></pre>
-<p>will have its data1 and data2's fields destructors whenever it &quot;would&quot; be
+<p>will have its data1 and data2's fields destructors whenever it "would" be
 dropped, even though it itself doesn't implement Drop. We say that such a type
 <em>needs Drop</em>, even though it is not itself Drop.</p>
 <p>Similarly,</p>

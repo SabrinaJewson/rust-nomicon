@@ -215,7 +215,7 @@ questionable. Consider changing the <code>&lt;</code> to a <code>&lt;=</code>:</
 <p>This program is now <em>unsound</em>, Safe Rust can cause Undefined Behavior, and yet
 <em>we only modified safe code</em>. This is the fundamental problem of safety: it's
 non-local. The soundness of our unsafe operations necessarily depends on the
-state established by otherwise &quot;safe&quot; operations.</p>
+state established by otherwise "safe" operations.</p>
 <p>Safety is modular in the sense that opting into unsafety doesn't require you
 to consider arbitrary other kinds of badness. For instance, doing an unchecked
 index into a slice doesn't mean you suddenly need to worry about the slice being

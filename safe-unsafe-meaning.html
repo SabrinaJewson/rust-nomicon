@@ -209,7 +209,7 @@ allowing memory safety to be freely violated.</li>
 <li><a href="../std/mem/fn.transmute.html"><code>mem::transmute</code></a> reinterprets some value as having a given type,
 bypassing type safety in arbitrary ways (see <a href="conversions.html">conversions</a> for details).</li>
 <li>Every raw pointer to a sized type has an <a href="../std/primitive.pointer.html#method.offset"><code>offset</code></a> method that
-invokes Undefined Behavior if the passed offset is not <a href="../std/primitive.pointer.html#method.offset">&quot;in bounds&quot;</a>.</li>
+invokes Undefined Behavior if the passed offset is not <a href="../std/primitive.pointer.html#method.offset">"in bounds"</a>.</li>
 <li>All FFI (Foreign Function Interface) functions are <code>unsafe</code> to call because the
 other language can do arbitrary operations that the Rust compiler can't check.</li>
 </ul>
@@ -234,7 +234,7 @@ relationship between Safe and Unsafe Rust. Safe Rust inherently has to
 trust that any Unsafe Rust it touches has been written correctly.
 On the other hand, Unsafe Rust cannot trust Safe Rust without care.</p>
 <p>As an example, Rust has the <a href="../std/cmp/trait.PartialOrd.html"><code>PartialOrd</code></a> and <a href="../std/cmp/trait.Ord.html"><code>Ord</code></a> traits to differentiate
-between types which can &quot;just&quot; be compared, and those that provide a &quot;total&quot;
+between types which can "just" be compared, and those that provide a "total"
 ordering (which basically means that comparison behaves reasonably).</p>
 <p><a href="../std/collections/struct.BTreeMap.html"><code>BTreeMap</code></a> doesn't really make sense for partially-ordered types, and so it
 requires that its keys implement <code>Ord</code>. However, <code>BTreeMap</code> has Unsafe Rust code
@@ -258,7 +258,7 @@ by the same people who maintain <code>BTreeMap</code>, so it's easy to keep tabs
 means trusting every <code>Ord</code> implementation in the past, present, and future.
 Here the risk is high: someone somewhere is going to make a mistake and mess up
 their <code>Ord</code> implementation, or even just straight up lie about providing a total
-ordering because &quot;it seems to work&quot;. When that happens, <code>BTreeMap</code> needs to be
+ordering because "it seems to work". When that happens, <code>BTreeMap</code> needs to be
 prepared.</p>
 <p>The same logic applies to trusting a closure that's passed to you to behave
 correctly.</p>

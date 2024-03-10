@@ -189,10 +189,8 @@ realize just how incredibly convoluted and hard to follow the actual rules
 behind it are, and it gets really ugly really fast as soon as you try to mix it
 with any other ordering.</p>
 <p>To understand <code>SeqCst</code>, we first have to understand the problem it exists to
-solve. The first complexity is that this problem can only be observed in the
-presence of at least four different threads <em>and</em> two separate atomic variables;
-anything less and it’s not possible to notice a difference. The common example
-used to show where weaker orderings produce counterintuitive results is this:</p>
+solve. A simple example used to show where weaker orderings produce
+counterintuitive results is this:</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">use std::sync::atomic::{self, AtomicBool};
@@ -206,49 +204,41 @@ const ORDERING: atomic::Ordering = atomic::Ordering::Relaxed;
 static X: AtomicBool = AtomicBool::new(false);
 static Y: AtomicBool = AtomicBool::new(false);
 
-let a = thread::spawn(|| { X.store(true, ORDERING) });
-let b = thread::spawn(|| { Y.store(true, ORDERING) });
-let c = thread::spawn(|| { while !X.load(ORDERING) {} Y.load(ORDERING) });
-let d = thread::spawn(|| { while !Y.load(ORDERING) {} X.load(ORDERING) });
+let a = thread::spawn(|| { X.store(true, ORDERING); Y.load(ORDERING) });
+let b = thread::spawn(|| { Y.store(true, ORDERING); X.load(ORDERING) });
 
 let a = a.join().unwrap();
 let b = b.join().unwrap();
-let c = c.join().unwrap();
-let d = d.join().unwrap();
 
 <span class="boring">return;
 </span>// This assert is allowed to fail.
-assert!(c || d);
+assert!(a || b);
 <span class="boring">}</span></code></pre></pre>
 <p>The basic setup of this code, for all of its possible executions, looks like
 this:</p>
-<pre><code class="language-text">     a        static X         c               d        static Y         b
-╭─────────╮   ┌───────┐   ╭─────────╮     ╭─────────╮   ┌───────┐   ╭─────────╮
-│ store X ├─┐ │ false │ ┌─┤ load X  │     │ load Y  ├─┐ │ false │ ┌─┤ store Y │
-╰─────────╯ │ └───────┘ │ ╰────╥────╯     ╰────╥────╯ │ └───────┘ │ ╰─────────╯
-            └─┬───────┐ │ ╭────⇓────╮     ╭────⇓────╮ │ ┌───────┬─┘
-              │ true  ├─┘ │ load Y  ├─? ?─┤ load X  │ └─┤ true  │
-              └───────┘   ╰─────────╯     ╰─────────╯   └───────┘
+<pre><code class="language-text">     a        static X    static Y         b
+╭─────────╮   ┌───────┐   ┌───────┐   ╭─────────╮
+│ store X ├─┐ │ false │   │ false │ ┌─┤ store Y │
+╰────╥────╯ │ └───────┘   └───────┘ │ ╰────╥────╯
+╭────⇓────╮ └─┬───────┐   ┌───────┬─┘ ╭────⇓────╮
+│ load Y  ├─? │ true  │   │ true  │ ?─┤ load X  │
+╰─────────╯   └───────┘   └───────┘   ╰─────────╯
 </code></pre>
-<p>In other words, <code>a</code> and <code>b</code> are guaranteed to, at some point, store <code>true</code> into
-<code>X</code> and <code>Y</code> respectively, and <code>c</code> and <code>d</code> are guaranteed to, at some point, load
-those values of <code>true</code> from <code>X</code> and <code>Y</code> (there could also be an arbitrary number
-of loads of <code>false</code> by <code>c</code> and <code>d</code>, but they’ve been omitted since they don’t
-actually affect the execution at all). The question now is when <code>c</code> and <code>d</code> load
-from <code>Y</code> and <code>X</code> respectively, is it possible for them <em>both</em> to load <code>false</code>?</p>
+<p>In other words, <code>a</code> and <code>b</code> are guaranteed to store <code>true</code> into <code>X</code> and <code>Y</code>
+respectively, and then attempt to load from the other thread’s atomic. The
+question now is: is it possible for them <em>both</em> to load <code>false</code>?</p>
 <p>And looking at this diagram, there’s absolutely no reason why not. There isn’t
-even a single arrow connecting the left and right hand sides so far, so the load
-has no coherence-based restrictions on which value it is allowed to pick — and
-this goes for both sides equally, so we could end up with an execution like
-this:</p>
-<pre><code class="language-text">     a        static X         c             d        static Y         b
-╭─────────╮   ┌───────┐   ╭─────────╮   ╭─────────╮   ┌───────┐   ╭─────────╮
-│ store X ├─┐ │ false ├┐ ┌┤ load X  │   │ load Y  ├┐ ┌┤ false │ ┌─┤ store Y │
-╰─────────╯ │ └───────┘│ │╰────╥────╯   ╰────╥────╯│ │└───────┘ │ ╰─────────╯
-            └─┬───────┐└─│─────║──────┐┌─────║─────│─┘┌───────┬─┘
-              │ true  ├──┘╭────⇓────╮┌─┘╭────⇓────╮└──┤ true  │
-              └───────┘   │ load Y  ├┘└─┤ load X  │   └───────┘
-                          ╰─────────╯   ╰─────────╯
+even a single arrow connecting the left and right hand sides so far, so the
+loads have no coherence-based restrictions on which values they are allowed to
+pick, and we could end up with an execution like this:</p>
+<pre><code class="language-text">     a        static X    static Y         b
+╭─────────╮   ┌───────┐   ┌───────┐   ╭─────────╮
+│ store X ├┐  │ false ├─┐┌┤ false │  ┌┤ store Y │
+╰────╥────╯│  └───────┘┌─┘└───────┘  │╰────╥────╯
+     ║     │ ┌─────────┘└───────────┐│     ║
+╭────⇓────╮└─│┬───────┐   ┌───────┬─│┘╭────⇓────╮
+│ load Y  ├──┘│ true  │   │ true  │ └─┤ load X  │
+╰─────────╯   └───────┘   └───────┘   ╰─────────╯
 </code></pre>
 <p>Which results in a failed assert. This execution is brought about because the
 model of separate modification orders means that there is no relative ordering
@@ -331,15 +321,15 @@ consistent with it.</p>
 <p>So, looking back at our program, let’s consider how we could use <code>SeqCst</code> to
 make that execution invalid. As a refresher, here’s the framework for every
 possible execution of the program:</p>
-<pre><code class="language-text">     a        static X         c               d        static Y         b
-╭─────────╮   ┌───────┐   ╭─────────╮     ╭─────────╮   ┌───────┐   ╭─────────╮
-│ store X ├─┐ │ false │ ┌─┤ load X  │     │ load Y  ├─┐ │ false │ ┌─┤ store Y │
-╰─────────╯ │ └───────┘ │ ╰────╥────╯     ╰────╥────╯ │ └───────┘ │ ╰─────────╯
-            └─┬───────┐ │ ╭────⇓────╮     ╭────⇓────╮ │ ┌───────┬─┘
-              │ true  ├─┘ │ load Y  ├─? ?─┤ load X  │ └─┤ true  │
-              └───────┘   ╰─────────╯     ╰─────────╯   └───────┘
+<pre><code class="language-text">     a        static X    static Y         b
+╭─────────╮   ┌───────┐   ┌───────┐   ╭─────────╮
+│ store X ├─┐ │ false │   │ false │ ┌─┤ store Y │
+╰────╥────╯ │ └───────┘   └───────┘ │ ╰────╥────╯
+╭────⇓────╮ └─┬───────┐   ┌───────┬─┘ ╭────⇓────╮
+│ load Y  ├─? │ true  │   │ true  │ ?─┤ load X  │
+╰─────────╯   └───────┘   └───────┘   ╰─────────╯
 </code></pre>
-<p>First of all, both the final loads (<code>c</code> and <code>d</code>’s second operations) need to
+<p>First of all, both the final loads (<code>a</code> and <code>b</code>’s second operations) need to
 become <code>SeqCst</code>, because they need to be aware of the total ordering that
 determines whether <code>X</code> or <code>Y</code> becomes <code>true</code> first. And secondly, we need to
 establish that ordering in the first place, and that needs to be done by making
@@ -347,92 +337,90 @@ sure that there is always one operation in <em>S</em> that both sees one of the 
 as <code>true</code> and precedes both final loads in <em>S</em>, so that the coherence ordering
 guarantee will apply (the final loads themselves don’t work for this since
 although they “know” that their corresponding atomic is <code>true</code> they don’t
-interact with it directly so <em>S</em> doesn’t care).</p>
-<p>There are two operations in the program that could fulfill the first condition,
-should they be made <code>SeqCst</code>: the stores of <code>true</code> and the first loads. However,
-the second condition ends up ruling out using the stores, since in order to make
-sure that they precede the final loads in <em>S</em> it would be necessary to have the
-first loads be <code>SeqCst</code> anyway (due to the mixed-<code>SeqCst</code> special case detailed
-later), so in the end we can just leave them as <code>Relaxed</code>.</p>
+interact with it directly so <em>S</em> doesn’t care) — for this, we must set both
+stores to use the <code>SeqCst</code> ordering.</p>
 <p>This leaves us with the correct version of the above program, which is
 guaranteed to never panic:</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span><span class="boring">use std::sync::atomic::{AtomicBool, Ordering::{Relaxed, SeqCst}};
+</span><span class="boring">use std::sync::atomic::{self, AtomicBool};
 </span>use std::thread;
+
+const ORDERING: atomic::Ordering = atomic::Ordering::SeqCst;
 
 static X: AtomicBool = AtomicBool::new(false);
 static Y: AtomicBool = AtomicBool::new(false);
 
-let a = thread::spawn(|| { X.store(true, Relaxed) });
-let b = thread::spawn(|| { Y.store(true, Relaxed) });
-let c = thread::spawn(|| { while !X.load(SeqCst) {} Y.load(SeqCst) });
-let d = thread::spawn(|| { while !Y.load(SeqCst) {} X.load(SeqCst) });
+let a = thread::spawn(|| { X.store(true, ORDERING); Y.load(ORDERING) });
+let b = thread::spawn(|| { Y.store(true, ORDERING); X.load(ORDERING) });
 
 let a = a.join().unwrap();
 let b = b.join().unwrap();
-let c = c.join().unwrap();
-let d = d.join().unwrap();
 
-// This assert is **not** allowed to fail.
-assert!(c || d);
+<span class="boring">return;
+</span>// This assert is **not** allowed to fail.
+assert!(a || b);
 <span class="boring">}</span></code></pre></pre>
 <p>As there are four <code>SeqCst</code> operations with a partial order between two pairs in
 them (caused by the sequenced-before relation), there are six possible
 executions of this program:</p>
 <ul>
-<li>All of <code>c</code>’s loads precede <code>d</code>’s loads:
+<li>All of <code>a</code>’s operations precede <code>b</code>’s operations:
 <ol>
-<li><code>c</code> loads <code>X</code> (gives <code>true</code>)</li>
-<li><code>c</code> loads <code>Y</code> (gives either <code>false</code> or <code>true</code>)</li>
-<li><code>d</code> loads <code>Y</code> (gives <code>true</code>)</li>
-<li><code>d</code> loads <code>X</code> (required to be <code>true</code>)</li>
+<li><code>a</code> stores <code>true</code> into <code>X</code></li>
+<li><code>a</code> loads <code>Y</code> (gives <code>false</code>)</li>
+<li><code>b</code> stores <code>true</code> into <code>Y</code></li>
+<li><code>b</code> loads <code>X</code> (required to give <code>true</code>)</li>
 </ol>
 </li>
-<li>Both initial loads precede both final loads:
+<li>All of <code>b</code>’s operations precede <code>a</code>’s operations:
 <ol>
-<li><code>c</code> loads <code>X</code> (gives <code>true</code>)</li>
-<li><code>d</code> loads <code>Y</code> (gives <code>true</code>)</li>
-<li><code>c</code> loads <code>Y</code> (required to be <code>true</code>)</li>
-<li><code>d</code> loads <code>X</code> (required to be <code>true</code>)</li>
+<li><code>b</code> stores <code>true</code> into <code>Y</code></li>
+<li><code>b</code> loads <code>X</code> (gives <code>false</code>)</li>
+<li><code>a</code> stores <code>true</code> into <code>X</code></li>
+<li><code>a</code> loads <code>Y</code> (required to give <code>true</code>)</li>
 </ol>
 </li>
-<li>As above, but the final loads occur in a different order:
+<li>The stores precede the loads,
+<code>a</code>’s store precedes <code>b</code>’s and <code>a</code>’s load precedes <code>b</code>’s:
 <ol>
-<li><code>c</code> loads <code>X</code> (gives <code>true</code>)</li>
-<li><code>d</code> loads <code>Y</code> (gives <code>true</code>)</li>
-<li><code>d</code> loads <code>X</code> (required to be <code>true</code>)</li>
-<li><code>c</code> loads <code>Y</code> (required to be <code>true</code>)</li>
+<li><code>a</code> stores <code>true</code> to <code>X</code></li>
+<li><code>b</code> stores <code>true</code> into <code>Y</code></li>
+<li><code>a</code> loads <code>Y</code> (required to give <code>true</code>)</li>
+<li><code>b</code> loads <code>X</code> (required to give <code>true</code>)</li>
 </ol>
 </li>
-<li>As before, but the initial loads occur in a different order:
+<li>The stores precede the loads,
+<code>a</code>’s store precedes <code>b</code>’s and <code>b</code>’s load precedes <code>a</code>’s:
 <ol>
-<li><code>d</code> loads <code>Y</code> (gives <code>true</code>)</li>
-<li><code>c</code> loads <code>X</code> (gives <code>true</code>)</li>
-<li><code>c</code> loads <code>Y</code> (required to be <code>true</code>)</li>
-<li><code>d</code> loads <code>X</code> (required to be <code>true</code>)</li>
+<li><code>a</code> stores <code>true</code> to <code>X</code></li>
+<li><code>b</code> stores <code>true</code> into <code>Y</code></li>
+<li><code>b</code> loads <code>X</code> (required to give <code>true</code>)</li>
+<li><code>a</code> loads <code>Y</code> (required to give <code>true</code>)</li>
 </ol>
 </li>
-<li>As above, but the final loads occur in a different order:
+<li>The stores precede the loads,
+<code>b</code>’s store precedes <code>a</code>’s and <code>a</code>’s load precedes <code>b</code>’s:
 <ol>
-<li><code>d</code> loads <code>Y</code> (gives <code>true</code>)</li>
-<li><code>c</code> loads <code>X</code> (gives <code>true</code>)</li>
-<li><code>d</code> loads <code>X</code> (required to be <code>true</code>)</li>
-<li><code>c</code> loads <code>Y</code> (required to be <code>true</code>)</li>
+<li><code>b</code> stores <code>true</code> into <code>Y</code></li>
+<li><code>a</code> stores <code>true</code> to <code>X</code></li>
+<li><code>a</code> loads <code>Y</code> (required to give <code>true</code>)</li>
+<li><code>b</code> loads <code>X</code> (required to give <code>true</code>)</li>
 </ol>
 </li>
-<li>All of <code>d</code>’s loads precede <code>c</code>’s loads:
+<li>The stores precede the loads,
+<code>b</code>’s store precedes <code>a</code>’s and <code>b</code>’s load precedes <code>a</code>’s:
 <ol>
-<li><code>d</code> loads <code>Y</code> (gives <code>true</code>)</li>
-<li><code>d</code> loads <code>X</code> (gives either <code>false</code> or <code>true</code>)</li>
-<li><code>c</code> loads <code>X</code> (gives <code>true</code>)</li>
-<li><code>c</code> loads <code>Y</code> (required to be <code>true</code>)</li>
+<li><code>b</code> stores <code>true</code> into <code>Y</code></li>
+<li><code>a</code> stores <code>true</code> to <code>X</code></li>
+<li><code>b</code> loads <code>X</code> (required to give <code>true</code>)</li>
+<li><code>a</code> loads <code>Y</code> (required to give <code>true</code>)</li>
 </ol>
 </li>
 </ul>
 <p>All the places where the load was required to give <code>true</code> were caused by a
-preceding load in <em>S</em> of the same atomic which saw <code>true</code> — otherwise, the load
-would be coherence-ordered-before a load which precedes it in <em>S</em>, and that is
+preceding store in <em>S</em> of the same atomic of <code>true</code> — otherwise, the load would
+be coherence-ordered-before a store which precedes it in <em>S</em>, and that is
 impossible.</p>
 <h2 id="the-mixed-seqcst-special-case"><a class="header" href="#the-mixed-seqcst-special-case">The mixed-<code>SeqCst</code> special case</a></h2>
 <p>As I’ve been alluding to for a while, I wasn’t being totally truthful when I

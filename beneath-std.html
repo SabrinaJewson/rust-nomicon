@@ -185,7 +185,7 @@ that <code>#![no_std]</code> developers have to deal with (i.e. provide) to buil
 <p>In order to build a <code>#[no_std]</code> executable we will need <code>libc</code> as a dependency.
 We can specify this using our <code>Cargo.toml</code> file:</p>
 <pre><code class="language-toml">[dependencies]
-libc = { version = &quot;0.2.146&quot;, default-features = false }
+libc = { version = "0.2.146", default-features = false }
 </code></pre>
 <p>Note that the default features have been disabled. This is a critical step -
 <strong>the default features of <code>libc</code> include the <code>std</code> crate and so must be
@@ -205,7 +205,7 @@ in the same format as C (aside from the exact integer types being used):</p>
 #![allow(internal_features)]
 #![no_std]
 
-// Necessary for `panic = &quot;unwind&quot;` builds on some platforms.
+// Necessary for `panic = "unwind"` builds on some platforms.
 #![feature(panic_unwind)]
 extern crate unwind;
 
@@ -222,7 +222,7 @@ fn main(_argc: isize, _argv: *const *const u8) -&gt; isize {
 
 // These functions are used by the compiler, but not for an empty program like this.
 // They are normally provided by `std`.
-#[lang = &quot;eh_personality&quot;]
+#[lang = "eh_personality"]
 fn rust_eh_personality() {}
 #[panic_handler]
 fn panic_handler(_info: &amp;PanicInfo) -&gt; ! { core::intrinsics::abort() }</code></pre></pre>
@@ -235,7 +235,7 @@ compiler's name mangling too:</p>
 #![no_std]
 #![no_main]
 
-// Necessary for `panic = &quot;unwind&quot;` builds on some platforms.
+// Necessary for `panic = "unwind"` builds on some platforms.
 #![feature(panic_unwind)]
 extern crate unwind;
 
@@ -247,13 +247,13 @@ use core::panic::PanicInfo;
 
 // Entry point for this program.
 #[no_mangle] // ensure that this symbol is included in the output as `main`
-extern &quot;C&quot; fn main(_argc: c_int, _argv: *const *const c_char) -&gt; c_int {
+extern "C" fn main(_argc: c_int, _argv: *const *const c_char) -&gt; c_int {
     0
 }
 
 // These functions are used by the compiler, but not for an empty program like this.
 // They are normally provided by `std`.
-#[lang = &quot;eh_personality&quot;]
+#[lang = "eh_personality"]
 fn rust_eh_personality() {}
 #[panic_handler]
 fn panic_handler(_info: &amp;PanicInfo) -&gt; ! { core::intrinsics::abort() }</code></pre></pre>

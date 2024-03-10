@@ -384,22 +384,22 @@ it.</p>
 </blockquote>
 <p>The “motivating use-case” for <code>SeqCst</code> demonstrated in the <code>SeqCst</code> chapter can
 also be rewritten to use exclusively <code>SeqCst</code> fences and <code>Relaxed</code> operations,
-by inserting fences in between the loads in threads <code>c</code> and <code>d</code>:</p>
-<pre><code class="language-text">     a        static X         c               d        static Y         b
-╭─────────╮   ┌───────┐   ╭─────────╮     ╭─────────╮   ┌───────┐   ╭─────────╮
-│ store X ├─┐ │ false │ ┌─┤ load X  │     │ load Y  ├─┐ │ false │ ┌─┤ store Y │
-╰─────────╯ │ └───────┘ │ ╰────╥────╯     ╰────╥────╯ │ └───────┘ │ ╰─────────╯
-            └─┬───────┐ │ ╭────⇓────╮     ╭────⇓────╮ │ ┌───────┬─┘
-              │ true  ├─┘ │ *fence* │     │ *fence* │ └─┤ true  │
-              └───────┘   ╰────╥────╯     ╰────╥────╯   └───────┘
-                          ╭────⇓────╮     ╭────⇓────╮
-                          │ load Y  ├─? ?─┤ load X  │
-                          ╰─────────╯     ╰─────────╯
+by inserting fences in between the operations in the two threads:</p>
+<pre><code class="language-text">     a        static X    static Y         b
+╭─────────╮   ┌───────┐   ┌───────┐   ╭─────────╮
+│ store X ├─┐ │ false │   │ false │ ┌─┤ store Y │
+╰────╥────╯ │ └───────┘   └───────┘ │ ╰────╥────╯
+╭────⇓────╮ └─┬───────┐   ┌───────┬─┘ ╭────⇓────╮
+│ *fence* │   │ true  │   │ true  │   │ *fence* │
+╰────╥────╯   └───────┘   └───────┘   ╰────╥────╯
+╭────⇓────╮                           ╭────⇓────╮
+│ load Y  ├─?                       ?─┤ load X  │
+╰─────────╯                           ╰─────────╯
 </code></pre>
 <p>There are two executions to consider here, depending on which way round the
-fences appear in <em>S</em>. Should <code>c</code>’s fence appear first, the fence–fence <code>SeqCst</code>
-guarantee tells us that <code>c</code>’s load of <code>X</code> is not coherence-ordered-after <code>d</code>’s
-load of <code>X</code>, which forbids <code>d</code>’s load of <code>X</code> from seeing the value <code>false</code>. The
+fences appear in <em>S</em>. Should <code>a</code>’s fence appear first, the fence–fence <code>SeqCst</code>
+guarantee tells us that <code>b</code>’s load of <code>X</code> is not coherence-ordered-after <code>a</code>’s
+store of <code>X</code>, which forbids <code>b</code>’s load of <code>X</code> from seeing the value <code>false</code>. The
 same logic can be applied should the fences appear the other way around, proving
 that at least one thread must load <code>true</code> in the end.</p>
 

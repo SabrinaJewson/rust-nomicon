@@ -227,15 +227,15 @@ does exist a single total ordering <em>within</em> each thread, which is known a
 <em>sequence</em>. For example, given this simple Rust program:</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>println!(&quot;A&quot;);
-println!(&quot;B&quot;);
+</span>println!("A");
+println!("B");
 <span class="boring">}</span></code></pre></pre>
 <p>its sequence during one possible execution can be visualized like so:</p>
 <pre><code class="language-text">╭───────────────╮
-│ println!(&quot;A&quot;) │
+│ println!("A") │
 ╰───────╥───────╯
 ╭───────⇓───────╮
-│ println!(&quot;B&quot;) │
+│ println!("B") │
 ╰───────────────╯
 </code></pre>
 <p>That double arrow in between the two boxes (<code>⇒</code>) represents that the second
@@ -247,20 +247,20 @@ happen one after the other and on the same thread.</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Thread 1:
-println!(&quot;A&quot;);
-println!(&quot;B&quot;);
+println!("A");
+println!("B");
 // Thread 2:
-eprintln!(&quot;01&quot;);
-eprintln!(&quot;02&quot;);
+eprintln!("01");
+eprintln!("02");
 <span class="boring">}</span></code></pre></pre>
 <p>it will simply coexist in parallel, with each thread getting its own independent
 sequence:</p>
 <pre><code class="language-text">    Thread 1              Thread 2
 ╭───────────────╮    ╭─────────────────╮
-│ println!(&quot;A&quot;) │    │ eprintln!(&quot;01&quot;) │
+│ println!("A") │    │ eprintln!("01") │
 ╰───────╥───────╯    ╰────────╥────────╯
 ╭───────⇓───────╮    ╭────────⇓────────╮
-│ println!(&quot;B&quot;) │    │ eprintln!(&quot;02&quot;) │
+│ println!("B") │    │ eprintln!("02") │
 ╰───────────────╯    ╰─────────────────╯
 </code></pre>
 <p>We can say that the prints of <code>A</code> and <code>B</code> are <em>unsequenced</em> with regard to the
@@ -279,9 +279,9 @@ both threads read it.</p>
 </span>// Initial state
 let data = 0;
 // Thread 1:
-println!(&quot;{data}&quot;);
+println!("{data}");
 // Thread 2:
-eprintln!(&quot;{data}&quot;);
+eprintln!("{data}");
 <span class="boring">}</span></code></pre></pre>
 <p>Each memory location, similarly to threads, can be shown as another column on
 our diagram, but holding values instead of instructions, and each access (read
@@ -323,7 +323,7 @@ that reads <em>and</em> writes data — woah, scary!</p>
 </span><span class="boring">fn main() {
 </span>let mut data = 0;
 data = 1;
-println!(&quot;{data}&quot;);
+println!("{data}");
 data = 2;
 <span class="boring">}</span></code></pre></pre>
 <p>Working out executions of code like this is rather like solving a Sudoku puzzle:

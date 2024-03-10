@@ -259,7 +259,7 @@ if let Some(guard) = mutex.lock() {
 }
 // Thread 2
 if let Some(guard) = mutex.lock() {
-    println!(&quot;{}&quot;, *guard);
+    println!("{}", *guard);
 }</code></pre>
 <p>Now, there are many possible executions of this code. For example, Thread 2 (the
 reader thread) could lock the mutex first, and Thread 1 (the writer thread)

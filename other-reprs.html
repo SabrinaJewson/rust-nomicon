@@ -192,7 +192,7 @@ boundaries for you. The Rust team works closely with those projects to ensure
 that they work robustly and are compatible with current and future guarantees
 about type layouts and <code>repr</code>s.</p>
 <p>The interaction of <code>repr(C)</code> with Rust's more exotic data layout features must be
-kept in mind. Due to its dual purpose as &quot;for FFI&quot; and &quot;for layout control&quot;,
+kept in mind. Due to its dual purpose as "for FFI" and "for layout control",
 <code>repr(C)</code> can be applied to types that will be nonsensical or problematic if
 passed through the FFI boundary.</p>
 <ul>
@@ -224,7 +224,7 @@ difference from a struct is that the fields aren’t named.</p>
 <p><code>repr(C)</code> is equivalent to one of <code>repr(u*)</code> (see the next section) for
 fieldless enums. The chosen size is the default enum size for the target platform's C
 application binary interface (ABI). Note that enum representation in C is implementation
-defined, so this is really a &quot;best guess&quot;. In particular, this may be incorrect
+defined, so this is really a "best guess". In particular, this may be incorrect
 when the C code of interest is compiled with certain flags.</p>
 </li>
 <li>
@@ -260,7 +260,7 @@ the integer it has to fit in, it will produce a compile-time error. You can
 manually ask Rust to allow this by setting the overflowing element to explicitly
 be 0. However Rust will not allow you to create an enum where two variants have
 the same discriminant.</p>
-<p>The term &quot;fieldless enum&quot; only means that the enum doesn't have data in any
+<p>The term "fieldless enum" only means that the enum doesn't have data in any
 of its variants. A fieldless enum without a <code>repr(u*)</code> or <code>repr(C)</code> is
 still a Rust native type, and does not have a stable ABI representation.
 Adding a <code>repr</code> causes it to be treated exactly like the specified

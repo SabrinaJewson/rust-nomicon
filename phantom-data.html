@@ -280,7 +280,7 @@ field will then require <code>T</code> to be droppable whenever the containing t
 <hr />
 <p>But this situation can sometimes lead to overly restrictive code. That's why the
 standard library uses an unstable and <code>unsafe</code> attribute to opt back into the old
-&quot;unchecked&quot; drop-checking behavior, that this very documentation warned about: the
+"unchecked" drop-checking behavior, that this very documentation warned about: the
 <code>#[may_dangle]</code> attribute.</p>
 <h3 id="an-exception-the-special-case-of-the-standard-library-and-its-unstable-may_dangle"><a class="header" href="#an-exception-the-special-case-of-the-standard-library-and-its-unstable-may_dangle">An exception: the special case of the standard library and its unstable <code>#[may_dangle]</code></a></h3>
 <p>This section can be skipped if you are only writing your own library code; but if you are
@@ -290,7 +290,7 @@ that it still needs to use a <code>_owns_T: PhantomData&lt;T&gt;</code> field fo
 <p>Consider the following example:</p>
 <pre><pre class="playground"><code class="language-rust edition2021">fn main() {
     let mut v: Vec&lt;&amp;str&gt; = Vec::new();
-    let s: String = &quot;Short-lived&quot;.into();
+    let s: String = "Short-lived".into();
     v.push(&amp;s);
     drop(s);
 } // &lt;- `v` is dropped here</code></pre></pre>
@@ -323,9 +323,9 @@ drop each <code>T</code> item when it has drop glue; in the case of <code>PrintO
 <code>Drop for Vec&lt;PrintOnDrop&lt;'s&gt;&gt;</code> has to transitively drop the <code>PrintOnDrop&lt;'s&gt;</code>s elements before
 deallocating the backing buffer.</p>
 <p>So when we said that <code>'s</code> <code>#[may_dangle]</code>, it was an excessively loose statement. We'd rather want
-to say: &quot;<code>'s</code> may dangle provided it not be involved in some transitive drop glue&quot;. Or, more generally,
-&quot;<code>T</code> may dangle provided it not be involved in some transitive drop glue&quot;. This &quot;exception to the
-exception&quot; is a pervasive situation whenever <strong>we own a <code>T</code></strong>. That's why Rust's <code>#[may_dangle]</code> is
+to say: "<code>'s</code> may dangle provided it not be involved in some transitive drop glue". Or, more generally,
+"<code>T</code> may dangle provided it not be involved in some transitive drop glue". This "exception to the
+exception" is a pervasive situation whenever <strong>we own a <code>T</code></strong>. That's why Rust's <code>#[may_dangle]</code> is
 smart enough to know of this opt-out, and will thus be disabled <em>when the generic parameter is held
 in an owned fashion</em> by the fields of the struct.</p>
 <p>Hence why the standard library ends up with:</p>
@@ -370,7 +370,7 @@ standard library made a utility for itself called <code>Unique&lt;T&gt;</code> w
 <h2 id="table-of-phantomdata-patterns"><a class="header" href="#table-of-phantomdata-patterns">Table of <code>PhantomData</code> patterns</a></h2>
 <p>Here’s a table of all the wonderful ways <code>PhantomData</code> could be used:</p>
 <div class="table-wrapper"><table><thead><tr><th>Phantom type</th><th style="text-align: center">variance of <code>'a</code></th><th style="text-align: center">variance of <code>T</code></th><th style="text-align: center"><code>Send</code>/<code>Sync</code><br/>(or lack thereof)</th><th style="text-align: center">dangling <code>'a</code> or <code>T</code> in drop glue<br/>(<em>e.g.</em>, <code>#[may_dangle] Drop</code>)</th></tr></thead><tbody>
-<tr><td><code>PhantomData&lt;T&gt;</code></td><td style="text-align: center">-</td><td style="text-align: center"><strong>cov</strong>ariant</td><td style="text-align: center">inherited</td><td style="text-align: center">disallowed (&quot;owns <code>T</code>&quot;)</td></tr>
+<tr><td><code>PhantomData&lt;T&gt;</code></td><td style="text-align: center">-</td><td style="text-align: center"><strong>cov</strong>ariant</td><td style="text-align: center">inherited</td><td style="text-align: center">disallowed ("owns <code>T</code>")</td></tr>
 <tr><td><code>PhantomData&lt;&amp;'a T&gt;</code></td><td style="text-align: center"><strong>cov</strong>ariant</td><td style="text-align: center"><strong>cov</strong>ariant</td><td style="text-align: center"><code>Send + Sync</code><br/>requires<br/><code>T : Sync</code></td><td style="text-align: center">allowed</td></tr>
 <tr><td><code>PhantomData&lt;&amp;'a mut T&gt;</code></td><td style="text-align: center"><strong>cov</strong>ariant</td><td style="text-align: center"><strong>inv</strong>ariant</td><td style="text-align: center">inherited</td><td style="text-align: center">allowed</td></tr>
 <tr><td><code>PhantomData&lt;*const T&gt;</code></td><td style="text-align: center">-</td><td style="text-align: center"><strong>cov</strong>ariant</td><td style="text-align: center"><code>!Send + !Sync</code></td><td style="text-align: center">allowed</td></tr>

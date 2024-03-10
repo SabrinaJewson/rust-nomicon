@@ -187,7 +187,7 @@ know the size and alignment of something in order to correctly work with it! In
 this regard, DSTs are not normal types. Because they lack a statically known
 size, these types can only exist behind a pointer. Any pointer to a
 DST consequently becomes a <em>wide</em> pointer consisting of the pointer and the
-information that &quot;completes&quot; them (more on this below).</p>
+information that "completes" them (more on this below).</p>
 <p>There are two major DSTs exposed by the language:</p>
 <ul>
 <li>trait objects: <code>dyn MyTrait</code></li>
@@ -228,8 +228,8 @@ fn main() {
 
     let dynamic: &amp;MySuperSliceable&lt;[u8]&gt; = &amp;sized;
 
-    // prints: &quot;17 [0, 0, 0, 0, 0, 0, 0, 0]&quot;
-    println!(&quot;{} {:?}&quot;, dynamic.info, &amp;dynamic.data);
+    // prints: "17 [0, 0, 0, 0, 0, 0, 0, 0]"
+    println!("{} {:?}", dynamic.info, &amp;dynamic.data);
 }</code></pre></pre>
 <p>(Yes, custom DSTs are a largely half-baked feature for now.)</p>
 <h2 id="zero-sized-types-zsts"><a class="header" href="#zero-sized-types-zsts">Zero Sized Types (ZSTs)</a></h2>
@@ -318,7 +318,7 @@ of Undefined Behavior.</p>
 <h2 id="extern-types"><a class="header" href="#extern-types">Extern Types</a></h2>
 <p>There is <a href="https://github.com/rust-lang/rfcs/blob/master/text/1861-extern-types.md">an accepted RFC</a> to add proper types with an unknown size,
 called <em>extern types</em>, which would let Rust developers model things like C's <code>void*</code>
-and other &quot;declared but never defined&quot; types more accurately. However as of
+and other "declared but never defined" types more accurately. However as of
 Rust 2018, <a href="https://github.com/rust-lang/rust/issues/43467">the feature is stuck in limbo over how <code>size_of_val::&lt;MyExternType&gt;()</code>
 should behave</a>.</p>
 

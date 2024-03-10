@@ -197,7 +197,7 @@ fn do_it(data: &amp;(u8, u16)) -&gt; &amp;u8 { &amp;data.0 }
 
 fn main() {
     let clo = Closure { data: (0, 1), func: do_it };
-    println!(&quot;{}&quot;, clo.call());
+    println!("{}", clo.call());
 }</code></pre></pre>
 <p>If we try to naively desugar this code in the same way that we did in the
 <a href="lifetimes.html">lifetimes section</a>, we run into some trouble:</p>
@@ -221,7 +221,7 @@ fn do_it&lt;'b&gt;(data: &amp;'b (u8, u16)) -&gt; &amp;'b u8 { &amp;'b data.0 }
 fn main() {
     'x: {
         let clo = Closure { data: (0, 1), func: do_it };
-        println!(&quot;{}&quot;, clo.call());
+        println!("{}", clo.call());
     }
 }</code></pre>
 <p>How on earth are we supposed to express the lifetimes on <code>F</code>'s trait bound? We
@@ -237,7 +237,7 @@ desugar this is as follows:</p>
 <pre><code class="language-rust ignore">where F: for&lt;'a&gt; Fn(&amp;'a (u8, u16)) -&gt; &amp;'a u8,</code></pre>
 <p>(Where <code>Fn(a, b, c) -&gt; d</code> is itself just sugar for the unstable <em>real</em> <code>Fn</code>
 trait)</p>
-<p><code>for&lt;'a&gt;</code> can be read as &quot;for all choices of <code>'a</code>&quot;, and basically produces an
+<p><code>for&lt;'a&gt;</code> can be read as "for all choices of <code>'a</code>", and basically produces an
 <em>infinite list</em> of trait bounds that F must satisfy. Intense. There aren't many
 places outside of the <code>Fn</code> traits where we encounter HRTBs, and even for
 those we have a nice magic sugar for the common cases.</p>
@@ -259,7 +259,7 @@ fn do_it(data: &amp;(u8, u16)) -&gt; &amp;u8 { &amp;data.0 }
 
 fn main() {
     let clo = Closure { data: (0, 1), func: do_it };
-    println!(&quot;{}&quot;, clo.call());
+    println!("{}", clo.call());
 }</code></pre></pre>
 
                     </main>

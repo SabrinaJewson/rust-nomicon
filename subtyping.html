@@ -186,13 +186,13 @@ while also preventing their misuse, Rust uses <strong>subtyping</strong> and <st
 <p>Let's start with an example.</p>
 <pre><pre class="playground"><code class="language-rust edition2021">// Note: debug expects two parameters with the *same* lifetime
 fn debug&lt;'a&gt;(a: &amp;'a str, b: &amp;'a str) {
-    println!(&quot;a = {a:?} b = {b:?}&quot;);
+    println!("a = {a:?} b = {b:?}");
 }
 
 fn main() {
-    let hello: &amp;'static str = &quot;hello&quot;;
+    let hello: &amp;'static str = "hello";
     {
-        let world = String::from(&quot;world&quot;);
+        let world = String::from("world");
         let world = &amp;world; // 'world has a shorter lifetime than 'static
         debug(hello, world);
     }
@@ -237,16 +237,16 @@ so we need to understand how this stuff really works, and how we can mess it up.
 <p>Going back to our example above, we can say that <code>'static &lt;: 'world</code>.
 For now, let's also accept the idea that subtypes of lifetimes can be passed through references
 (more on this in <a href="#variance">Variance</a>),
-<em>e.g.</em> <code>&amp;'static str</code> is a subtype of <code>&amp;'world str</code>, then we can &quot;downgrade&quot; <code>&amp;'static str</code> into a <code>&amp;'world str</code>.
+<em>e.g.</em> <code>&amp;'static str</code> is a subtype of <code>&amp;'world str</code>, then we can "downgrade" <code>&amp;'static str</code> into a <code>&amp;'world str</code>.
 With that, the example above will compile:</p>
 <pre><pre class="playground"><code class="language-rust edition2021">fn debug&lt;'a&gt;(a: &amp;'a str, b: &amp;'a str) {
-    println!(&quot;a = {a:?} b = {b:?}&quot;);
+    println!("a = {a:?} b = {b:?}");
 }
 
 fn main() {
-    let hello: &amp;'static str = &quot;hello&quot;;
+    let hello: &amp;'static str = "hello";
     {
-        let world = String::from(&quot;world&quot;);
+        let world = String::from("world");
         let world = &amp;world; // 'world has a shorter lifetime than 'static
         debug(hello, world); // hello silently downgrades from `&amp;'static str` into `&amp;'world str`
     }
@@ -259,12 +259,12 @@ It's not always as simple as this example, though. To understand that, let's try
 }
 
 fn main() {
-    let mut hello: &amp;'static str = &quot;hello&quot;;
+    let mut hello: &amp;'static str = "hello";
     {
-        let world = String::from(&quot;world&quot;);
+        let world = String::from("world");
         assign(&amp;mut hello, &amp;world);
     }
-    println!(&quot;{hello}&quot;); // use after free 😿
+    println!("{hello}"); // use after free 😿
 }</code></pre></pre>
 <p>In <code>assign</code>, we are setting the <code>hello</code> reference to point to <code>world</code>.
 But then <code>world</code> goes out of scope, before the later use of <code>hello</code> in the println!</p>
@@ -284,7 +284,7 @@ subtyping of its outputs. There are three kinds of variance in Rust. Given two
 types <code>Sub</code> and <code>Super</code>, where <code>Sub</code> is a subtype of <code>Super</code>:</p>
 <ul>
 <li><code>F</code> is <strong>covariant</strong> if <code>F&lt;Sub&gt;</code> is a subtype of <code>F&lt;Super&gt;</code> (the subtype property is passed through)</li>
-<li><code>F</code> is <strong>contravariant</strong> if <code>F&lt;Super&gt;</code> is a subtype of <code>F&lt;Sub&gt;</code> (the subtype property is &quot;inverted&quot;)</li>
+<li><code>F</code> is <strong>contravariant</strong> if <code>F&lt;Super&gt;</code> is a subtype of <code>F&lt;Sub&gt;</code> (the subtype property is "inverted")</li>
 <li><code>F</code> is <strong>invariant</strong> otherwise (no subtyping relationship exists)</li>
 </ul>
 <p>If we remember from the above examples,
@@ -313,12 +313,12 @@ therefore we can say that <code>&amp;mut T</code> is <em>invariant</em> over <co
 <li><code>*const T</code> follows the logic of <code>&amp;T</code></li>
 <li><code>*mut T</code> follows the logic of <code>&amp;mut T</code> (or <code>UnsafeCell&lt;T&gt;</code>)</li>
 </ul>
-<p>For more types, see the <a href="../reference/subtyping.html#variance">&quot;Variance&quot; section</a> on the reference.</p>
+<p>For more types, see the <a href="../reference/subtyping.html#variance">"Variance" section</a> on the reference.</p>
 <blockquote>
 <p>NOTE: the <em>only</em> source of contravariance in the language is the arguments to
 a function, which is why it really doesn't come up much in practice. Invoking
 contravariance involves higher-order programming with function pointers that
-take references with specific lifetimes (as opposed to the usual &quot;any lifetime&quot;,
+take references with specific lifetimes (as opposed to the usual "any lifetime",
 which gets into higher rank lifetimes, which work independently of subtyping).</p>
 </blockquote>
 <p>Now that we have some more formal understanding of variance,
@@ -328,18 +328,18 @@ let's go through some more examples in more detail.</p>
 }
 
 fn main() {
-    let mut hello: &amp;'static str = &quot;hello&quot;;
+    let mut hello: &amp;'static str = "hello";
     {
-        let world = String::from(&quot;world&quot;);
+        let world = String::from("world");
         assign(&amp;mut hello, &amp;world);
     }
-    println!(&quot;{hello}&quot;);
+    println!("{hello}");
 }</code></pre></pre>
 <p>And what do we get when we run this?</p>
 <pre><code class="language-text">error[E0597]: `world` does not live long enough
   --&gt; src/main.rs:9:28
    |
-6  |     let mut hello: &amp;'static str = &quot;hello&quot;;
+6  |     let mut hello: &amp;'static str = "hello";
    |                    ------------ type annotation requires that `world` is borrowed for `'static`
 ...
 9  |         assign(&amp;mut hello, &amp;world);
@@ -365,7 +365,7 @@ to the first argument, and so <code>T</code> must be exactly <code>&amp;'static 
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn debug&lt;T: std::fmt::Debug&gt;(a: T, b: T) {
-    println!(&quot;a = {a:?} b = {b:?}&quot;);
+    println!("a = {a:?} b = {b:?}");
 }
 <span class="boring">}</span></code></pre></pre>
 <p>where similarly <code>a</code> and <code>b</code> must have the same type <code>T</code>.
@@ -377,7 +377,7 @@ This is true, so the compiler is happy to continue compiling this code.</p>
 <p>However Box makes it easier to focus on the by-value aspect of references that we partially glossed over.</p>
 <p>Unlike a lot of languages which allow values to be freely aliased at all times, Rust has a very strict rule: if you're allowed to mutate or move a value, you are guaranteed to be the only one with access to it.</p>
 <p>Consider the following code:</p>
-<pre><code class="language-rust ignore">let hello: Box&lt;&amp;'static str&gt; = Box::new(&quot;hello&quot;);
+<pre><code class="language-rust ignore">let hello: Box&lt;&amp;'static str&gt; = Box::new("hello");
 
 let mut world: Box&lt;&amp;'b str&gt;;
 world = hello;</code></pre>
@@ -423,10 +423,10 @@ fn demo&lt;'a&gt;(input: &amp;'a str, f: fn(&amp;'a str)) {
 }
 
 fn main() {
-    demo(&quot;hello&quot;, store); // &quot;hello&quot; is 'static. Can call `store` fine
+    demo("hello", store); // "hello" is 'static. Can call `store` fine
 
     {
-        let smuggle = String::from(&quot;smuggle&quot;);
+        let smuggle = String::from("smuggle");
 
         // `&amp;smuggle` is not static. If we were to call `store` with `&amp;smuggle`,
         // we would have pushed an invalid lifetime into the `StaticVecs`.
@@ -435,7 +435,7 @@ fn main() {
     }
 
     // use after free 😿
-    StaticVecs.with_borrow(|v| println!(&quot;{v:?}&quot;));
+    StaticVecs.with_borrow(|v| println!("{v:?}"));
 }</code></pre></pre>
 <p>And that's why function types, unlike anything else in the language, are
 <strong>contra</strong>variant over their arguments.</p>

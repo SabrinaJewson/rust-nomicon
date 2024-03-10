@@ -208,7 +208,7 @@ pretty much all types you'll ever interact with are Send and Sync.</p>
 unsynchronized shared mutable state. However raw pointers are, strictly
 speaking, marked as thread-unsafe as more of a <em>lint</em>. Doing anything useful
 with a raw pointer requires dereferencing it, which is already unsafe. In that
-sense, one could argue that it would be &quot;fine&quot; for them to be marked as thread
+sense, one could argue that it would be "fine" for them to be marked as thread
 safe.</p>
 <p>However it's important that they aren't thread-safe to prevent types that
 contain them from being automatically marked as thread-safe. These types have
@@ -257,7 +257,7 @@ to the heap.</p>
 </span><span class="boring">   pub use ::std::os::raw::{c_int, c_void};
 </span><span class="boring">   #[allow(non_camel_case_types)]
 </span><span class="boring">   pub type size_t = usize;
-</span><span class="boring">   extern &quot;C&quot; { pub fn posix_memalign(memptr: *mut *mut c_void, align: size_t, size: size_t) -&gt; c_int; }
+</span><span class="boring">   extern "C" { pub fn posix_memalign(memptr: *mut *mut c_void, align: size_t, size: size_t) -&gt; c_int; }
 </span><span class="boring">}
 </span>use std::{
     mem::{align_of, size_of},
@@ -270,7 +270,7 @@ struct Carton&lt;T&gt;(ptr::NonNull&lt;T&gt;);
 impl&lt;T&gt; Carton&lt;T&gt; {
     pub fn new(value: T) -&gt; Self {
         // Allocate enough memory on the heap to store one T.
-        assert_ne!(size_of::&lt;T&gt;(), 0, &quot;Zero-sized types are out of the scope of this example&quot;);
+        assert_ne!(size_of::&lt;T&gt;(), 0, "Zero-sized types are out of the scope of this example");
         let mut memptr: *mut T = ptr::null_mut();
         unsafe {
             let ret = libc::posix_memalign(
@@ -278,7 +278,7 @@ impl&lt;T&gt; Carton&lt;T&gt; {
                 max(align_of::&lt;T&gt;(), size_of::&lt;usize&gt;()),
                 size_of::&lt;T&gt;()
             );
-            assert_eq!(ret, 0, &quot;Failed to allocate or invalid alignment&quot;);
+            assert_eq!(ret, 0, "Failed to allocate or invalid alignment");
         };
 
         // NonNull is just a wrapper that enforces that the pointer isn't null.
@@ -286,7 +286,7 @@ impl&lt;T&gt; Carton&lt;T&gt; {
             // Safety: memptr is dereferenceable because we created it from a
             // reference and have exclusive access.
             ptr::NonNull::new(memptr)
-                .expect(&quot;Guaranteed non-null if posix_memalign returns 0&quot;)
+                .expect("Guaranteed non-null if posix_memalign returns 0")
         };
 
         // Move value from the stack to the location we allocated on the heap.
@@ -388,7 +388,7 @@ allocation done on another thread. We can check this is true in the docs for
 </span><span class="boring">struct Carton&lt;T&gt;(std::ptr::NonNull&lt;T&gt;);
 </span><span class="boring">mod libc {
 </span><span class="boring">    pub use ::std::os::raw::c_void;
-</span><span class="boring">    extern &quot;C&quot; { pub fn free(p: *mut c_void); }
+</span><span class="boring">    extern "C" { pub fn free(p: *mut c_void); }
 </span><span class="boring">}
 </span>impl&lt;T&gt; Drop for Carton&lt;T&gt; {
     fn drop(&amp;mut self) {

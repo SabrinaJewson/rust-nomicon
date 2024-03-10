@@ -208,7 +208,7 @@ to Rust's philosophy of zero-cost abstractions.</p>
 <p>There is an API called <a href="https://doc.rust-lang.org/std/panic/fn.catch_unwind.html"><code>catch_unwind</code></a> that enables catching a panic
 without spawning a thread. Still, we would encourage you to only do this
 sparingly. In particular, Rust's current unwinding implementation is heavily
-optimized for the &quot;doesn't unwind&quot; case. If a program doesn't unwind, there
+optimized for the "doesn't unwind" case. If a program doesn't unwind, there
 should be no runtime cost for the program being <em>ready</em> to unwind. As a
 consequence, actually unwinding will be more expensive than in e.g. Java.
 Don't build your programs to unwind under normal circumstances. Ideally, you

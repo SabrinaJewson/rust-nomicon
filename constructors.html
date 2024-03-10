@@ -207,7 +207,7 @@ There are no Copy, Default, Assignment, Move, or whatever constructors. The
 reasons for this are varied, but it largely boils down to Rust's philosophy of
 <em>being explicit</em>.</p>
 <p>Move constructors are meaningless in Rust because we don't enable types to
-&quot;care&quot; about their location in memory. Every type must be ready for it to be
+"care" about their location in memory. Every type must be ready for it to be
 blindly memcopied to somewhere else in memory. This means pure on-the-stack-but-
 still-movable intrusive linked lists are simply not happening in Rust (safely).</p>
 <p>Assignment and copy constructors similarly don't exist because move semantics
@@ -216,17 +216,17 @@ the x variable. Rust does provide two facilities for providing C++'s copy-
 oriented semantics: <code>Copy</code> and <code>Clone</code>. Clone is our moral equivalent of a copy
 constructor, but it's never implicitly invoked. You have to explicitly call
 <code>clone</code> on an element you want to be cloned. Copy is a special case of Clone
-where the implementation is just &quot;copy the bits&quot;. Copy types <em>are</em> implicitly
+where the implementation is just "copy the bits". Copy types <em>are</em> implicitly
 cloned whenever they're moved, but because of the definition of Copy this just
 means not treating the old copy as uninitialized -- a no-op.</p>
 <p>While Rust provides a <code>Default</code> trait for specifying the moral equivalent of a
 default constructor, it's incredibly rare for this trait to be used. This is
 because variables <a href="uninitialized.html">aren't implicitly initialized</a>. Default is basically
 only useful for generic programming. In concrete contexts, a type will provide a
-static <code>new</code> method for any kind of &quot;default&quot; constructor. This has no relation
+static <code>new</code> method for any kind of "default" constructor. This has no relation
 to <code>new</code> in other languages and has no special meaning. It's just a naming
 convention.</p>
-<p>TODO: talk about &quot;placement new&quot;?</p>
+<p>TODO: talk about "placement new"?</p>
 
                     </main>
 

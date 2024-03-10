@@ -180,13 +180,13 @@
                         <h1 id="drain"><a class="header" href="#drain">Drain</a></h1>
 <p>Let's move on to Drain. Drain is largely the same as IntoIter, except that
 instead of consuming the Vec, it borrows the Vec and leaves its allocation
-untouched. For now we'll only implement the &quot;basic&quot; full-range version.</p>
+untouched. For now we'll only implement the "basic" full-range version.</p>
 <!-- ignore: simplified code -->
 <pre><code class="language-rust ignore">use std::marker::PhantomData;
 
 struct Drain&lt;'a, T: 'a&gt; {
     // Need to bound the lifetime here, so we do it with `&amp;'a mut Vec&lt;T&gt;`
-    // because that's semantically what we contain. We're &quot;just&quot; calling
+    // because that's semantically what we contain. We're "just" calling
     // `pop()` and `remove(0)`.
     vec: PhantomData&lt;&amp;'a mut Vec&lt;T&gt;&gt;,
     start: *const T,
